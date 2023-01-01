@@ -95,7 +95,7 @@
 		1B51E1562961EAD0004A6D4C /* MoviesFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
-				1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */,
+				1B51E1682962446D004A6D4C /* Movie API */,
 			);
 			path = MoviesFrameworkTests;
 			sourceTree = "<group>";
@@ -108,6 +108,14 @@
 				1B51E16429623FD7004A6D4C /* HttpClient.swift */,
 			);
 			path = MovieAPI;
+			sourceTree = "<group>";
+		};
+		1B51E1682962446D004A6D4C /* Movie API */ = {
+			isa = PBXGroup;
+			children = (
+				1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */,
+			);
+			path = "Movie API";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
