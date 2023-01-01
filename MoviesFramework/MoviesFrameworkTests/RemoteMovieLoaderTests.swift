@@ -43,7 +43,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
         sut.load { capturedErrors.append($0) }
         
         let clietError = NSError(domain: "test", code: 0)
-        client.completions[0](clietError)
+        client.complete(with: clietError)
         
         XCTAssertEqual(capturedErrors, [.connectivity])
     }
@@ -63,6 +63,10 @@ final class RemoteMovieLoaderTests: XCTestCase {
         func get(from url: URL, completion:@escaping (Error) -> Void) {
             requestedURLs.append(url)
             completions.append(completion)
+        }
+        
+        func complete(with error:Error, at index:Int = 0) {
+            completions[0](error)
         }
     }
 }
