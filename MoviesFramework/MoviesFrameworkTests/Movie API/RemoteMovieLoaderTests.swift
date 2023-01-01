@@ -39,7 +39,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompletewith: .failure(RemoteMovieLoader.Error.connectivity), when: {
+        expect(sut, toCompletewith: failure(.connectivity), when: {
             let clietError = NSError(domain: "test", code: 0)
             client.complete(with: clietError)
         })
@@ -53,7 +53,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
         
         samples.enumerated().forEach { index, code in
             
-            expect(sut, toCompletewith: .failure(RemoteMovieLoader.Error.invalidData), when: {
+            expect(sut, toCompletewith: failure(.invalidData), when: {
                 let json = makeItemsJSON([])
                 client.complete(withStatusCode: code, data: json, at: index)
             })
@@ -63,7 +63,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     func test_load_deliversErrorOn200HTTPResponseWithInvalidJSON() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompletewith: .failure(RemoteMovieLoader.Error.invalidData), when: {
+        expect(sut, toCompletewith: failure(.invalidData), when: {
             let invalidJSON = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidJSON)
         })
@@ -167,10 +167,14 @@ final class RemoteMovieLoaderTests: XCTestCase {
     }
     
     private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
-            addTeardownBlock { [weak instance] in
-                XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
-            }
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
         }
+    }
+    
+    private func failure(_ error: RemoteMovieLoader.Error) -> RemoteMovieLoader.Result {
+        return .failure(error)
+    }
     
     private class HTTPClientSpy: HTTPClient {
         var messages = [(url:URL, completion:(HTTPClientResult) -> Void)]()
