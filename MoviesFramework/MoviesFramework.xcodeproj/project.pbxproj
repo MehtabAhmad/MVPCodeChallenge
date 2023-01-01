@@ -48,8 +48,7 @@
 		1B51E1342961DF95004A6D4C /* MoviesFramework */ = {
 			isa = PBXGroup;
 			children = (
-				1B51E14A2961E00D004A6D4C /* DomainMovie.swift */,
-				1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */,
+				1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */,
 			);
 			path = MoviesFramework;
 			sourceTree = "<group>";
@@ -59,6 +58,15 @@
 			children = (
 			);
 			path = MoviesFrameworkTests;
+			sourceTree = "<group>";
+		};
+		1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */,
+				1B51E14A2961E00D004A6D4C /* DomainMovie.swift */,
+			);
+			path = LoadMovieUseCase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
