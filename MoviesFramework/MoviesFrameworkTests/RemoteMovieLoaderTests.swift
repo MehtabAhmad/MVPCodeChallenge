@@ -39,7 +39,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompletewith: .connectivity, when: {
+        expect(sut, toCompletewith: .failure(.connectivity), when: {
             let clietError = NSError(domain: "test", code: 0)
             client.complete(with: clietError)
         })
@@ -53,7 +53,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
         
         samples.enumerated().forEach { index, code in
             
-            expect(sut, toCompletewith: .invalidData, when: {
+            expect(sut, toCompletewith: .failure(.invalidData), when: {
                 client.complete(withStatusCode: code, at: index)
             })
         }
@@ -62,23 +62,21 @@ final class RemoteMovieLoaderTests: XCTestCase {
     func test_load_deliversErrorOn200HTTPResponseWithInvalidJSON() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompletewith: .invalidData, when: {
+        expect(sut, toCompletewith: .failure(.invalidData), when: {
             let invalidJSON = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidJSON)
         })
     }
     
     func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() {
-            let (sut, client) = makeSUT()
-
-            var capturedResults = [RemoteMovieLoader.Result]()
-            sut.load { capturedResults.append($0) }
-            
+        let (sut, client) = makeSUT()
+        
+        expect(sut, toCompletewith: .success([]), when: {
             let emptyListJSON = Data("{\"results\": []}".utf8)
             client.complete(withStatusCode: 200, data: emptyListJSON)
-            
-            XCTAssertEqual(capturedResults, [.success([])])
-        }
+        })
+        
+    }
     
     // MARK: - Helpers
     
@@ -88,14 +86,14 @@ final class RemoteMovieLoaderTests: XCTestCase {
         return (sut, client)
     }
     
-    func expect(_ sut:RemoteMovieLoader, toCompletewith error:RemoteMovieLoader.Error, when actoin:() -> Void, file: StaticString = #filePath, line: UInt = #line){
+    func expect(_ sut:RemoteMovieLoader, toCompletewith result:RemoteMovieLoader.Result, when actoin:() -> Void, file: StaticString = #filePath, line: UInt = #line){
         
         var capturedResults = [RemoteMovieLoader.Result]()
         sut.load { capturedResults.append($0) }
         
         actoin()
         
-        XCTAssertEqual(capturedResults, [.failure(error)], file: file, line: line)
+        XCTAssertEqual(capturedResults, [result], file: file, line: line)
     }
     
     private class HTTPClientSpy: HTTPClient {
