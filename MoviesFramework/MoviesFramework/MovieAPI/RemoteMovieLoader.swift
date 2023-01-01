@@ -39,10 +39,10 @@ final public class RemoteMovieLoader {
         client.get(from: url) { result in
             switch result {
             case let .success(data, response):
-                if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-                    completion(.success(root.results.map {$0.domainMovie}))
-                }
-                else {
+                do {
+                    let items = try MovieItemsMapper.map(data, response)
+                    completion(.success(items))
+                } catch {
                     completion(.failure(.invalidData))
                 }
             case .failure:
@@ -52,18 +52,29 @@ final public class RemoteMovieLoader {
     }
 }
 
-private struct Root: Decodable {
-    let results: [APIMovie]
-}
-
-private struct APIMovie: Decodable {
-    public let id:UUID
-    public let title:String
-    public let overview:String
-    public let poster_path:URL
-    public let vote_average:Float
+private class MovieItemsMapper {
+    private struct Root: Decodable {
+        let results: [APIMovie]
+    }
     
-    var domainMovie: DomainMovie {
-        return DomainMovie(id: id, title: title, description: overview, poster: poster_path, rating: vote_average)
+    private struct APIMovie: Decodable {
+        public let id:UUID
+        public let title:String
+        public let overview:String
+        public let poster_path:URL
+        public let vote_average:Float
+        
+        var domainMovie: DomainMovie {
+            return DomainMovie(id: id, title: title, description: overview, poster: poster_path, rating: vote_average)
+        }
+    }
+
+    static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [DomainMovie] {
+        guard response.statusCode == 200 else {
+            throw RemoteMovieLoader.Error.invalidData
+        }
+        
+        let root = try JSONDecoder().decode(Root.self, from: data)
+        return root.results.map { $0.domainMovie }
     }
 }
