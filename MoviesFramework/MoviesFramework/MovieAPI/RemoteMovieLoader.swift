@@ -25,18 +25,23 @@ final public class RemoteMovieLoader {
         case invalidData
     }
     
+    public enum Result: Equatable {
+        case success([DomainMovie])
+        case failure(Error)
+    }
+    
     public init(client:HTTPClient, url:URL) {
         self.client = client
         self.url = url
     }
     
-    public func load(completion:@escaping (Error) -> Void) {
+    public func load(completion:@escaping (Result) -> Void) {
         client.get(from: url) { result in
             switch result {
             case .success:
-                completion(.invalidData)
+                completion(.failure(.invalidData))
             case .failure:
-                completion(.connectivity)
+                completion(.failure(.connectivity))
             }
         }
     }

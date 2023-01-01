@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DomainMovie {
+public struct DomainMovie: Equatable {
     let id:UUID
     let title:String
     let description:String
