@@ -36,6 +36,18 @@ final class RemoteMovieLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
     
+    func test_load_deliversErrorOnClientError() {
+        let (sut, client) = makeSUT()
+        
+        var capturedErrors = [RemoteMovieLoader.Error]()
+        sut.load { capturedErrors.append($0) }
+        
+        let clietError = NSError(domain: "test", code: 0)
+        client.completions[0](clietError)
+        
+        XCTAssertEqual(capturedErrors, [.connectivity])
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "https://a-url.com")!) -> (sut: RemoteMovieLoader, client: HTTPClientSpy) {
@@ -46,9 +58,11 @@ final class RemoteMovieLoaderTests: XCTestCase {
 
     private class HTTPClientSpy: HTTPClient {
         var requestedURLs = [URL]()
+        var completions = [(Error) -> Void]()
         
-        func get(from url: URL) {
+        func get(from url: URL, completion:@escaping (Error) -> Void) {
             requestedURLs.append(url)
+            completions.append(completion)
         }
     }
 }
