@@ -12,6 +12,6 @@ public enum LoadMovieResult {
     case failure(Error)
 }
 
-protocol LoadMovieUseCase {
+public protocol LoadMovieUseCase {
     func load(completion: @escaping (LoadMovieResult) -> Void)
 }
