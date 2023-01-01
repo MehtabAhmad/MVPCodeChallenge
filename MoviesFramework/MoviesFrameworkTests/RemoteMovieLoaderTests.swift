@@ -81,41 +81,24 @@ final class RemoteMovieLoaderTests: XCTestCase {
     func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
         let (sut, client) = makeSUT()
         
-        let item1 = DomainMovie(
+        let item1 = makeItem(
             id: UUID(),
             title: "a title",
             description: "a description",
             poster: URL(string: "http://a-url.com")!,
             rating: 3.5)
         
-        let item1JSON = [
-            "id": item1.id.uuidString,
-            "title": item1.title,
-            "overview": item1.description,
-            "poster_path": item1.poster.absoluteString,
-            "vote_average":item1.rating] as [String : Any]
-        
-        let item2 = DomainMovie(
+        let item2 = makeItem(
             id: UUID(),
             title: "a title",
             description: "a description",
             poster: URL(string: "http://a-url.com")!,
             rating: 3.5)
+   
+        let items = [item1.model, item2.model]
         
-        let item2JSON = [
-            "id": item2.id.uuidString,
-            "title": item2.title,
-            "overview": item2.description,
-            "poster_path": item2.poster.absoluteString,
-            "vote_average":item2.rating] as [String : Any]
-        
-        let itemsJSON = [
-            "results": [item1JSON, item2JSON]
-        ]
-        
-        expect(sut, toCompletewith: .success([item1, item2]), when: {
-            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
-            client.complete(withStatusCode: 200, data: json)
+        expect(sut, toCompletewith: .success(items), when: {
+            client.complete(withStatusCode: 200, data: makeItemsJSON([item1.json, item2.json]))
         })
     }
     
@@ -135,6 +118,25 @@ final class RemoteMovieLoaderTests: XCTestCase {
         actoin()
         
         XCTAssertEqual(capturedResults, [result], file: file, line: line)
+    }
+    
+    private func makeItem(id: UUID, title: String, description: String, poster: URL, rating: Float) -> (model: DomainMovie, json: [String: Any]) {
+        
+        let model = DomainMovie(id: id, title: title, description: description, poster: poster, rating: rating)
+        
+        let json = [
+            "id": model.id.uuidString,
+            "title": model.title,
+            "overview": model.description,
+            "poster_path": model.poster.absoluteString,
+            "vote_average":model.rating] as [String : Any]
+        
+        return (model, json)
+    }
+    
+    private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
+        let json = ["results": items]
+        return try! JSONSerialization.data(withJSONObject: json)
     }
     
     private class HTTPClientSpy: HTTPClient {
