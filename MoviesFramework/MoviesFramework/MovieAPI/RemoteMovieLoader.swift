@@ -68,9 +68,11 @@ private class MovieItemsMapper {
             return DomainMovie(id: id, title: title, description: overview, poster: poster_path, rating: vote_average)
         }
     }
+    
+    static var OK_200: Int { return 200 }
 
     static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [DomainMovie] {
-        guard response.statusCode == 200 else {
+        guard response.statusCode == OK_200 else {
             throw RemoteMovieLoader.Error.invalidData
         }
         
