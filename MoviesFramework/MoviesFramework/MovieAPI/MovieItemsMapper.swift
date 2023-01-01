@@ -7,9 +7,12 @@
 
 import Foundation
 
- final class MovieItemsMapper {
+final class MovieItemsMapper {
     private struct Root: Decodable {
         let results: [APIMovie]
+        var domainMovies: [DomainMovie] {
+            results.map {$0.domainMovie}
+        }
     }
     
     private struct APIMovie: Decodable {
@@ -25,13 +28,12 @@ import Foundation
     }
     
     static var OK_200: Int { return 200 }
-
-    static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [DomainMovie] {
-        guard response.statusCode == OK_200 else {
-            throw RemoteMovieLoader.Error.invalidData
+    
+    static func map(_ data: Data, from response: HTTPURLResponse) -> RemoteMovieLoader.Result {
+        guard response.statusCode == OK_200,
+              let root = try? JSONDecoder().decode(Root.self, from: data) else {
+            return .failure(.invalidData)
         }
-        
-        let root = try JSONDecoder().decode(Root.self, from: data)
-        return root.results.map { $0.domainMovie }
+        return .success(root.domainMovies)
     }
 }

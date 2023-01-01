@@ -30,12 +30,7 @@ final public class RemoteMovieLoader {
         client.get(from: url) { result in
             switch result {
             case let .success(data, response):
-                do {
-                    let items = try MovieItemsMapper.map(data, response)
-                    completion(.success(items))
-                } catch {
-                    completion(.failure(.invalidData))
-                }
+                completion(MovieItemsMapper.map(data, from: response))
             case .failure:
                 completion(.failure(.connectivity))
             }
