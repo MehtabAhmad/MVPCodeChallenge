@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum LoadMovieResult {
+public enum LoadMovieResult {
     case success([DomainMovie])
-    case error(Error)
+    case failure(Error)
 }
 
 protocol LoadMovieUseCase {

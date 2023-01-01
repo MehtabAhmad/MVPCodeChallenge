@@ -32,7 +32,7 @@ final class MovieItemsMapper {
     static func map(_ data: Data, from response: HTTPURLResponse) -> RemoteMovieLoader.Result {
         guard response.statusCode == OK_200,
               let root = try? JSONDecoder().decode(Root.self, from: data) else {
-            return .failure(.invalidData)
+            return .failure(RemoteMovieLoader.Error.invalidData)
         }
         return .success(root.domainMovies)
     }

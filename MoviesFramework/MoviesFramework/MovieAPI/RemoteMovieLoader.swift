@@ -7,7 +7,7 @@
 
 import Foundation
 
-final public class RemoteMovieLoader {
+final public class RemoteMovieLoader: LoadMovieUseCase {
     private let client:HTTPClient
     private let url:URL
     
@@ -16,10 +16,7 @@ final public class RemoteMovieLoader {
         case invalidData
     }
     
-    public enum Result: Equatable {
-        case success([DomainMovie])
-        case failure(Error)
-    }
+    public typealias Result = LoadMovieResult
     
     public init(client:HTTPClient, url:URL) {
         self.client = client
@@ -33,7 +30,7 @@ final public class RemoteMovieLoader {
             case let .success(data, response):
                 completion(MovieItemsMapper.map(data, from: response))
             case .failure:
-                completion(.failure(.connectivity))
+                completion(.failure(Error.connectivity))
             }
         }
     }

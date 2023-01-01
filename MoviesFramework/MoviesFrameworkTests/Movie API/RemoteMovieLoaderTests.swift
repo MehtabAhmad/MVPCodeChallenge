@@ -39,7 +39,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompletewith: .failure(.connectivity), when: {
+        expect(sut, toCompletewith: .failure(RemoteMovieLoader.Error.connectivity), when: {
             let clietError = NSError(domain: "test", code: 0)
             client.complete(with: clietError)
         })
@@ -53,7 +53,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
         
         samples.enumerated().forEach { index, code in
             
-            expect(sut, toCompletewith: .failure(.invalidData), when: {
+            expect(sut, toCompletewith: .failure(RemoteMovieLoader.Error.invalidData), when: {
                 let json = makeItemsJSON([])
                 client.complete(withStatusCode: code, data: json, at: index)
             })
@@ -63,7 +63,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     func test_load_deliversErrorOn200HTTPResponseWithInvalidJSON() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompletewith: .failure(.invalidData), when: {
+        expect(sut, toCompletewith: .failure(RemoteMovieLoader.Error.invalidData), when: {
             let invalidJSON = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidJSON)
         })
@@ -127,14 +127,24 @@ final class RemoteMovieLoaderTests: XCTestCase {
         return (sut, client)
     }
     
-    func expect(_ sut:RemoteMovieLoader, toCompletewith result:RemoteMovieLoader.Result, when actoin:() -> Void, file: StaticString = #filePath, line: UInt = #line){
+    func expect(_ sut:RemoteMovieLoader, toCompletewith expectedResult:RemoteMovieLoader.Result, when action:() -> Void, file: StaticString = #filePath, line: UInt = #line){
+        let exp = expectation(description: "Wait for load completion")
+        sut.load { receivedResult in
+            switch(receivedResult, expectedResult) {
+            case let (.success(receivedItems), .success(expectedItems)):
+                XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
+            case let (.failure(receivedError as RemoteMovieLoader.Error
+                              ), .failure(expectedError as RemoteMovieLoader.Error)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            default:
+                XCTFail("Expected resut \(expectedResult) got \(receivedResult) instead", file: file, line: line)
+            }
+            exp.fulfill()
+        }
         
-        var capturedResults = [RemoteMovieLoader.Result]()
-        sut.load { capturedResults.append($0) }
+        action()
         
-        actoin()
-        
-        XCTAssertEqual(capturedResults, [result], file: file, line: line)
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func makeItem(id: UUID, title: String, description: String, poster: URL, rating: Float) -> (model: DomainMovie, json: [String: Any]) {
