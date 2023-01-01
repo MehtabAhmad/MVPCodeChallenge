@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14A2961E00D004A6D4C /* DomainMovie.swift */; };
+		1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1B51E1322961DF95004A6D4C /* MoviesFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MoviesFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B51E14A2961E00D004A6D4C /* DomainMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainMovie.swift; sourceTree = "<group>"; };
+		1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMovieUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				1B51E14A2961E00D004A6D4C /* DomainMovie.swift */,
+				1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */,
 			);
 			path = MoviesFramework;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */,
 				1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
