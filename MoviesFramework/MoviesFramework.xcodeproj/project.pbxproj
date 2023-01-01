@@ -11,6 +11,7 @@
 		1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */; };
 		1B51E1592961EAD0004A6D4C /* MoviesFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B51E1322961DF95004A6D4C /* MoviesFramework.framework */; };
 		1B51E1602961EB0D004A6D4C /* RemoteMovieLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */; };
+		1B51E1632961F74A004A6D4C /* RemoteMovieLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMovieUseCase.swift; sourceTree = "<group>"; };
 		1B51E1552961EAD0004A6D4C /* MoviesFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMovieLoaderTests.swift; sourceTree = "<group>"; };
+		1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMovieLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 		1B51E1342961DF95004A6D4C /* MoviesFramework */ = {
 			isa = PBXGroup;
 			children = (
+				1B51E1612961F6FB004A6D4C /* MovieAPI */,
 				1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */,
 			);
 			path = MoviesFramework;
@@ -91,6 +94,14 @@
 				1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */,
 			);
 			path = MoviesFrameworkTests;
+			sourceTree = "<group>";
+		};
+		1B51E1612961F6FB004A6D4C /* MovieAPI */ = {
+			isa = PBXGroup;
+			children = (
+				1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */,
+			);
+			path = MovieAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B51E1632961F74A004A6D4C /* RemoteMovieLoader.swift in Sources */,
 				1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */,
 				1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */,
 			);
