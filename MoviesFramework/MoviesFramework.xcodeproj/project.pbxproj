@@ -13,6 +13,7 @@
 		1B51E1602961EB0D004A6D4C /* RemoteMovieLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */; };
 		1B51E1632961F74A004A6D4C /* RemoteMovieLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */; };
 		1B51E16529623FD7004A6D4C /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16429623FD7004A6D4C /* HttpClient.swift */; };
+		1B51E16729624066004A6D4C /* MovieItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16629624066004A6D4C /* MovieItemsMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMovieLoaderTests.swift; sourceTree = "<group>"; };
 		1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMovieLoader.swift; sourceTree = "<group>"; };
 		1B51E16429623FD7004A6D4C /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		1B51E16629624066004A6D4C /* MovieItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemsMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */,
+				1B51E16629624066004A6D4C /* MovieItemsMapper.swift */,
 				1B51E16429623FD7004A6D4C /* HttpClient.swift */,
 			);
 			path = MovieAPI;
@@ -220,6 +223,7 @@
 				1B51E1632961F74A004A6D4C /* RemoteMovieLoader.swift in Sources */,
 				1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */,
 				1B51E16529623FD7004A6D4C /* HttpClient.swift in Sources */,
+				1B51E16729624066004A6D4C /* MovieItemsMapper.swift in Sources */,
 				1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
