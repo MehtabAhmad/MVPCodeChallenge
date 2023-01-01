@@ -40,7 +40,7 @@ final public class RemoteMovieLoader {
             switch result {
             case let .success(data, response):
                 if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-                    completion(.success(root.results))
+                    completion(.success(root.results.map {$0.domainMovie}))
                 }
                 else {
                     completion(.failure(.invalidData))
@@ -53,5 +53,17 @@ final public class RemoteMovieLoader {
 }
 
 private struct Root: Decodable {
-    let results: [DomainMovie]
+    let results: [APIMovie]
+}
+
+private struct APIMovie: Decodable {
+    public let id:UUID
+    public let title:String
+    public let overview:String
+    public let poster_path:URL
+    public let vote_average:Float
+    
+    var domainMovie: DomainMovie {
+        return DomainMovie(id: id, title: title, description: overview, poster: poster_path, rating: vote_average)
+    }
 }

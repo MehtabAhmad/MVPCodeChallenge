@@ -22,13 +22,3 @@ public struct DomainMovie: Equatable {
         self.rating = rating
     }
 }
-
-extension DomainMovie: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case description = "overview"
-        case poster = "poster_path"
-        case rating = "vote_average"
-    }
-}
