@@ -8,9 +8,27 @@
 import Foundation
 
 public struct DomainMovie: Equatable {
-    let id:UUID
-    let title:String
-    let description:String
-    let poster:URL
-    let rating:Float
+    public let id:UUID
+    public let title:String
+    public let description:String
+    public let poster:URL
+    public let rating:Float
+    
+    public init(id: UUID, title: String, description: String, poster: URL, rating: Float) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.poster = poster
+        self.rating = rating
+    }
+}
+
+extension DomainMovie: Decodable {
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case description = "overview"
+        case poster = "poster_path"
+        case rating = "vote_average"
+    }
 }

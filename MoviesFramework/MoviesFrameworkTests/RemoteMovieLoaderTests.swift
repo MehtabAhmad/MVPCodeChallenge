@@ -78,6 +78,47 @@ final class RemoteMovieLoaderTests: XCTestCase {
         
     }
     
+    func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
+        let (sut, client) = makeSUT()
+        
+        let item1 = DomainMovie(
+            id: UUID(),
+            title: "a title",
+            description: "a description",
+            poster: URL(string: "http://a-url.com")!,
+            rating: 3.5)
+        
+        let item1JSON = [
+            "id": item1.id.uuidString,
+            "title": item1.title,
+            "overview": item1.description,
+            "poster_path": item1.poster.absoluteString,
+            "vote_average":item1.rating] as [String : Any]
+        
+        let item2 = DomainMovie(
+            id: UUID(),
+            title: "a title",
+            description: "a description",
+            poster: URL(string: "http://a-url.com")!,
+            rating: 3.5)
+        
+        let item2JSON = [
+            "id": item2.id.uuidString,
+            "title": item2.title,
+            "overview": item2.description,
+            "poster_path": item2.poster.absoluteString,
+            "vote_average":item2.rating] as [String : Any]
+        
+        let itemsJSON = [
+            "results": [item1JSON, item2JSON]
+        ]
+        
+        expect(sut, toCompletewith: .success([item1, item2]), when: {
+            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
+            client.complete(withStatusCode: 200, data: json)
+        })
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "https://a-url.com")!) -> (sut: RemoteMovieLoader, client: HTTPClientSpy) {
