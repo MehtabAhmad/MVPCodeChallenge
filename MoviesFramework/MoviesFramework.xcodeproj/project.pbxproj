@@ -9,12 +9,26 @@
 /* Begin PBXBuildFile section */
 		1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14A2961E00D004A6D4C /* DomainMovie.swift */; };
 		1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */; };
+		1B51E1592961EAD0004A6D4C /* MoviesFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B51E1322961DF95004A6D4C /* MoviesFramework.framework */; };
+		1B51E1602961EB0D004A6D4C /* RemoteMovieLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1B51E15A2961EAD0004A6D4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1B51E1292961DF95004A6D4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B51E1312961DF95004A6D4C;
+			remoteInfo = MoviesFramework;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1B51E1322961DF95004A6D4C /* MoviesFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MoviesFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B51E14A2961E00D004A6D4C /* DomainMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainMovie.swift; sourceTree = "<group>"; };
 		1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMovieUseCase.swift; sourceTree = "<group>"; };
+		1B51E1552961EAD0004A6D4C /* MoviesFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMovieLoaderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -25,6 +39,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1B51E1522961EAD0004A6D4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B51E1592961EAD0004A6D4C /* MoviesFramework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -32,7 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				1B51E1342961DF95004A6D4C /* MoviesFramework */,
-				1B51E13E2961DF96004A6D4C /* MoviesFrameworkTests */,
+				1B51E1562961EAD0004A6D4C /* MoviesFrameworkTests */,
 				1B51E1332961DF95004A6D4C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				1B51E1322961DF95004A6D4C /* MoviesFramework.framework */,
+				1B51E1552961EAD0004A6D4C /* MoviesFrameworkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,13 +76,6 @@
 			path = MoviesFramework;
 			sourceTree = "<group>";
 		};
-		1B51E13E2961DF96004A6D4C /* MoviesFrameworkTests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MoviesFrameworkTests;
-			sourceTree = "<group>";
-		};
 		1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +83,14 @@
 				1B51E14A2961E00D004A6D4C /* DomainMovie.swift */,
 			);
 			path = LoadMovieUseCase;
+			sourceTree = "<group>";
+		};
+		1B51E1562961EAD0004A6D4C /* MoviesFrameworkTests */ = {
+			isa = PBXGroup;
+			children = (
+				1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */,
+			);
+			path = MoviesFrameworkTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -100,6 +124,24 @@
 			productReference = 1B51E1322961DF95004A6D4C /* MoviesFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		1B51E1542961EAD0004A6D4C /* MoviesFrameworkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B51E15C2961EAD0004A6D4C /* Build configuration list for PBXNativeTarget "MoviesFrameworkTests" */;
+			buildPhases = (
+				1B51E1512961EAD0004A6D4C /* Sources */,
+				1B51E1522961EAD0004A6D4C /* Frameworks */,
+				1B51E1532961EAD0004A6D4C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1B51E15B2961EAD0004A6D4C /* PBXTargetDependency */,
+			);
+			name = MoviesFrameworkTests;
+			productName = MoviesFrameworkTests;
+			productReference = 1B51E1552961EAD0004A6D4C /* MoviesFrameworkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -111,6 +153,10 @@
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					1B51E1312961DF95004A6D4C = {
+						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 1410;
+					};
+					1B51E1542961EAD0004A6D4C = {
 						CreatedOnToolsVersion = 14.1;
 						LastSwiftMigration = 1410;
 					};
@@ -130,12 +176,20 @@
 			projectRoot = "";
 			targets = (
 				1B51E1312961DF95004A6D4C /* MoviesFramework */,
+				1B51E1542961EAD0004A6D4C /* MoviesFrameworkTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1B51E1302961DF95004A6D4C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B51E1532961EAD0004A6D4C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -154,7 +208,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1B51E1512961EAD0004A6D4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B51E1602961EB0D004A6D4C /* RemoteMovieLoaderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1B51E15B2961EAD0004A6D4C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B51E1312961DF95004A6D4C /* MoviesFramework */;
+			targetProxy = 1B51E15A2961EAD0004A6D4C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1B51E1422961DF96004A6D4C /* Debug */ = {
@@ -333,6 +403,47 @@
 			};
 			name = Release;
 		};
+		1B51E15D2961EAD0004A6D4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mehtabAhmed.MoviesFrameworkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1B51E15E2961EAD0004A6D4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mehtabAhmed.MoviesFrameworkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -350,6 +461,15 @@
 			buildConfigurations = (
 				1B51E1452961DF96004A6D4C /* Debug */,
 				1B51E1462961DF96004A6D4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1B51E15C2961EAD0004A6D4C /* Build configuration list for PBXNativeTarget "MoviesFrameworkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B51E15D2961EAD0004A6D4C /* Debug */,
+				1B51E15E2961EAD0004A6D4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
