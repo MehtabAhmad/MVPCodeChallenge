@@ -33,7 +33,7 @@ final class MoviesFrameworkAPIEndToEndTests: XCTestCase {
     func getMovieResult(file: StaticString = #file, line: UInt = #line) -> LoadMovieResult? {
         let url = URL(string:"https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query=Avatar:%20The%20Way%20of%20Water")!
 
-        let client = URLSessionHTTPClient()
+        let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
         let loader = RemoteMovieLoader(client: client, url: url)
         trackForMemoryLeaks(client, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
