@@ -83,14 +83,14 @@ final class RemoteMovieLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         let item1 = makeItem(
-            id: UUID(),
+            id: UUID().hashValue,
             title: "a title",
             description: "a description",
             poster: URL(string: "http://a-url.com")!,
             rating: 3.5)
         
         let item2 = makeItem(
-            id: UUID(),
+            id: UUID().hashValue,
             title: "a title",
             description: "a description",
             poster: URL(string: "http://a-url.com")!,
@@ -147,12 +147,12 @@ final class RemoteMovieLoaderTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func makeItem(id: UUID, title: String, description: String, poster: URL, rating: Float) -> (model: DomainMovie, json: [String: Any]) {
+    private func makeItem(id: Int, title: String, description: String, poster: URL, rating: Float) -> (model: DomainMovie, json: [String: Any]) {
         
         let model = DomainMovie(id: id, title: title, description: description, poster: poster, rating: rating)
         
         let json = [
-            "id": model.id.uuidString,
+            "id": model.id,
             "title": model.title,
             "overview": model.description,
             "poster_path": model.poster.absoluteString,
