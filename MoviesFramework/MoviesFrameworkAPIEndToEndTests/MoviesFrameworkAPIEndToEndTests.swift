@@ -20,7 +20,7 @@ final class MoviesFrameworkAPIEndToEndTests: XCTestCase {
             XCTAssertEqual(items[0], expectedItem(at: 0))
 
         case let .failure(error)?:
-            XCTFail("Exoected successful feed result, got \(error) instead")
+            XCTFail("Expected successful feed result, got \(error) instead")
 
         default:
             XCTFail("Expected successful feed result, got no result instead")
