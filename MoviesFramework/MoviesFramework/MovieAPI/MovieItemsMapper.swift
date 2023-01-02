@@ -7,14 +7,6 @@
 
 import Foundation
 
-internal struct APIMovie: Decodable {
-    public let id:Int
-    public let title:String
-    public let overview:String
-    public let poster_path:URL
-    public let vote_average:Float
-}
-
 final class MovieItemsMapper {
     private struct Root: Decodable {
         let results: [APIMovie]
