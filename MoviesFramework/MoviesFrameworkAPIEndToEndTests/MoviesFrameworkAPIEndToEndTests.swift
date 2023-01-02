@@ -14,21 +14,7 @@ final class MoviesFrameworkAPIEndToEndTests: XCTestCase {
     
     func test_endToEndTestServerGETMovieResult_matchesFixedMovieData() {
         
-        let url = URL(string:"https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query=Avatar:%20The%20Way%20of%20Water")!
-
-        let client = URLSessionHTTPClient()
-        let loader = RemoteMovieLoader(client: client, url: url)
-
-        let exp = expectation(description: "Wait for load completion")
-
-        var receivedResult: LoadMovieResult?
-        loader.load { result in
-            receivedResult = result
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 10.0)
-
-        switch receivedResult {
+        switch getMovieResult() {
         case let .success(items)?:
             XCTAssertEqual(items.count, 1, "Expected 1 items in the test account feed")
             XCTAssertEqual(items[0], expectedItem(at: 0))
@@ -42,6 +28,25 @@ final class MoviesFrameworkAPIEndToEndTests: XCTestCase {
     }
 
     // MARK: - Helpers
+    
+    
+    func getMovieResult() -> LoadMovieResult? {
+        let url = URL(string:"https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query=Avatar:%20The%20Way%20of%20Water")!
+
+        let client = URLSessionHTTPClient()
+        let loader = RemoteMovieLoader(client: client, url: url)
+
+        let exp = expectation(description: "Wait for load completion")
+
+        var receivedResult: LoadMovieResult?
+        loader.load { result in
+            receivedResult = result
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 10.0)
+        
+        return receivedResult
+    }
 
     private func expectedItem(at index: Int) -> DomainMovie {
         return DomainMovie(
