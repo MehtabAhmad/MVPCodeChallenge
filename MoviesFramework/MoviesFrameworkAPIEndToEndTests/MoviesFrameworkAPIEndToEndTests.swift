@@ -10,6 +10,8 @@ import MoviesFramework
 
 final class MoviesFrameworkAPIEndToEndTests: XCTestCase {
     
+    /// These tests are not more reliable against real backend data which can be change and may break the tests. They should be written against fixed backend data which doesn't change. I added them against real backend data because they are helpful to guarantee that all networking components are working fine in integration and they are bringing the right data back, also they are helpful to insure the JSON contract between app and backend team
+    
     func test_endToEndTestServerGETMovieResult_matchesFixedMovieData() {
         
         let url = URL(string:"https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query=Avatar:%20The%20Way%20of%20Water")!
