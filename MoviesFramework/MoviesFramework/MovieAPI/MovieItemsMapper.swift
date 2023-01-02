@@ -16,7 +16,7 @@ final class MovieItemsMapper {
     }
     
     private struct APIMovie: Decodable {
-        public let id:UUID
+        public let id:Int
         public let title:String
         public let overview:String
         public let poster_path:URL
