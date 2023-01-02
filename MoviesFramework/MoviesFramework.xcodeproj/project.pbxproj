@@ -15,6 +15,7 @@
 		1B51E16529623FD7004A6D4C /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16429623FD7004A6D4C /* HttpClient.swift */; };
 		1B51E16729624066004A6D4C /* MovieItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16629624066004A6D4C /* MovieItemsMapper.swift */; };
 		1B51E16A29624E3E004A6D4C /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16929624E3E004A6D4C /* URLSessionHTTPClientTests.swift */; };
+		1B51E16D29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16C29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		1B51E16429623FD7004A6D4C /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		1B51E16629624066004A6D4C /* MovieItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemsMapper.swift; sourceTree = "<group>"; };
 		1B51E16929624E3E004A6D4C /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
+		1B51E16C29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,10 +117,19 @@
 		1B51E1682962446D004A6D4C /* Movie API */ = {
 			isa = PBXGroup;
 			children = (
+				1B51E16B29625A4D004A6D4C /* Helpers */,
 				1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */,
 				1B51E16929624E3E004A6D4C /* URLSessionHTTPClientTests.swift */,
 			);
 			path = "Movie API";
+			sourceTree = "<group>";
+		};
+		1B51E16B29625A4D004A6D4C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1B51E16C29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +256,7 @@
 			files = (
 				1B51E1602961EB0D004A6D4C /* RemoteMovieLoaderTests.swift in Sources */,
 				1B51E16A29624E3E004A6D4C /* URLSessionHTTPClientTests.swift in Sources */,
+				1B51E16D29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -166,12 +166,6 @@ final class RemoteMovieLoaderTests: XCTestCase {
         return try! JSONSerialization.data(withJSONObject: json)
     }
     
-    private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
-        }
-    }
-    
     private func failure(_ error: RemoteMovieLoader.Error) -> RemoteMovieLoader.Result {
         return .failure(error)
     }
