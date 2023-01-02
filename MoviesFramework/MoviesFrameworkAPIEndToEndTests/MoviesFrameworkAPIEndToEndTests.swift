@@ -6,30 +6,110 @@
 //
 
 import XCTest
+import MoviesFramework
 
 final class MoviesFrameworkAPIEndToEndTests: XCTestCase {
+    
+    func test_endToEndTestServerGETMovieResult_matchesFixedMovieData() {
+        
+        let url = URL(string:"https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query=Avatar:%20The%20Way%20of%20Water")!
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+        let client = URLSessionHTTPClient()
+        let loader = RemoteMovieLoader(client: client, url: url)
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+        let exp = expectation(description: "Wait for load completion")
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+        var receivedResult: LoadMovieResult?
+        loader.load { result in
+            receivedResult = result
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 10.0)
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+        switch receivedResult {
+        case let .success(items)?:
+            XCTAssertEqual(items.count, 1, "Expected 1 items in the test account feed")
+            XCTAssertEqual(items[0], expectedItem(at: 0))
+
+        case let .failure(error)?:
+            XCTFail("Exoected successful feed result, got \(error) instead")
+
+        default:
+            XCTFail("Expected successful feed result, got no result instead")
         }
     }
 
+    // MARK: - Helpers
+
+    private func expectedItem(at index: Int) -> DomainMovie {
+        return DomainMovie(
+            id: id(at: index),
+            title: title(at: index),
+            description: description(at: index),
+            poster: poster(at: index),
+            rating: rating(at: index))
+    }
+
+    private func id(at index: Int) -> Int {
+        return [
+            76600
+        ][index]
+    }
+
+    private func title(at index: Int) -> String {
+        return [
+            "Avatar: The Way of Water"
+        ][index]
+    }
+
+    private func description(at index: Int) -> String {
+        return [
+            "Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure."
+        ][index]
+    }
+
+    private func poster(at index: Int) -> URL {
+        return [
+            URL(string: "/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg")!
+            ][index]
+    }
+
+    private func rating(at index: Int) -> Float {
+        return [
+            7.7
+        ][index]
+    }
+    
 }
+
+
+// Mark :- API RESPONSE
+//url = https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query=Avatar: The Way of Water"
+
+/*{
+    "page": 1,
+    "results": [
+        {
+            "adult": false,
+            "backdrop_path": "/s16H6tpK2utvwDtzZ8Qy4qm5Emw.jpg",
+            "genre_ids": [
+                878,
+                12,
+                28
+            ],
+            "id": 76600,
+            "original_language": "en",
+            "original_title": "Avatar: The Way of Water",
+            "overview": "Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.",
+            "popularity": 5896.522,
+            "poster_path": "/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+            "release_date": "2022-12-14",
+            "title": "Avatar: The Way of Water",
+            "video": false,
+            "vote_average": 7.7,
+            "vote_count": 3251
+        }
+    ],
+    "total_pages": 1,
+    "total_results": 1
+}*/
