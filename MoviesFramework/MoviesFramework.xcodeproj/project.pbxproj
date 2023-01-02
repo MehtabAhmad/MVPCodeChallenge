@@ -16,6 +16,7 @@
 		1B51E16729624066004A6D4C /* MovieItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16629624066004A6D4C /* MovieItemsMapper.swift */; };
 		1B51E16A29624E3E004A6D4C /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16929624E3E004A6D4C /* URLSessionHTTPClientTests.swift */; };
 		1B51E16D29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16C29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift */; };
+		1B51E16F29626AFF004A6D4C /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16E29626AFF004A6D4C /* URLSessionHTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		1B51E16629624066004A6D4C /* MovieItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemsMapper.swift; sourceTree = "<group>"; };
 		1B51E16929624E3E004A6D4C /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		1B51E16C29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		1B51E16E29626AFF004A6D4C /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */,
 				1B51E16629624066004A6D4C /* MovieItemsMapper.swift */,
 				1B51E16429623FD7004A6D4C /* HttpClient.swift */,
+				1B51E16E29626AFF004A6D4C /* URLSessionHTTPClient.swift */,
 			);
 			path = MovieAPI;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				1B51E16529623FD7004A6D4C /* HttpClient.swift in Sources */,
 				1B51E16729624066004A6D4C /* MovieItemsMapper.swift in Sources */,
 				1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */,
+				1B51E16F29626AFF004A6D4C /* URLSessionHTTPClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
