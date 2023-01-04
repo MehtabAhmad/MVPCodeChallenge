@@ -9,8 +9,8 @@ import XCTest
 import MoviesFramework
 
 protocol MovieStore {
-    
-    func insert(_ movie:DomainMovie)
+    typealias insertionCompletion = (Error?) -> Void
+    func insert(_ movie:DomainMovie, completion:@escaping insertionCompletion)
 }
 
 class AddFavouriteMovieUseCaseHandler {
@@ -20,8 +20,8 @@ class AddFavouriteMovieUseCaseHandler {
         self.store = store
     }
     
-    func addFavourite(_ movie:DomainMovie) {
-        store.insert(movie)
+    func addFavourite(_ movie:DomainMovie, completion:@escaping (Error?) -> Void) {
+        store.insert(movie, completion: completion)
     }
 }
 
@@ -35,10 +35,28 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     func test_addFavourite_requestsMovieInsertion() {
         let (sut,store) = makeSUT()
         let item = uniqueMovieItem()
-        sut.addFavourite(item)
+        sut.addFavourite(item) { _ in }
         XCTAssertEqual(store.receivedMessages, [.insert(item)])
     }
     
+    func test_addFavourite_deliversErrorOnInsertionError() {
+        let (sut,store) = makeSUT()
+        let item = uniqueMovieItem()
+        var receivedError: Error?
+        
+        let exp = expectation(description: "Wait for completion")
+        sut.addFavourite(item) { error in
+            receivedError = error
+            exp.fulfill()
+        }
+        
+        let error = anyNSError()
+        store.completeInsertion(with: error)
+        
+        wait(for: [exp], timeout: 1.0)
+        
+        XCTAssertEqual(receivedError as NSError?, error)
+    }
     
     // MARK: - Helper
     
@@ -59,6 +77,10 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
             rating: 3.5)
     }
     
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
+    }
+    
     private class MovieStoreSpy: MovieStore {
         
         enum Messages: Equatable {
@@ -66,9 +88,14 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         }
         
         var receivedMessages = [Messages]()
+        var insertionCompletions = [(Error?) -> Void]()
         
-        func insert(_ movie:DomainMovie) {
+        func insert(_ movie:DomainMovie, completion:@escaping insertionCompletion) {
             receivedMessages.append(.insert(movie))
+            insertionCompletions.append(completion)
+        }
+        func completeInsertion(with error:NSError, at index:Int = 0) {
+            insertionCompletions[index](error)
         }
     }
 }
