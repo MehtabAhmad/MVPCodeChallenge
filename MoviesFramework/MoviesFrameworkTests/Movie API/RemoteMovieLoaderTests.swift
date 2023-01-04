@@ -18,7 +18,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     }
     
     func test_load_requestDataFromURL() {
-        let url = URL(string: "https://any-url.com")!
+        let url = anyURL()
         let (sut,client) = makeSUT(url: url)
         
         sut.load{ _ in }
@@ -27,7 +27,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     }
     
     func test_loadTwice_requestsDataFromURLTwice() {
-        let url = URL(string: "https://a-given-url.com")!
+        let url = anyURL()
         let (sut, client) = makeSUT(url: url)
         
         sut.load{ _ in }
@@ -40,7 +40,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         expect(sut, toCompletewith: failure(.connectivity), when: {
-            let clietError = NSError(domain: "test", code: 0)
+            let clietError = anyNSError()
             client.complete(with: clietError)
         })
     }
@@ -105,7 +105,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let client = HTTPClientSpy()
-        let url = URL(string: "http://any-url.com")!
+        let url = anyURL()
         var sut: RemoteMovieLoader? = RemoteMovieLoader(client: client, url: url)
         
         var capturedResults = [RemoteMovieLoader.Result]()

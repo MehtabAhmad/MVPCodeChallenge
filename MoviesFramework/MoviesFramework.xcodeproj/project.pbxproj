@@ -30,6 +30,7 @@
 		1B7F6A3229659DD4005500D7 /* HideMovieFromSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A3129659DD4005500D7 /* HideMovieFromSearchUseCase.swift */; };
 		1B7F6A352965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A342965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift */; };
 		1B7F6A372965EC48005500D7 /* MovieStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A362965EC48005500D7 /* MovieStoreSpy.swift */; };
+		1B7F6A392965ECE1005500D7 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A382965ECE1005500D7 /* SharedTestHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		1B7F6A3129659DD4005500D7 /* HideMovieFromSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideMovieFromSearchUseCase.swift; sourceTree = "<group>"; };
 		1B7F6A342965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Equatable+DomainMovieToDTOMovieHelper.swift"; sourceTree = "<group>"; };
 		1B7F6A362965EC48005500D7 /* MovieStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStoreSpy.swift; sourceTree = "<group>"; };
+		1B7F6A382965ECE1005500D7 /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 			children = (
 				1B51E16C29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift */,
 				1B7F6A362965EC48005500D7 /* MovieStoreSpy.swift */,
+				1B7F6A382965ECE1005500D7 /* SharedTestHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			files = (
 				1B7F6A202964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift in Sources */,
 				1B51E1602961EB0D004A6D4C /* RemoteMovieLoaderTests.swift in Sources */,
+				1B7F6A392965ECE1005500D7 /* SharedTestHelpers.swift in Sources */,
 				1B51E16A29624E3E004A6D4C /* URLSessionHTTPClientTests.swift in Sources */,
 				1B7F6A372965EC48005500D7 /* MovieStoreSpy.swift in Sources */,
 				1B7F6A2D2965946F005500D7 /* HideMovieFromSearchUseCaseTests.swift in Sources */,
