@@ -16,8 +16,8 @@ class FavouriteMovieLoader {
         self.store = store
     }
     
-    func load() {
-        store.retrieve()
+    func load(completion:@escaping (Error?) -> Void) {
+        store.retrieve(completion: completion)
     }
 }
 
@@ -30,8 +30,22 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
     
     func test_load_requestsRetrieve() {
         let (sut,store) = makeSUT()
-        sut.load()
+        sut.load() { _ in }
         XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_load_deliversErrorOnRetrievalError() {
+        let (sut,store) = makeSUT()
+        var receivedError:Error?
+        
+        sut.load() { error in
+            receivedError = error
+        }
+        
+        let retrievalError = anyNSError()
+        store.completeRetrival(with: retrievalError)
+        
+        XCTAssertEqual(receivedError as NSError?, retrievalError)
     }
     
     

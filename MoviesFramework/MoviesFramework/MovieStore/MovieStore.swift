@@ -26,6 +26,8 @@ public struct StoreMovieDTO: Equatable {
 
 public protocol MovieStore {
     typealias insertionCompletion = (Error?) -> Void
+    typealias retrivalCompletion = (Error?) -> Void
+    
     func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion)
-    func retrieve()
+    func retrieve(completion:@escaping retrivalCompletion)
 }
