@@ -33,21 +33,25 @@ class AddFavouriteMovieUseCaseHandler {
 final class AddFavouriteMovieUseCaseTests: XCTestCase {
 
     func test_init_doesnotMessageStore() {
-        let store = MovieStore()
-        let sut = AddFavouriteMovieUseCaseHandler(store: store)
+        let (_,store) = makeSUT()
         XCTAssertTrue(store.receivedMessages.isEmpty)
     }
     
     func test_addFavourite_requestsMovieInsertion() {
-        let store = MovieStore()
-        let sut = AddFavouriteMovieUseCaseHandler(store: store)
+        let (sut,store) = makeSUT()
         let item = uniqueMovieItem()
         sut.addFavourite(item)
         XCTAssertEqual(store.receivedMessages, [.insert(item)])
     }
     
     
-    // Mark: - Helper
+    // MARK: - Helper
+    
+    private func makeSUT() -> (sut:AddFavouriteMovieUseCaseHandler, store:MovieStore) {
+        let store = MovieStore()
+        let sut = AddFavouriteMovieUseCaseHandler(store: store)
+        return (sut,store)
+    }
     
     private func uniqueMovieItem() -> DomainMovie {
         DomainMovie(
