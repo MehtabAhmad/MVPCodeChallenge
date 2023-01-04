@@ -41,39 +41,21 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     
     func test_addFavourite_deliversErrorOnInsertionError() {
         let (sut,store) = makeSUT()
-        let item = uniqueMovieItem()
-        var receivedError: Error?
         
-        let exp = expectation(description: "Wait for completion")
-        sut.addFavourite(item) { error in
-            receivedError = error
-            exp.fulfill()
-        }
-        
-        let error = anyNSError()
-        store.completeInsertion(with: error)
-        
-        wait(for: [exp], timeout: 1.0)
-        
-        XCTAssertEqual(receivedError as NSError?, error)
+        let insertionError = anyNSError()
+        expect(sut, toCompleteWithError: insertionError, when: {
+            store.completeInsertion(with: insertionError)
+        })
+  
     }
     
     func test_addFavourite_succeedsOnSuccessfulInsertion() {
         let (sut,store) = makeSUT()
-        let item = uniqueMovieItem()
-        var receivedError: Error?
+       
+        expect(sut, toCompleteWithError: nil, when: {
+            store.completeInsertionSuccessfully()
+        })
 
-        let exp = expectation(description: "Wait for completion")
-        sut.addFavourite(item) { error in
-            receivedError = error
-            exp.fulfill()
-        }
-
-        store.completeInsertionSuccessfully()
-
-        wait(for: [exp], timeout: 1.0)
-
-        XCTAssertNil(receivedError as NSError?)
     }
     
     
@@ -85,6 +67,23 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut,store)
+    }
+    
+    private func expect(_ sut: AddFavouriteMovieUseCaseHandler, toCompleteWithError expectedError:NSError?, when action:() -> Void) {
+        
+        var receivedError: Error?
+
+        let exp = expectation(description: "Wait for completion")
+        sut.addFavourite(uniqueMovieItem()) { error in
+            receivedError = error
+            exp.fulfill()
+        }
+
+        action()
+
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertEqual(receivedError as NSError?, expectedError)
     }
     
     private func uniqueMovieItem() -> DomainMovie {
