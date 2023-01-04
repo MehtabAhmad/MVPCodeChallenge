@@ -67,7 +67,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         return (sut,store)
     }
     
-    private func expect(_ sut: AddFavouriteMovieUseCase, toCompleteWithError expectedError:NSError?, when action:() -> Void) {
+    private func expect(_ sut: AddFavouriteMovieUseCase, toCompleteWithError expectedError:NSError?, when action:() -> Void, file: StaticString = #filePath, line: UInt = #line) {
         
         var receivedError: Error?
 
@@ -81,7 +81,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
 
         wait(for: [exp], timeout: 1.0)
 
-        XCTAssertEqual(receivedError as NSError?, expectedError)
+        XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
     
     private func uniqueMovieItem() -> DomainMovie {
