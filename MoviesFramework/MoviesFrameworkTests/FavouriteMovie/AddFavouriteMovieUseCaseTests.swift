@@ -21,7 +21,10 @@ class AddFavouriteMovieUseCaseHandler {
     }
     
     func addFavourite(_ movie:DomainMovie, completion:@escaping (Error?) -> Void) {
-        store.insert(movie, completion: completion)
+        store.insert(movie) { [weak self] error in
+            guard self != nil else { return }
+            completion(error)
+        }
     }
 }
 
@@ -55,7 +58,22 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         expect(sut, toCompleteWithError: nil, when: {
             store.completeInsertionSuccessfully()
         })
-
+    }
+    
+    func test_addFavourite_doesNotDeliverInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
+        let store = MovieStoreSpy()
+        var sut:AddFavouriteMovieUseCaseHandler? = AddFavouriteMovieUseCaseHandler(store: store)
+        
+        var receivedResults = [Error?]()
+        sut?.addFavourite(uniqueMovieItem()) {
+            receivedResults.append($0)
+        }
+        
+        sut = nil
+        store.completeInsertion(with: anyNSError())
+        
+        XCTAssertTrue(receivedResults.isEmpty)
+        
     }
     
     
