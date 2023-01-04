@@ -10,7 +10,15 @@ import MoviesFramework
 
 class FavouriteMovieLoader {
     
-    init(store: MovieStore) {}
+    let store:MovieStore
+    
+    init(store: MovieStore) {
+        self.store = store
+    }
+    
+    func load() {
+        store.retrieve()
+    }
 }
 
 final class LoadFavouriteMovieUseCaseTests: XCTestCase {
@@ -20,6 +28,11 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         XCTAssertTrue(store.receivedMessages.isEmpty)
     }
     
+    func test_load_requestsRetrieve() {
+        let (sut,store) = makeSUT()
+        sut.load()
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
     
     
     // MARK: - Helpers

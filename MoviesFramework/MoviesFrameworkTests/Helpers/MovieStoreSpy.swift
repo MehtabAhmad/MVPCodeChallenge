@@ -12,6 +12,7 @@ final class MovieStoreSpy: MovieStore {
     
     enum Messages: Equatable {
         case insert(StoreMovieDTO)
+        case retrieve
     }
     
     var receivedMessages = [Messages]()
@@ -20,6 +21,10 @@ final class MovieStoreSpy: MovieStore {
     func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion) {
         receivedMessages.append(.insert(movie))
         insertionCompletions.append(completion)
+    }
+    
+    func retrieve() {
+        receivedMessages.append(.retrieve)
     }
     
     func completeInsertion(with error:NSError, at index:Int = 0) {
