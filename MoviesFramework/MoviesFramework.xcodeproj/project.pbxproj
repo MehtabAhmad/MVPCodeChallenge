@@ -143,30 +143,30 @@
 				1B7F6A332965A15D005500D7 /* MovieStore */,
 				1B7F6A2E29659D4E005500D7 /* HideMovieFromSearchUseCase */,
 				1B7F6A21296588A5005500D7 /* AddFavouriteMovieUseCase */,
-				1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */,
+				1B51E14E2961E93C004A6D4C /* LoadRemoteMovieUseCase */,
 				1B51E1612961F6FB004A6D4C /* MovieAPI */,
 			);
 			path = MoviesFramework;
 			sourceTree = "<group>";
 		};
-		1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */ = {
+		1B51E14E2961E93C004A6D4C /* LoadRemoteMovieUseCase */ = {
 			isa = PBXGroup;
 			children = (
 				1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */,
 				1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */,
 				1B51E14A2961E00D004A6D4C /* DomainMovie.swift */,
 			);
-			path = LoadMovieUseCase;
+			path = LoadRemoteMovieUseCase;
 			sourceTree = "<group>";
 		};
 		1B51E1562961EAD0004A6D4C /* MoviesFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
 				1B51E16B29625A4D004A6D4C /* Helpers */,
-				1B7F6A2B2965942B005500D7 /* HideMovieUseCase */,
-				1B7F6A1E2964EDC6005500D7 /* FavouriteMovie */,
-				1B51E1682962446D004A6D4C /* Movie API */,
+				1B7F6A2B2965942B005500D7 /* HideMovieFromSearchUseCase */,
+				1B7F6A1E2964EDC6005500D7 /* AddFavouriteMovieUseCase */,
 				1B7F6A3A2965F84A005500D7 /* LoadFavouriteMovieUseCase */,
+				1B51E1682962446D004A6D4C /* LoadRemoteMovieUseCase */,
 			);
 			path = MoviesFrameworkTests;
 			sourceTree = "<group>";
@@ -182,13 +182,13 @@
 			path = MovieAPI;
 			sourceTree = "<group>";
 		};
-		1B51E1682962446D004A6D4C /* Movie API */ = {
+		1B51E1682962446D004A6D4C /* LoadRemoteMovieUseCase */ = {
 			isa = PBXGroup;
 			children = (
 				1B51E15F2961EB0D004A6D4C /* RemoteMovieLoaderTests.swift */,
 				1B51E16929624E3E004A6D4C /* URLSessionHTTPClientTests.swift */,
 			);
-			path = "Movie API";
+			path = LoadRemoteMovieUseCase;
 			sourceTree = "<group>";
 		};
 		1B51E16B29625A4D004A6D4C /* Helpers */ = {
@@ -209,12 +209,12 @@
 			path = MoviesFrameworkAPIEndToEndTests;
 			sourceTree = "<group>";
 		};
-		1B7F6A1E2964EDC6005500D7 /* FavouriteMovie */ = {
+		1B7F6A1E2964EDC6005500D7 /* AddFavouriteMovieUseCase */ = {
 			isa = PBXGroup;
 			children = (
 				1B7F6A1F2964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift */,
 			);
-			path = FavouriteMovie;
+			path = AddFavouriteMovieUseCase;
 			sourceTree = "<group>";
 		};
 		1B7F6A21296588A5005500D7 /* AddFavouriteMovieUseCase */ = {
@@ -226,12 +226,12 @@
 			path = AddFavouriteMovieUseCase;
 			sourceTree = "<group>";
 		};
-		1B7F6A2B2965942B005500D7 /* HideMovieUseCase */ = {
+		1B7F6A2B2965942B005500D7 /* HideMovieFromSearchUseCase */ = {
 			isa = PBXGroup;
 			children = (
 				1B7F6A2C2965946F005500D7 /* HideMovieFromSearchUseCaseTests.swift */,
 			);
-			path = HideMovieUseCase;
+			path = HideMovieFromSearchUseCase;
 			sourceTree = "<group>";
 		};
 		1B7F6A2E29659D4E005500D7 /* HideMovieFromSearchUseCase */ = {
