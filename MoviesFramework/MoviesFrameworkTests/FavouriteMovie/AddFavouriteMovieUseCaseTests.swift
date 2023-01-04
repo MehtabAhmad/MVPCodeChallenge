@@ -47,9 +47,11 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     
     // MARK: - Helper
     
-    private func makeSUT() -> (sut:AddFavouriteMovieUseCaseHandler, store:MovieStore) {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCaseHandler, store:MovieStore) {
         let store = MovieStore()
         let sut = AddFavouriteMovieUseCaseHandler(store: store)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(store, file: file, line: line)
         return (sut,store)
     }
     
