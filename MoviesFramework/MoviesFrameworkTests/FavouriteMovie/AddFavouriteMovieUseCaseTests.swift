@@ -8,26 +8,6 @@
 import XCTest
 import MoviesFramework
 
-protocol MovieStore {
-    typealias insertionCompletion = (Error?) -> Void
-    func insert(_ movie:DomainMovie, completion:@escaping insertionCompletion)
-}
-
-class AddFavouriteMovieUseCaseHandler {
-    let store:MovieStore
-    
-    init(store:MovieStore) {
-        self.store = store
-    }
-    
-    func addFavourite(_ movie:DomainMovie, completion:@escaping (Error?) -> Void) {
-        store.insert(movie) { [weak self] error in
-            guard self != nil else { return }
-            completion(error)
-        }
-    }
-}
-
 final class AddFavouriteMovieUseCaseTests: XCTestCase {
 
     func test_init_doesnotMessageStore() {
