@@ -124,8 +124,8 @@
 				1B7F6A332965A15D005500D7 /* MovieStore */,
 				1B7F6A2E29659D4E005500D7 /* HideMovieFromSearchUseCase */,
 				1B7F6A21296588A5005500D7 /* AddFavouriteMovieUseCase */,
-				1B51E1612961F6FB004A6D4C /* MovieAPI */,
 				1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */,
+				1B51E1612961F6FB004A6D4C /* MovieAPI */,
 			);
 			path = MoviesFramework;
 			sourceTree = "<group>";
@@ -133,6 +133,7 @@
 		1B51E14E2961E93C004A6D4C /* LoadMovieUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */,
 				1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */,
 				1B51E14A2961E00D004A6D4C /* DomainMovie.swift */,
 			);
@@ -153,7 +154,6 @@
 		1B51E1612961F6FB004A6D4C /* MovieAPI */ = {
 			isa = PBXGroup;
 			children = (
-				1B51E1622961F74A004A6D4C /* RemoteMovieLoader.swift */,
 				1B51E16629624066004A6D4C /* MovieItemsMapper.swift */,
 				1B7F6A1C296361CB005500D7 /* APIMovie.swift */,
 				1B51E16429623FD7004A6D4C /* HttpClient.swift */,
