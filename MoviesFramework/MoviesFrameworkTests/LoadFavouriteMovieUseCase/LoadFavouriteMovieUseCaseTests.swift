@@ -67,7 +67,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
 
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:FavouriteMovieLoader, store:MovieStoreSpy) {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:LoadMovieUseCase, store:MovieStoreSpy) {
         let store = MovieStoreSpy()
         let sut = FavouriteMovieLoader(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -75,7 +75,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         return (sut,store)
     }
     
-    private func expect(_ sut:FavouriteMovieLoader, toCompleteWith expectedResult:LoadMovieResult, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut:LoadMovieUseCase, toCompleteWith expectedResult:LoadMovieResult, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
 
         let exp = expectation(description: "wait for completion")
         
