@@ -80,7 +80,7 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
     
     // MARK: - Helper
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:HideMovieFromSearchUseCaseHandler, store:MovieStoreSpy) {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:HideMovieFromSearchUseCase, store:MovieStoreSpy) {
         let store = MovieStoreSpy()
         let sut = HideMovieFromSearchUseCaseHandler(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -88,7 +88,7 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         return (sut,store)
     }
     
-    private func expect(_ sut: HideMovieFromSearchUseCaseHandler, toCompleteWithError expectedError:NSError?, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: HideMovieFromSearchUseCase, toCompleteWithError expectedError:NSError?, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
         
         var receivedError: Error?
 
