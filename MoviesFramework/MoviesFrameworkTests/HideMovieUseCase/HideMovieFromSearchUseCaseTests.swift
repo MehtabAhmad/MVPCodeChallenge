@@ -9,14 +9,16 @@ import XCTest
 import MoviesFramework
 
 class HideMovieFromSearchUseCaseHandler {
+    
     let store:MovieStore
+    typealias hideMovieResult = Error?
     
     public init(store:MovieStore) {
         self.store = store
     }
     
-    public func hide(_ movie:DomainMovie) {
-        store.insert(movie) {_ in}
+    public func hide(_ movie:DomainMovie, completion:@escaping (hideMovieResult) -> Void) {
+        store.insert(movie, completion: completion)
     }
 }
 
@@ -30,11 +32,19 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
     func test_hide_requestsMovieInsertion() {
         let (sut,store) = makeSUT()
         let item = uniqueMovieItem()
-        sut.hide(item)
+        sut.hide(item) {_ in}
         XCTAssertEqual(store.receivedMessages, [.insert(item)])
     }
     
-    
+    func test_hide_deliversErrorOnInsertionError() {
+        let (sut,store) = makeSUT()
+        
+        let insertionError = anyNSError()
+        expect(sut, toCompleteWithError: insertionError, when: {
+            store.completeInsertion(with: insertionError)
+        })
+  
+    }
     
     // MARK: - Helper
     
@@ -46,6 +56,23 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         return (sut,store)
     }
     
+    private func expect(_ sut: HideMovieFromSearchUseCaseHandler, toCompleteWithError expectedError:NSError?, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
+        
+        var receivedError: Error?
+
+        let exp = expectation(description: "Wait for completion")
+        sut.hide(uniqueMovieItem()) { error in
+            receivedError = error
+            exp.fulfill()
+        }
+
+        action()
+
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
+    }
+    
     private func uniqueMovieItem() -> DomainMovie {
         DomainMovie(
             id: UUID().hashValue,
@@ -53,6 +80,10 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
             description: "a description",
             poster: URL(string: "http://a-url.com")!,
             rating: 3.5)
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
     }
     
     
