@@ -45,57 +45,49 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
     func test_load_deliversErrorOnRetrievalError() {
         let (sut,store) = makeSUT()
         
-        var receivedError:Error?
-        let exp = expectation(description: "wait for completion")
-        sut.load() { result in
-            switch result {
-            case let .failure(error):
-                receivedError = error
-            default:
-                XCTFail("Expected failure found \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
         let retrievalError = anyNSError()
-        store.completeRetrival(with: retrievalError)
+        expect(sut, toCompleteWith: .failure(retrievalError), when: {
+            store.completeRetrival(with: retrievalError)
+        })
         
-        wait(for: [exp], timeout: 1.0)
-        XCTAssertEqual(receivedError as NSError?, retrievalError)
     }
-    
     
     func test_load_deliversEmptyListWhenThereAreNoFavouriteMovies() {
         let (sut,store) = makeSUT()
         
-        var receivedMovies:[DomainMovie]?
+        expect(sut, toCompleteWith: .success([]), when: {
+            store.completeRetrivalWithEmptyList()
+        })
+    }
+    
+
+    // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:FavouriteMovieLoader, store:MovieStoreSpy) {
+        let store = MovieStoreSpy()
+        let sut = FavouriteMovieLoader(store: store)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(store, file: file, line: line)
+        return (sut,store)
+    }
+    
+    private func expect(_ sut:FavouriteMovieLoader, toCompleteWith expectedResult:LoadMovieResult, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
+
         let exp = expectation(description: "wait for completion")
-        sut.load() { result in
-            switch result {
-            case let .success(movies):
-                receivedMovies = movies
+        
+        sut.load() { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedMovies), .success(expectedMovies)):
+                XCTAssertEqual(receivedMovies, expectedMovies, file: file, line: line)
+            case let (.failure(receivedError as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
             default:
-                XCTFail("Expected success got \(result) instead")
+                XCTFail("Expected result \(expectedResult) got \(receivedResult) instead", file: file, line: line)
             }
             exp.fulfill()
         }
         
-        store.completeRetrivalWithEmptyList()
-        
+        action()
         wait(for: [exp], timeout: 1.0)
-        
-        XCTAssertEqual(receivedMovies, [])
     }
-    
-        
-        
-        // MARK: - Helpers
-        
-        private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:FavouriteMovieLoader, store:MovieStoreSpy) {
-            let store = MovieStoreSpy()
-            let sut = FavouriteMovieLoader(store: store)
-            trackForMemoryLeaks(sut, file: file, line: line)
-            trackForMemoryLeaks(store, file: file, line: line)
-            return (sut,store)
-        }
-    }
+}
