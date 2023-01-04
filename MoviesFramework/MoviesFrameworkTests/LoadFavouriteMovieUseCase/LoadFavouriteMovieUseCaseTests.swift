@@ -30,7 +30,7 @@ class FavouriteMovieLoader {
 }
 
 final class LoadFavouriteMovieUseCaseTests: XCTestCase {
-
+    
     func test_init_doesnotMessageStore() {
         let (_,store) = makeSUT()
         XCTAssertTrue(store.receivedMessages.isEmpty)
@@ -46,7 +46,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
         
         var receivedError:Error?
-        
+        let exp = expectation(description: "wait for completion")
         sut.load() { result in
             switch result {
             case let .failure(error):
@@ -54,22 +54,26 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
             default:
                 XCTFail("Expected failure found \(result) instead")
             }
+            exp.fulfill()
         }
         
         let retrievalError = anyNSError()
         store.completeRetrival(with: retrievalError)
         
+        wait(for: [exp], timeout: 1.0)
         XCTAssertEqual(receivedError as NSError?, retrievalError)
     }
     
-
-    // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:FavouriteMovieLoader, store:MovieStoreSpy) {
-        let store = MovieStoreSpy()
-        let sut = FavouriteMovieLoader(store: store)
-        trackForMemoryLeaks(sut, file: file, line: line)
-        trackForMemoryLeaks(store, file: file, line: line)
-        return (sut,store)
+        
+        
+        // MARK: - Helpers
+        
+        private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:FavouriteMovieLoader, store:MovieStoreSpy) {
+            let store = MovieStoreSpy()
+            let sut = FavouriteMovieLoader(store: store)
+            trackForMemoryLeaks(sut, file: file, line: line)
+            trackForMemoryLeaks(store, file: file, line: line)
+            return (sut,store)
+        }
     }
-}
