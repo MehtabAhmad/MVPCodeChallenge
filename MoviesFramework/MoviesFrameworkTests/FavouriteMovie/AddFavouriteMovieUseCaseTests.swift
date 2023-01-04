@@ -58,6 +58,25 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, error)
     }
     
+    func test_addFavourite_succeedsOnSuccessfulInsertion() {
+        let (sut,store) = makeSUT()
+        let item = uniqueMovieItem()
+        var receivedError: Error?
+
+        let exp = expectation(description: "Wait for completion")
+        sut.addFavourite(item) { error in
+            receivedError = error
+            exp.fulfill()
+        }
+
+        store.completeInsertionSuccessfully()
+
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertNil(receivedError as NSError?)
+    }
+    
+    
     // MARK: - Helper
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCaseHandler, store:MovieStoreSpy) {
@@ -94,8 +113,13 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
             receivedMessages.append(.insert(movie))
             insertionCompletions.append(completion)
         }
+        
         func completeInsertion(with error:NSError, at index:Int = 0) {
             insertionCompletions[index](error)
+        }
+        
+        func completeInsertionSuccessfully(at index:Int = 0) {
+            insertionCompletions[index](nil)
         }
     }
 }
