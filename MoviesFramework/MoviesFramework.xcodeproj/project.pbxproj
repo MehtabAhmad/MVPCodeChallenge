@@ -24,6 +24,7 @@
 		1B7F6A202964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A1F2964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift */; };
 		1B7F6A2329658946005500D7 /* AddFavouriteMovieUseCaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A2229658946005500D7 /* AddFavouriteMovieUseCaseHandler.swift */; };
 		1B7F6A252965898E005500D7 /* MovieStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A242965898E005500D7 /* MovieStore.swift */; };
+		1B7F6A2A29659123005500D7 /* AddFavouriteMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A2929659123005500D7 /* AddFavouriteMovieUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		1B7F6A1F2964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavouriteMovieUseCaseTests.swift; sourceTree = "<group>"; };
 		1B7F6A2229658946005500D7 /* AddFavouriteMovieUseCaseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavouriteMovieUseCaseHandler.swift; sourceTree = "<group>"; };
 		1B7F6A242965898E005500D7 /* MovieStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStore.swift; sourceTree = "<group>"; };
+		1B7F6A2929659123005500D7 /* AddFavouriteMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavouriteMovieUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			children = (
 				1B7F6A2229658946005500D7 /* AddFavouriteMovieUseCaseHandler.swift */,
 				1B7F6A242965898E005500D7 /* MovieStore.swift */,
+				1B7F6A2929659123005500D7 /* AddFavouriteMovieUseCase.swift */,
 			);
 			path = AddFavouriteMovieUseCase;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B7F6A2A29659123005500D7 /* AddFavouriteMovieUseCase.swift in Sources */,
 				1B7F6A1D296361CB005500D7 /* APIMovie.swift in Sources */,
 				1B7F6A252965898E005500D7 /* MovieStore.swift in Sources */,
 				1B51E1632961F74A004A6D4C /* RemoteMovieLoader.swift in Sources */,

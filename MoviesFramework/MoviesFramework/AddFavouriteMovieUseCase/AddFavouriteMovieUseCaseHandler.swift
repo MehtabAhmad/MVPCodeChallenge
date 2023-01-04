@@ -7,11 +7,9 @@
 
 import Foundation
 
-public final class AddFavouriteMovieUseCaseHandler {
+public final class AddFavouriteMovieUseCaseHandler: AddFavouriteMovieUseCase {
     
     let store:MovieStore
-    
-    public typealias addFavouriteResult = Error?
     
     public init(store:MovieStore) {
         self.store = store
