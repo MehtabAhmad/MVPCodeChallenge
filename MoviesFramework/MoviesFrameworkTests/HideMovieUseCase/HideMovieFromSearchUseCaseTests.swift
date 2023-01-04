@@ -15,6 +15,9 @@ class HideMovieFromSearchUseCaseHandler {
         self.store = store
     }
     
+    public func hide(_ movie:DomainMovie) {
+        store.insert(movie) {_ in}
+    }
 }
 
 final class HideMovieFromSearchUseCaseTests: XCTestCase {
@@ -23,6 +26,14 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         let (_,store) = makeSUT()
         XCTAssertTrue(store.receivedMessages.isEmpty)
     }
+    
+    func test_hide_requestsMovieInsertion() {
+        let (sut,store) = makeSUT()
+        let item = uniqueMovieItem()
+        sut.hide(item)
+        XCTAssertEqual(store.receivedMessages, [.insert(item)])
+    }
+    
     
     
     // MARK: - Helper
@@ -33,6 +44,15 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut,store)
+    }
+    
+    private func uniqueMovieItem() -> DomainMovie {
+        DomainMovie(
+            id: UUID().hashValue,
+            title: "a title",
+            description: "a description",
+            poster: URL(string: "http://a-url.com")!,
+            rating: 3.5)
     }
     
     
