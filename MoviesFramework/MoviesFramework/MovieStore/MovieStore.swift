@@ -23,10 +23,15 @@ public struct StoreMovieDTO: Equatable {
     }
 }
 
+public enum RetrieveFavouriteMovieResult {
+    case empty
+    case found([StoreMovieDTO])
+    case failure(Error)
+}
 
 public protocol MovieStore {
     typealias insertionCompletion = (Error?) -> Void
-    typealias retrivalCompletion = (Error?) -> Void
+    typealias retrivalCompletion = (RetrieveFavouriteMovieResult) -> Void
     
     func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion)
     func retrieve(completion:@escaping retrivalCompletion)

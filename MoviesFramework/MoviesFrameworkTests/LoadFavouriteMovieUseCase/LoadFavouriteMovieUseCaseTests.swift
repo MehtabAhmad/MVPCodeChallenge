@@ -16,8 +16,16 @@ class FavouriteMovieLoader {
         self.store = store
     }
     
-    func load(completion:@escaping (Error?) -> Void) {
-        store.retrieve(completion: completion)
+    func load(completion:@escaping (LoadMovieResult) -> Void) {
+        store.retrieve() { result in
+            switch result {
+            case .empty:
+                completion(.success([]))
+            case .found: break
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
     }
 }
 
@@ -36,10 +44,16 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
     
     func test_load_deliversErrorOnRetrievalError() {
         let (sut,store) = makeSUT()
+        
         var receivedError:Error?
         
-        sut.load() { error in
-            receivedError = error
+        sut.load() { result in
+            switch result {
+            case let .failure(error):
+                receivedError = error
+            default:
+                XCTFail("Expected failure found \(result) instead")
+            }
         }
         
         let retrievalError = anyNSError()
@@ -48,7 +62,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, retrievalError)
     }
     
-    
+
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:FavouriteMovieLoader, store:MovieStoreSpy) {

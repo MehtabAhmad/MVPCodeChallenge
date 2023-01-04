@@ -39,6 +39,10 @@ final class MovieStoreSpy: MovieStore {
     }
     
     func completeRetrival(with error:NSError, at index:Int = 0) {
-        retrievalCompletions[index](error)
+        retrievalCompletions[index](.failure(error))
+    }
+    
+    func completeRetrivalWithEmptyList(at index:Int = 0) {
+        retrievalCompletions[index](.empty)
     }
 }
