@@ -12,14 +12,22 @@ final class MovieStoreSpy: MovieStore {
     
     enum Messages: Equatable {
         case insert(StoreMovieDTO)
+        case retrieve
     }
     
     var receivedMessages = [Messages]()
-    var insertionCompletions = [(Error?) -> Void]()
+    
+    var insertionCompletions = [insertionCompletion]()
+    var retrievalCompletions = [retrivalCompletion]()
     
     func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion) {
         receivedMessages.append(.insert(movie))
         insertionCompletions.append(completion)
+    }
+    
+    func retrieve(completion: @escaping retrivalCompletion) {
+        receivedMessages.append(.retrieve)
+        retrievalCompletions.append(completion)
     }
     
     func completeInsertion(with error:NSError, at index:Int = 0) {
@@ -28,5 +36,17 @@ final class MovieStoreSpy: MovieStore {
     
     func completeInsertionSuccessfully(at index:Int = 0) {
         insertionCompletions[index](nil)
+    }
+    
+    func completeRetrival(with error:NSError, at index:Int = 0) {
+        retrievalCompletions[index](.failure(error))
+    }
+    
+    func completeRetrivalWithEmptyList(at index:Int = 0) {
+        retrievalCompletions[index](.empty)
+    }
+    
+    func completeRetrival(with movies:[StoreMovieDTO], at index:Int = 0) {
+        retrievalCompletions[index](.found(movies))
     }
 }

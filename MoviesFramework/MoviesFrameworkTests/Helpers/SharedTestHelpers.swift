@@ -36,3 +36,16 @@ func uniqueMovieItems() -> (model: DomainMovie, dto: StoreMovieDTO) {
     
     return (model, dto)
 }
+
+func uniqueMovieItemArray() -> (model: [DomainMovie], dto: [StoreMovieDTO]) {
+    let model = [uniqueMovieItem(),uniqueMovieItem()]
+    let dto = model.map {
+        StoreMovieDTO(
+            id: $0.id,
+            title: $0.title,
+            description: $0.description,
+            poster: $0.poster,
+            rating: $0.rating)
+    }
+    return (model, dto)
+}
