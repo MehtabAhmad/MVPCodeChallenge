@@ -18,7 +18,10 @@ class HideMovieFromSearchUseCaseHandler {
     }
     
     public func hide(_ movie:DomainMovie, completion:@escaping (hideMovieResult) -> Void) {
-        store.insert(movie, completion: completion)
+        store.insert(movie) { [weak self] error in
+            guard self != nil else {return}
+            completion(error)
+        }
     }
 }
 
@@ -52,6 +55,23 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         expect(sut, toCompleteWithError: nil, when: {
             store.completeInsertionSuccessfully()
         })
+    }
+    
+    func test_hide_doesNotDeliverReslutsAfterSUTInstanceHasBeenDeallocated() {
+        let store = MovieStoreSpy()
+        var sut:HideMovieFromSearchUseCaseHandler? = HideMovieFromSearchUseCaseHandler(store: store)
+        
+        var receivedResults = [HideMovieFromSearchUseCaseHandler.hideMovieResult]()
+        
+        sut?.hide(uniqueMovieItem()) {
+            receivedResults.append($0)
+        }
+        
+        sut = nil
+        store.completeInsertion(with: anyNSError())
+        
+        XCTAssertTrue(receivedResults.isEmpty)
+        
     }
     
     // MARK: - Helper
@@ -117,5 +137,4 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
             insertionCompletions[index](nil)
         }
     }
-
 }
