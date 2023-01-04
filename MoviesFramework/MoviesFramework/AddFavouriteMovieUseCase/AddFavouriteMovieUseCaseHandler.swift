@@ -16,7 +16,7 @@ public final class AddFavouriteMovieUseCaseHandler: AddFavouriteMovieUseCase {
     }
     
     public func addFavourite(_ movie:DomainMovie, completion:@escaping (addFavouriteResult) -> Void) {
-        store.insert(movie) { [weak self] error in
+        store.insert(movie.toDTOMovie()) { [weak self] error in
             guard self != nil else { return }
             completion(error)
         }

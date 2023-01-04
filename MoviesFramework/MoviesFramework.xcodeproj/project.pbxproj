@@ -28,6 +28,7 @@
 		1B7F6A2D2965946F005500D7 /* HideMovieFromSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A2C2965946F005500D7 /* HideMovieFromSearchUseCaseTests.swift */; };
 		1B7F6A3029659D74005500D7 /* HideMovieFromSearchUseCaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A2F29659D74005500D7 /* HideMovieFromSearchUseCaseHandler.swift */; };
 		1B7F6A3229659DD4005500D7 /* HideMovieFromSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A3129659DD4005500D7 /* HideMovieFromSearchUseCase.swift */; };
+		1B7F6A352965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A342965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		1B7F6A2C2965946F005500D7 /* HideMovieFromSearchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideMovieFromSearchUseCaseTests.swift; sourceTree = "<group>"; };
 		1B7F6A2F29659D74005500D7 /* HideMovieFromSearchUseCaseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideMovieFromSearchUseCaseHandler.swift; sourceTree = "<group>"; };
 		1B7F6A3129659DD4005500D7 /* HideMovieFromSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideMovieFromSearchUseCase.swift; sourceTree = "<group>"; };
+		1B7F6A342965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Equatable+DomainMovieToDTOMovieHelper.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 			children = (
 				1B7F6A2F29659D74005500D7 /* HideMovieFromSearchUseCaseHandler.swift */,
 				1B7F6A3129659DD4005500D7 /* HideMovieFromSearchUseCase.swift */,
+				1B7F6A342965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift */,
 			);
 			path = HideMovieFromSearchUseCase;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B7F6A2A29659123005500D7 /* AddFavouriteMovieUseCase.swift in Sources */,
+				1B7F6A352965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift in Sources */,
 				1B7F6A1D296361CB005500D7 /* APIMovie.swift in Sources */,
 				1B7F6A252965898E005500D7 /* MovieStore.swift in Sources */,
 				1B7F6A3029659D74005500D7 /* HideMovieFromSearchUseCaseHandler.swift in Sources */,

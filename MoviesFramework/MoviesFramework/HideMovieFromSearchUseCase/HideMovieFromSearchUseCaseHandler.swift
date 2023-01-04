@@ -16,7 +16,7 @@ public final class HideMovieFromSearchUseCaseHandler: HideMovieFromSearchUseCase
     }
     
     public func hide(_ movie:DomainMovie, completion:@escaping (hideMovieResult) -> Void) {
-        store.insert(movie) { [weak self] error in
+        store.insert(movie.toDTOMovie()) { [weak self] error in
             guard self != nil else {return}
             completion(error)
         }

@@ -17,9 +17,9 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     
     func test_addFavourite_requestsMovieInsertion() {
         let (sut,store) = makeSUT()
-        let item = uniqueMovieItem()
-        sut.addFavourite(item) { _ in }
-        XCTAssertEqual(store.receivedMessages, [.insert(item)])
+        let items = uniqueMovieItems()
+        sut.addFavourite(items.model) { _ in }
+        XCTAssertEqual(store.receivedMessages, [.insert(items.dto)])
     }
     
     func test_addFavourite_deliversErrorOnInsertionError() {
@@ -93,6 +93,18 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
             rating: 3.5)
     }
     
+    private func uniqueMovieItems() -> (model: DomainMovie, dto: StoreMovieDTO) {
+        let model = uniqueMovieItem()
+        let dto = StoreMovieDTO(
+            id: model.id,
+            title: model.title,
+            description: model.description,
+            poster: model.poster,
+            rating: model.rating)
+        
+        return (model, dto)
+    }
+    
     private func anyNSError() -> NSError {
         return NSError(domain: "any error", code: 0)
     }
@@ -100,13 +112,13 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     private class MovieStoreSpy: MovieStore {
         
         enum Messages: Equatable {
-            case insert(DomainMovie)
+            case insert(StoreMovieDTO)
         }
         
         var receivedMessages = [Messages]()
         var insertionCompletions = [(Error?) -> Void]()
         
-        func insert(_ movie:DomainMovie, completion:@escaping insertionCompletion) {
+        func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion) {
             receivedMessages.append(.insert(movie))
             insertionCompletions.append(completion)
         }
