@@ -8,27 +8,6 @@
 import XCTest
 import MoviesFramework
 
-protocol HideMovieFromSearchUseCase {
-    typealias hideMovieResult = Error?
-    func hide(_ movie:DomainMovie, completion:@escaping (hideMovieResult) -> Void)
-}
-
-class HideMovieFromSearchUseCaseHandler: HideMovieFromSearchUseCase {
-    
-    let store:MovieStore
-    
-    public init(store:MovieStore) {
-        self.store = store
-    }
-    
-    public func hide(_ movie:DomainMovie, completion:@escaping (hideMovieResult) -> Void) {
-        store.insert(movie) { [weak self] error in
-            guard self != nil else {return}
-            completion(error)
-        }
-    }
-}
-
 final class HideMovieFromSearchUseCaseTests: XCTestCase {
 
     func test_init_doesnotMessageStore() {
