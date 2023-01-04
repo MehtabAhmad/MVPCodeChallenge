@@ -53,7 +53,6 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         store.completeInsertion(with: anyNSError())
         
         XCTAssertTrue(receivedResults.isEmpty)
-        
     }
     
     
@@ -107,28 +106,5 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     
     private func anyNSError() -> NSError {
         return NSError(domain: "any error", code: 0)
-    }
-    
-    private class MovieStoreSpy: MovieStore {
-        
-        enum Messages: Equatable {
-            case insert(StoreMovieDTO)
-        }
-        
-        var receivedMessages = [Messages]()
-        var insertionCompletions = [(Error?) -> Void]()
-        
-        func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion) {
-            receivedMessages.append(.insert(movie))
-            insertionCompletions.append(completion)
-        }
-        
-        func completeInsertion(with error:NSError, at index:Int = 0) {
-            insertionCompletions[index](error)
-        }
-        
-        func completeInsertionSuccessfully(at index:Int = 0) {
-            insertionCompletions[index](nil)
-        }
     }
 }
