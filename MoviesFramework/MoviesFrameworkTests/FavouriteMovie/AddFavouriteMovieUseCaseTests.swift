@@ -8,19 +8,14 @@
 import XCTest
 import MoviesFramework
 
-class MovieStore {
-    enum Messages: Equatable {
-        case insert(DomainMovie)
-    }
-    var receivedMessages = [Messages]()
+protocol MovieStore {
     
-    func insert(_ movie:DomainMovie) {
-        receivedMessages.append(.insert(movie))
-    }
+    func insert(_ movie:DomainMovie)
 }
 
 class AddFavouriteMovieUseCaseHandler {
     let store:MovieStore
+    
     init(store:MovieStore) {
         self.store = store
     }
@@ -47,8 +42,8 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     
     // MARK: - Helper
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCaseHandler, store:MovieStore) {
-        let store = MovieStore()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCaseHandler, store:MovieStoreSpy) {
+        let store = MovieStoreSpy()
         let sut = AddFavouriteMovieUseCaseHandler(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
@@ -62,5 +57,18 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
             description: "a description",
             poster: URL(string: "http://a-url.com")!,
             rating: 3.5)
+    }
+    
+    private class MovieStoreSpy: MovieStore {
+        
+        enum Messages: Equatable {
+            case insert(DomainMovie)
+        }
+        
+        var receivedMessages = [Messages]()
+        
+        func insert(_ movie:DomainMovie) {
+            receivedMessages.append(.insert(movie))
+        }
     }
 }
