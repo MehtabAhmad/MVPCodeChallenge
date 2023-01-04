@@ -21,10 +21,19 @@ class FavouriteMovieLoader {
             switch result {
             case .empty:
                 completion(.success([]))
-            case .found: break
+            case let .found(DTOMovies):
+                completion(.success(DTOMovies.toDomainMovies()))
             case let .failure(error):
                 completion(.failure(error))
             }
+        }
+    }
+}
+
+private extension Array where Element == StoreMovieDTO {
+    func toDomainMovies() -> [DomainMovie] {
+        return map {
+            DomainMovie(id: $0.id, title: $0.title, description: $0.description, poster: $0.poster, rating: $0.rating)
         }
     }
 }
@@ -57,6 +66,15 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         
         expect(sut, toCompleteWith: .success([]), when: {
             store.completeRetrivalWithEmptyList()
+        })
+    }
+    
+    func test_load_deliversFavouriteMovieListOnSuccessfullRetrieval() {
+        let (sut,store) = makeSUT()
+        let items = uniqueMovieItemArray()
+        
+        expect(sut, toCompleteWith: .success(items.model), when: {
+            store.completeRetrival(with: items.dto)
         })
     }
     

@@ -45,4 +45,8 @@ final class MovieStoreSpy: MovieStore {
     func completeRetrivalWithEmptyList(at index:Int = 0) {
         retrievalCompletions[index](.empty)
     }
+    
+    func completeRetrival(with movies:[StoreMovieDTO], at index:Int = 0) {
+        retrievalCompletions[index](.found(movies))
+    }
 }
