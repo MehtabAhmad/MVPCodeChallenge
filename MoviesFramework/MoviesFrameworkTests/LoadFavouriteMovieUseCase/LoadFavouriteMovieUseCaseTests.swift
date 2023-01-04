@@ -65,6 +65,28 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
     }
     
     
+    func test_load_deliversEmptyListWhenThereAreNoFavouriteMovies() {
+        let (sut,store) = makeSUT()
+        
+        var receivedMovies:[DomainMovie]?
+        let exp = expectation(description: "wait for completion")
+        sut.load() { result in
+            switch result {
+            case let .success(movies):
+                receivedMovies = movies
+            default:
+                XCTFail("Expected success got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        store.completeRetrivalWithEmptyList()
+        
+        wait(for: [exp], timeout: 1.0)
+        
+        XCTAssertEqual(receivedMovies, [])
+    }
+    
         
         
         // MARK: - Helpers
