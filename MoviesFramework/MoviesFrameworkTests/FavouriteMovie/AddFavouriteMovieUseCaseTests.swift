@@ -59,7 +59,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     
     // MARK: - Helper
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCaseHandler, store:MovieStoreSpy) {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCase, store:MovieStoreSpy) {
         let store = MovieStoreSpy()
         let sut = AddFavouriteMovieUseCaseHandler(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -67,7 +67,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         return (sut,store)
     }
     
-    private func expect(_ sut: AddFavouriteMovieUseCaseHandler, toCompleteWithError expectedError:NSError?, when action:() -> Void) {
+    private func expect(_ sut: AddFavouriteMovieUseCase, toCompleteWithError expectedError:NSError?, when action:() -> Void) {
         
         var receivedError: Error?
 
