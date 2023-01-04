@@ -17,7 +17,8 @@ class FavouriteMovieLoader {
     }
     
     func load(completion:@escaping (LoadMovieResult) -> Void) {
-        store.retrieve() { result in
+        store.retrieve() { [weak self] result in
+            guard self != nil else {return}
             switch result {
             case .empty:
                 completion(.success([]))
@@ -76,6 +77,21 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         expect(sut, toCompleteWith: .success(items.model), when: {
             store.completeRetrival(with: items.dto)
         })
+    }
+    
+    func test_load_doesNotDeliverResultWhenSUTInstanceHasBeenDeallocated() {
+        let store = MovieStoreSpy()
+        var sut:FavouriteMovieLoader? = FavouriteMovieLoader(store: store)
+        var receivedResult:LoadMovieResult?
+        
+        sut?.load() { result in
+            receivedResult = result
+        }
+        
+        sut = nil
+        store.completeRetrivalWithEmptyList()
+        
+        XCTAssertNil(receivedResult)
     }
     
 
