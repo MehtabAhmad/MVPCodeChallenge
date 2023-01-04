@@ -46,6 +46,14 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
   
     }
     
+    func test_hide_succeedsOnSuccessfulInsertion() {
+        let (sut,store) = makeSUT()
+       
+        expect(sut, toCompleteWithError: nil, when: {
+            store.completeInsertionSuccessfully()
+        })
+    }
+    
     // MARK: - Helper
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:HideMovieFromSearchUseCaseHandler, store:MovieStoreSpy) {
