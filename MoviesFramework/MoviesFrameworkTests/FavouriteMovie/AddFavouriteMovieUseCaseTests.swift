@@ -44,7 +44,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         let store = MovieStoreSpy()
         var sut:AddFavouriteMovieUseCaseHandler? = AddFavouriteMovieUseCaseHandler(store: store)
         
-        var receivedResults = [Error?]()
+        var receivedResults = [AddFavouriteMovieUseCaseHandler.addFavouriteResult]()
         sut?.addFavourite(uniqueMovieItem()) {
             receivedResults.append($0)
         }
