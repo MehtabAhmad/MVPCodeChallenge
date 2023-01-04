@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B31FCE1296622BB00436703 /* FavouriteMovieLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31FCE0296622BB00436703 /* FavouriteMovieLoader.swift */; };
 		1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14A2961E00D004A6D4C /* DomainMovie.swift */; };
 		1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */; };
 		1B51E1592961EAD0004A6D4C /* MoviesFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B51E1322961DF95004A6D4C /* MoviesFramework.framework */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B31FCE0296622BB00436703 /* FavouriteMovieLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMovieLoader.swift; sourceTree = "<group>"; };
 		1B51E1322961DF95004A6D4C /* MoviesFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MoviesFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B51E14A2961E00D004A6D4C /* DomainMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainMovie.swift; sourceTree = "<group>"; };
 		1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMovieUseCase.swift; sourceTree = "<group>"; };
@@ -106,6 +108,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B31FCDF296622A400436703 /* LoadFavouriteMovieUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1B31FCE0296622BB00436703 /* FavouriteMovieLoader.swift */,
+			);
+			path = LoadFavouriteMovieUseCase;
+			sourceTree = "<group>";
+		};
 		1B51E1282961DF95004A6D4C = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +139,7 @@
 		1B51E1342961DF95004A6D4C /* MoviesFramework */ = {
 			isa = PBXGroup;
 			children = (
+				1B31FCDF296622A400436703 /* LoadFavouriteMovieUseCase */,
 				1B7F6A332965A15D005500D7 /* MovieStore */,
 				1B7F6A2E29659D4E005500D7 /* HideMovieFromSearchUseCase */,
 				1B7F6A21296588A5005500D7 /* AddFavouriteMovieUseCase */,
@@ -389,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B7F6A2A29659123005500D7 /* AddFavouriteMovieUseCase.swift in Sources */,
+				1B31FCE1296622BB00436703 /* FavouriteMovieLoader.swift in Sources */,
 				1B7F6A352965E476005500D7 /* Equatable+DomainMovieToDTOMovieHelper.swift in Sources */,
 				1B7F6A1D296361CB005500D7 /* APIMovie.swift in Sources */,
 				1B7F6A252965898E005500D7 /* MovieStore.swift in Sources */,
