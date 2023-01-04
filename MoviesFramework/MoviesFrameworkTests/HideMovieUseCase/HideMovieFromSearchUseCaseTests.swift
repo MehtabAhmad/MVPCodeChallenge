@@ -8,10 +8,14 @@
 import XCTest
 import MoviesFramework
 
-class HideMovieFromSearchUseCaseHandler {
+protocol HideMovieFromSearchUseCase {
+    typealias hideMovieResult = Error?
+    func hide(_ movie:DomainMovie, completion:@escaping (hideMovieResult) -> Void)
+}
+
+class HideMovieFromSearchUseCaseHandler: HideMovieFromSearchUseCase {
     
     let store:MovieStore
-    typealias hideMovieResult = Error?
     
     public init(store:MovieStore) {
         self.store = store
