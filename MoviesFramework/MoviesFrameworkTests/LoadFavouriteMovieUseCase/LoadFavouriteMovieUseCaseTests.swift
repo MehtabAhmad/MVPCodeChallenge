@@ -8,7 +8,7 @@
 import XCTest
 import MoviesFramework
 
-class FavouriteMovieLoader {
+class FavouriteMovieLoader:LoadMovieUseCase {
     
     let store:MovieStore
     
