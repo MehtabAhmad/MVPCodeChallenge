@@ -19,7 +19,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
         let items = uniqueMovieItems()
         sut.addFavourite(items.model) { _ in }
-        XCTAssertEqual(store.receivedMessages, [.insert(items.dto)])
+        XCTAssertEqual(store.receivedMessages, [.insertFavourite(items.dto)])
     }
     
     func test_addFavourite_deliversErrorOnInsertionError() {
@@ -27,7 +27,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         
         let insertionError = anyNSError()
         expect(sut, toCompleteWithError: insertionError, when: {
-            store.completeInsertion(with: insertionError)
+            store.completeFavouriteInsertion(with: insertionError)
         })
   
     }
@@ -36,12 +36,12 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
        
         expect(sut, toCompleteWithError: nil, when: {
-            store.completeInsertionSuccessfully()
+            store.completeFavouriteInsertionSuccessfully()
         })
     }
     
     func test_addFavourite_doesNotDeliverInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
-        let store = MovieStoreSpy()
+        let store = FavouriteMoviesStoreSpy()
         var sut:AddFavouriteMovieUseCaseHandler? = AddFavouriteMovieUseCaseHandler(store: store)
         
         var receivedResults = [AddFavouriteMovieUseCaseHandler.addFavouriteResult]()
@@ -50,7 +50,7 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
         }
         
         sut = nil
-        store.completeInsertion(with: anyNSError())
+        store.completeFavouriteInsertion(with: anyNSError())
         
         XCTAssertTrue(receivedResults.isEmpty)
     }
@@ -58,8 +58,8 @@ final class AddFavouriteMovieUseCaseTests: XCTestCase {
     
     // MARK: - Helper
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCase, store:MovieStoreSpy) {
-        let store = MovieStoreSpy()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:AddFavouriteMovieUseCase, store:FavouriteMoviesStoreSpy) {
+        let store = FavouriteMoviesStoreSpy()
         let sut = AddFavouriteMovieUseCaseHandler(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)

@@ -18,7 +18,7 @@ final class LoadHiddenMoviesUseCaseTests: XCTestCase {
     func test_load_requestsRetrieve() {
         let (sut,store) = makeSUT()
         sut.load() { _ in }
-        XCTAssertEqual(store.receivedMessages, [.retrieve])
+        XCTAssertEqual(store.receivedMessages, [.retrieveHidden])
     }
     
     func test_load_deliversErrorOnRetrievalError() {
@@ -26,7 +26,7 @@ final class LoadHiddenMoviesUseCaseTests: XCTestCase {
         
         let retrievalError = anyNSError()
         expect(sut, toCompleteWith: .failure(retrievalError), when: {
-            store.completeRetrival(with: retrievalError)
+            store.completeHiddenRetrival(with: retrievalError)
         })
         
     }
@@ -35,7 +35,7 @@ final class LoadHiddenMoviesUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
         
         expect(sut, toCompleteWith: .success([]), when: {
-            store.completeRetrivalWithEmptyList()
+            store.completeHiddenRetrivalWithEmptyList()
         })
     }
     
@@ -44,12 +44,12 @@ final class LoadHiddenMoviesUseCaseTests: XCTestCase {
         let items = uniqueMovieItemArray()
         
         expect(sut, toCompleteWith: .success(items.model), when: {
-            store.completeRetrival(with: items.dto)
+            store.completeHiddenRetrival(with: items.dto)
         })
     }
     
     func test_load_doesNotDeliverResultWhenSUTInstanceHasBeenDeallocated() {
-        let store = MovieStoreSpy()
+        let store = HiddenMovieStoreSpy()
         var sut:HiddenMoviesLoader? = HiddenMoviesLoader(store: store)
         var receivedResult:LoadMovieResult?
         
@@ -58,7 +58,7 @@ final class LoadHiddenMoviesUseCaseTests: XCTestCase {
         }
         
         sut = nil
-        store.completeRetrivalWithEmptyList()
+        store.completeHiddenRetrivalWithEmptyList()
         
         XCTAssertNil(receivedResult)
     }
@@ -66,8 +66,8 @@ final class LoadHiddenMoviesUseCaseTests: XCTestCase {
 
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:LoadMovieUseCase, store:MovieStoreSpy) {
-        let store = MovieStoreSpy()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:LoadMovieUseCase, store:HiddenMovieStoreSpy) {
+        let store = HiddenMovieStoreSpy()
         let sut = HiddenMoviesLoader(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)

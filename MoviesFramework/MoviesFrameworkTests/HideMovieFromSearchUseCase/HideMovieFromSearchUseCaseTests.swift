@@ -19,7 +19,7 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
         let items = uniqueMovieItems()
         sut.hide(items.model) {_ in}
-        XCTAssertEqual(store.receivedMessages, [.insert(items.dto)])
+        XCTAssertEqual(store.receivedMessages, [.insertHidden(items.dto)])
     }
     
     func test_hide_deliversErrorOnInsertionError() {
@@ -27,7 +27,7 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         
         let insertionError = anyNSError()
         expect(sut, toCompleteWithError: insertionError, when: {
-            store.completeInsertion(with: insertionError)
+            store.completeHiddenInsertion(with: insertionError)
         })
   
     }
@@ -36,12 +36,12 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
        
         expect(sut, toCompleteWithError: nil, when: {
-            store.completeInsertionSuccessfully()
+            store.completeHiddenInsertionSuccessfully()
         })
     }
     
     func test_hide_doesNotDeliverReslutsAfterSUTInstanceHasBeenDeallocated() {
-        let store = MovieStoreSpy()
+        let store = HiddenMovieStoreSpy()
         var sut:HideMovieFromSearchUseCaseHandler? = HideMovieFromSearchUseCaseHandler(store: store)
         
         var receivedResults = [HideMovieFromSearchUseCaseHandler.hideMovieResult]()
@@ -51,7 +51,7 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
         }
         
         sut = nil
-        store.completeInsertion(with: anyNSError())
+        store.completeHiddenInsertion(with: anyNSError())
         
         XCTAssertTrue(receivedResults.isEmpty)
         
@@ -59,8 +59,8 @@ final class HideMovieFromSearchUseCaseTests: XCTestCase {
     
     // MARK: - Helper
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:HideMovieFromSearchUseCase, store:MovieStoreSpy) {
-        let store = MovieStoreSpy()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:HideMovieFromSearchUseCase, store:HiddenMovieStoreSpy) {
+        let store = HiddenMovieStoreSpy()
         let sut = HideMovieFromSearchUseCaseHandler(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)

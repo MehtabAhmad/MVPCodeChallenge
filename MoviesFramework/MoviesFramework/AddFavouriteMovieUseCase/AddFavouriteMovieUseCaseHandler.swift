@@ -9,9 +9,9 @@ import Foundation
 
 public final class AddFavouriteMovieUseCaseHandler: AddFavouriteMovieUseCase {
     
-    let store:MovieStore
+    let store:FavouriteMoviesStore
     
-    public init(store:MovieStore) {
+    public init(store:FavouriteMoviesStore) {
         self.store = store
     }
     

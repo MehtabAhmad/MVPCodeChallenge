@@ -9,9 +9,9 @@ import Foundation
 
 public final class HideMovieFromSearchUseCaseHandler: HideMovieFromSearchUseCase {
     
-    let store:MovieStore
+    let store:HiddenMoviesStore
     
-    public init(store:MovieStore) {
+    public init(store:HiddenMoviesStore) {
         self.store = store
     }
     

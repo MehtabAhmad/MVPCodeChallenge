@@ -19,7 +19,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
     func test_load_requestsRetrieve() {
         let (sut,store) = makeSUT()
         sut.load() { _ in }
-        XCTAssertEqual(store.receivedMessages, [.retrieve])
+        XCTAssertEqual(store.receivedMessages, [.retrieveFavourite])
     }
     
     func test_load_deliversErrorOnRetrievalError() {
@@ -27,7 +27,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         
         let retrievalError = anyNSError()
         expect(sut, toCompleteWith: .failure(retrievalError), when: {
-            store.completeRetrival(with: retrievalError)
+            store.completeFavouriteRetrival(with: retrievalError)
         })
         
     }
@@ -36,7 +36,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
         
         expect(sut, toCompleteWith: .success([]), when: {
-            store.completeRetrivalWithEmptyList()
+            store.completeFavouriteRetrivalWithEmptyList()
         })
     }
     
@@ -45,12 +45,12 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         let items = uniqueMovieItemArray()
         
         expect(sut, toCompleteWith: .success(items.model), when: {
-            store.completeRetrival(with: items.dto)
+            store.completeFavouriteRetrival(with: items.dto)
         })
     }
     
     func test_load_doesNotDeliverResultWhenSUTInstanceHasBeenDeallocated() {
-        let store = MovieStoreSpy()
+        let store = FavouriteMoviesStoreSpy()
         var sut:FavouriteMovieLoader? = FavouriteMovieLoader(store: store)
         var receivedResult:LoadMovieResult?
         
@@ -59,7 +59,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         }
         
         sut = nil
-        store.completeRetrivalWithEmptyList()
+        store.completeFavouriteRetrivalWithEmptyList()
         
         XCTAssertNil(receivedResult)
     }
@@ -67,8 +67,8 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
 
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:LoadMovieUseCase, store:MovieStoreSpy) {
-        let store = MovieStoreSpy()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:LoadMovieUseCase, store:FavouriteMoviesStoreSpy) {
+        let store = FavouriteMoviesStoreSpy()
         let sut = FavouriteMovieLoader(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)

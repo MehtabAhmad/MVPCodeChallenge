@@ -9,9 +9,9 @@ import Foundation
 
 public final class HiddenMoviesLoader:LoadMovieUseCase {
     
-    let store:MovieStore
+    let store:HiddenMoviesStore
     
-    public init(store: MovieStore) {
+    public init(store: HiddenMoviesStore) {
         self.store = store
     }
     
