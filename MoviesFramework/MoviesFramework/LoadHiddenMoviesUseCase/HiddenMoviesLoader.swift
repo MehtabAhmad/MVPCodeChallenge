@@ -16,7 +16,7 @@ public final class HiddenMoviesLoader:LoadMovieUseCase {
     }
     
     public func load(completion:@escaping (LoadMovieResult) -> Void) {
-        store.retrieve() { [weak self] result in
+        store.retrieveHidden() { [weak self] result in
             guard self != nil else {return}
             switch result {
             case .empty:

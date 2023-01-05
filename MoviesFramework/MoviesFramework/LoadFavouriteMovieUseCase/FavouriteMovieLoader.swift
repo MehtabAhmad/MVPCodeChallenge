@@ -16,7 +16,7 @@ public final class FavouriteMovieLoader:LoadMovieUseCase {
     }
     
     public func load(completion:@escaping (LoadMovieResult) -> Void) {
-        store.retrieve() { [weak self] result in
+        store.retrieveFavourite() { [weak self] result in
             guard self != nil else {return}
             switch result {
             case .empty:

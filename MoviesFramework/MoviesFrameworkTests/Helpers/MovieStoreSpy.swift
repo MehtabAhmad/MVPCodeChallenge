@@ -20,12 +20,22 @@ final class MovieStoreSpy: MovieStore {
     var insertionCompletions = [insertionCompletion]()
     var retrievalCompletions = [retrivalCompletion]()
     
-    func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion) {
+    func insertFavourite(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion) {
         receivedMessages.append(.insert(movie))
         insertionCompletions.append(completion)
     }
     
-    func retrieve(completion: @escaping retrivalCompletion) {
+    func retrieveFavourite(completion: @escaping retrivalCompletion) {
+        receivedMessages.append(.retrieve)
+        retrievalCompletions.append(completion)
+    }
+    
+    func insertHidden(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion) {
+        receivedMessages.append(.insert(movie))
+        insertionCompletions.append(completion)
+    }
+    
+    func retrieveHidden(completion: @escaping retrivalCompletion) {
         receivedMessages.append(.retrieve)
         retrievalCompletions.append(completion)
     }

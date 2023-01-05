@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum RetrieveFavouriteMovieResult {
+public enum RetrieveStoreMovieResult {
     case empty
     case found([StoreMovieDTO])
     case failure(Error)
@@ -15,8 +15,10 @@ public enum RetrieveFavouriteMovieResult {
 
 public protocol MovieStore {
     typealias insertionCompletion = (Error?) -> Void
-    typealias retrivalCompletion = (RetrieveFavouriteMovieResult) -> Void
+    typealias retrivalCompletion = (RetrieveStoreMovieResult) -> Void
     
-    func insert(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion)
-    func retrieve(completion:@escaping retrivalCompletion)
+    func insertFavourite(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion)
+    func insertHidden(_ movie:StoreMovieDTO, completion:@escaping insertionCompletion)
+    func retrieveFavourite(completion:@escaping retrivalCompletion)
+    func retrieveHidden(completion:@escaping retrivalCompletion)
 }
