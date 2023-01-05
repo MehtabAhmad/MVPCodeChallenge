@@ -9,14 +9,14 @@ import Foundation
 
 public final class HideMovieFromSearchUseCaseHandler: HideMovieFromSearchUseCase {
     
-    let store:MovieStore
+    let store:HiddenMoviesStore
     
-    public init(store:MovieStore) {
+    public init(store:HiddenMoviesStore) {
         self.store = store
     }
     
     public func hide(_ movie:DomainMovie, completion:@escaping (hideMovieResult) -> Void) {
-        store.insert(movie.toDTOMovie()) { [weak self] error in
+        store.insertHidden(movie.toDTOMovie()) { [weak self] error in
             guard self != nil else {return}
             completion(error)
         }

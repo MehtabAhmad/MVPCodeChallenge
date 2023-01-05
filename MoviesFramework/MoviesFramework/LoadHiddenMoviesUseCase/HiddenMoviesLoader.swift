@@ -1,5 +1,5 @@
 //
-//  FavouriteMovieLoader.swift
+//  HiddenMoviesLoader.swift
 //  MoviesFramework
 //
 //  Created by Mehtab on 04/01/2023.
@@ -7,16 +7,16 @@
 
 import Foundation
 
-public final class FavouriteMovieLoader:LoadMovieUseCase {
+public final class HiddenMoviesLoader:LoadMovieUseCase {
     
-    let store:FavouriteMoviesStore
+    let store:HiddenMoviesStore
     
-    public init(store: FavouriteMoviesStore) {
+    public init(store: HiddenMoviesStore) {
         self.store = store
     }
     
     public func load(completion:@escaping (LoadMovieResult) -> Void) {
-        store.retrieveFavourite() { [weak self] result in
+        store.retrieveHidden() { [weak self] result in
             guard self != nil else {return}
             switch result {
             case .empty:

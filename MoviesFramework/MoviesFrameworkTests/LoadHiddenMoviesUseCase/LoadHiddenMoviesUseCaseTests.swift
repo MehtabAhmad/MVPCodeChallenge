@@ -1,5 +1,5 @@
 //
-//  LoadFavouriteMovieUseCaseTests.swift
+//  LoadHiddenMoviesUseCaseTests.swift
 //  MoviesFrameworkTests
 //
 //  Created by Mehtab on 04/01/2023.
@@ -8,9 +8,8 @@
 import XCTest
 import MoviesFramework
 
+final class LoadHiddenMoviesUseCaseTests: XCTestCase {
 
-final class LoadFavouriteMovieUseCaseTests: XCTestCase {
-    
     func test_init_doesnotMessageStore() {
         let (_,store) = makeSUT()
         XCTAssertTrue(store.receivedMessages.isEmpty)
@@ -19,7 +18,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
     func test_load_requestsRetrieve() {
         let (sut,store) = makeSUT()
         sut.load() { _ in }
-        XCTAssertEqual(store.receivedMessages, [.retrieveFavourite])
+        XCTAssertEqual(store.receivedMessages, [.retrieveHidden])
     }
     
     func test_load_deliversErrorOnRetrievalError() {
@@ -27,7 +26,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         
         let retrievalError = anyNSError()
         expect(sut, toCompleteWith: .failure(retrievalError), when: {
-            store.completeFavouriteRetrival(with: retrievalError)
+            store.completeHiddenRetrival(with: retrievalError)
         })
         
     }
@@ -36,7 +35,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         let (sut,store) = makeSUT()
         
         expect(sut, toCompleteWith: .success([]), when: {
-            store.completeFavouriteRetrivalWithEmptyList()
+            store.completeHiddenRetrivalWithEmptyList()
         })
     }
     
@@ -45,13 +44,13 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         let items = uniqueMovieItemArray()
         
         expect(sut, toCompleteWith: .success(items.model), when: {
-            store.completeFavouriteRetrival(with: items.dto)
+            store.completeHiddenRetrival(with: items.dto)
         })
     }
     
     func test_load_doesNotDeliverResultWhenSUTInstanceHasBeenDeallocated() {
-        let store = FavouriteMoviesStoreSpy()
-        var sut:FavouriteMovieLoader? = FavouriteMovieLoader(store: store)
+        let store = HiddenMovieStoreSpy()
+        var sut:HiddenMoviesLoader? = HiddenMoviesLoader(store: store)
         var receivedResult:LoadMovieResult?
         
         sut?.load() { result in
@@ -59,7 +58,7 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         }
         
         sut = nil
-        store.completeFavouriteRetrivalWithEmptyList()
+        store.completeHiddenRetrivalWithEmptyList()
         
         XCTAssertNil(receivedResult)
     }
@@ -67,9 +66,9 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
 
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:LoadMovieUseCase, store:FavouriteMoviesStoreSpy) {
-        let store = FavouriteMoviesStoreSpy()
-        let sut = FavouriteMovieLoader(store: store)
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut:LoadMovieUseCase, store:HiddenMovieStoreSpy) {
+        let store = HiddenMovieStoreSpy()
+        let sut = HiddenMoviesLoader(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut,store)
@@ -94,4 +93,5 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
         action()
         wait(for: [exp], timeout: 1.0)
     }
+    
 }

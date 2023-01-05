@@ -9,14 +9,14 @@ import Foundation
 
 public final class AddFavouriteMovieUseCaseHandler: AddFavouriteMovieUseCase {
     
-    let store:MovieStore
+    let store:FavouriteMoviesStore
     
-    public init(store:MovieStore) {
+    public init(store:FavouriteMoviesStore) {
         self.store = store
     }
     
     public func addFavourite(_ movie:DomainMovie, completion:@escaping (addFavouriteResult) -> Void) {
-        store.insert(movie.toDTOMovie()) { [weak self] error in
+        store.insertFavourite(movie.toDTOMovie()) { [weak self] error in
             guard self != nil else { return }
             completion(error)
         }
