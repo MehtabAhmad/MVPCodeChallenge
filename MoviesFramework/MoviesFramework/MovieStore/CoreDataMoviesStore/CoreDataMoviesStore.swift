@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 public final class CoreDataMoviesStore: FavouriteMoviesStore {
     
@@ -30,4 +31,22 @@ extension CoreDataMoviesStore:HiddenMoviesStore {
     public func retrieveHidden(completion: @escaping hiddenRetrievalCompletion) {
         
     }
+}
+
+private class ManagedFavouriteMovie: NSManagedObject {
+    @NSManaged var movie: NSOrderedSet
+}
+
+private class ManagedHiddenMovie: NSManagedObject {
+    @NSManaged var movie: NSOrderedSet
+}
+
+private class ManagedFeedImage: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var movieDescription: String
+    @NSManaged var title: String
+    @NSManaged var poster: URL
+    @NSManaged var rating: Float
+    @NSManaged var favourite: ManagedFavouriteMovie
+    @NSManaged var hidden: ManagedHiddenMovie
 }
