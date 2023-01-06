@@ -18,7 +18,8 @@ final class CoreDataFavouriteMoviesStoreTests: XCTestCase {
     // - MARK: Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FavouriteMoviesStore {
-        let sut = CoreDataMoviesStore()
+        let storeBundle = Bundle(for: CoreDataMoviesStore.self)
+        let sut = try! CoreDataMoviesStore(bundle: storeBundle)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
