@@ -53,11 +53,30 @@ extension CoreDataMoviesStore:FavouriteMoviesStore {
 extension CoreDataMoviesStore:HiddenMoviesStore {
     
     public func insertHidden(_ movie: StoreMovieDTO, completion: @escaping hiddenInsertionCompletion) {
-        
+        let context = self.context
+        context.perform {
+            do {
+                let managedHidden = ManagedHiddenMovie(context: context)
+                managedHidden.movie = ManagedHiddenMovie.managedMovie(from: movie, in: context)
+                try context.save()
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
     }
     
     public func retrieveHidden(completion: @escaping hiddenRetrievalCompletion) {
-        completion(.empty)
+        let context = self.context
+        context.perform {
+            do {
+                let hiddens = try ManagedHiddenMovie.find(in: context)
+                guard hiddens.count > 0 else { return completion(.empty) }
+                completion(.found( hiddens.map { $0.DTOFavourite }))
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
 }
 

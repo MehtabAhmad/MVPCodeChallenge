@@ -14,6 +14,19 @@ final class CoreDataHiddenMovieStoreTests: XCTestCase {
         expect(makeSUT(), toRetrieve: .empty)
     }
     
+    func test_retrieveHidden_deliversHiddenMoviesOnNonEmptyHiddens() {
+
+        let sut = makeSUT()
+        let item1 = uniqueMovieItems().dto
+        let item2 = uniqueMovieItems().dto
+        let item3 = uniqueMovieItems().dto
+
+        insert(item1, to: sut)
+        insert(item2, to: sut)
+        insert(item3, to: sut)
+
+        expect(sut, toRetrieve: .found([item1,item2,item3]))
+    }
     
     // - MARK: Helpers
     
@@ -46,4 +59,15 @@ final class CoreDataHiddenMovieStoreTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    @discardableResult
+    private func insert(_ movie: StoreMovieDTO, to sut: HiddenMoviesStore) -> Error? {
+        let exp = expectation(description: "Wait for cache insertion")
+        var insertionError: Error?
+        sut.insertHidden(movie) { receivedInsertionError in
+            insertionError = receivedInsertionError
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+        return insertionError
+    }
 }
