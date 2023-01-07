@@ -75,27 +75,6 @@ extension CoreDataMoviesStore:HiddenMoviesStore {
     }
 }
 
-@objc(ManagedFavouriteMovie)
-private class ManagedFavouriteMovie: NSManagedObject {
-    @NSManaged var movie: ManagedMovie
-}
-
-@objc(ManagedHiddenMovie)
-private class ManagedHiddenMovie: NSManagedObject {
-    @NSManaged var movie: ManagedMovie
-}
-
-@objc(ManagedMovie)
-private class ManagedMovie: NSManagedObject {
-    @NSManaged var id: Int
-    @NSManaged var movieDescription: String
-    @NSManaged var title: String
-    @NSManaged var poster: URL
-    @NSManaged var rating: Float
-    @NSManaged var favourite: ManagedFavouriteMovie
-    @NSManaged var hidden: ManagedHiddenMovie
-}
-
 private extension NSPersistentContainer {
     enum LoadingError: Swift.Error {
         case modelNotFound

@@ -28,6 +28,9 @@
 		1B51E16F29626AFF004A6D4C /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16E29626AFF004A6D4C /* URLSessionHTTPClient.swift */; };
 		1B51E177296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E176296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.swift */; };
 		1B51E178296311F1004A6D4C /* MoviesFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B51E1322961DF95004A6D4C /* MoviesFramework.framework */; };
+		1B72A9812969BDAE00A42529 /* ManagedFavouriteMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */; };
+		1B72A9832969BDBA00A42529 /* ManagedHiddenMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9822969BDBA00A42529 /* ManagedHiddenMovie.swift */; };
+		1B72A9852969BDCD00A42529 /* ManagedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9842969BDCD00A42529 /* ManagedMovie.swift */; };
 		1B7F6A19296328A1005500D7 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E16C29625A98004A6D4C /* XCTestCase+MemoryLeakTracking.swift */; };
 		1B7F6A1D296361CB005500D7 /* APIMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A1C296361CB005500D7 /* APIMovie.swift */; };
 		1B7F6A202964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7F6A1F2964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift */; };
@@ -83,6 +86,9 @@
 		1B51E16E29626AFF004A6D4C /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		1B51E174296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesFrameworkAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B51E176296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesFrameworkAPIEndToEndTests.swift; sourceTree = "<group>"; };
+		1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedFavouriteMovie.swift; sourceTree = "<group>"; };
+		1B72A9822969BDBA00A42529 /* ManagedHiddenMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedHiddenMovie.swift; sourceTree = "<group>"; };
+		1B72A9842969BDCD00A42529 /* ManagedMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedMovie.swift; sourceTree = "<group>"; };
 		1B7F6A1C296361CB005500D7 /* APIMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMovie.swift; sourceTree = "<group>"; };
 		1B7F6A1F2964EDF4005500D7 /* AddFavouriteMovieUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavouriteMovieUseCaseTests.swift; sourceTree = "<group>"; };
 		1B7F6A2229658946005500D7 /* AddFavouriteMovieUseCaseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavouriteMovieUseCaseHandler.swift; sourceTree = "<group>"; };
@@ -161,6 +167,9 @@
 			children = (
 				1B31FCF92967954900436703 /* MovieStore.xcdatamodeld */,
 				1B31FCF729678D3300436703 /* CoreDataMoviesStore.swift */,
+				1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */,
+				1B72A9822969BDBA00A42529 /* ManagedHiddenMovie.swift */,
+				1B72A9842969BDCD00A42529 /* ManagedMovie.swift */,
 			);
 			path = CoreDataMoviesStore;
 			sourceTree = "<group>";
@@ -465,12 +474,15 @@
 				1B7F6A3029659D74005500D7 /* HideMovieFromSearchUseCaseHandler.swift in Sources */,
 				1B51E1632961F74A004A6D4C /* RemoteMovieLoader.swift in Sources */,
 				1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */,
+				1B72A9832969BDBA00A42529 /* ManagedHiddenMovie.swift in Sources */,
 				1B51E16529623FD7004A6D4C /* HttpClient.swift in Sources */,
 				1B51E16729624066004A6D4C /* MovieItemsMapper.swift in Sources */,
 				1B7F6A3229659DD4005500D7 /* HideMovieFromSearchUseCase.swift in Sources */,
 				1B31FCF829678D3300436703 /* CoreDataMoviesStore.swift in Sources */,
 				1B7F6A2329658946005500D7 /* AddFavouriteMovieUseCaseHandler.swift in Sources */,
 				1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */,
+				1B72A9812969BDAE00A42529 /* ManagedFavouriteMovie.swift in Sources */,
+				1B72A9852969BDCD00A42529 /* ManagedMovie.swift in Sources */,
 				1B31FCFB2967954900436703 /* MovieStore.xcdatamodeld in Sources */,
 				1B51E16F29626AFF004A6D4C /* URLSessionHTTPClient.swift in Sources */,
 				1B31FCF22967804C00436703 /* HiddenMoviesStore.swift in Sources */,
