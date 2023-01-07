@@ -11,7 +11,11 @@ import CoreData
 @objc(ManagedFavouriteMovie)
 class ManagedFavouriteMovie: NSManagedObject {
     @NSManaged var movie: ManagedMovie
-    
+}
+ 
+
+
+extension ManagedFavouriteMovie {
     var DTOFavourite: StoreMovieDTO {
         return StoreMovieDTO(id: movie.id, title: movie.title, description: movie.movieDescription, poster: movie.poster, rating: movie.rating)
     }
