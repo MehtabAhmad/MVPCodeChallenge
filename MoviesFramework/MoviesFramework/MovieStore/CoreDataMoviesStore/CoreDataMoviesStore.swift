@@ -17,13 +17,17 @@ public final class CoreDataMoviesStore {
         container = try NSPersistentContainer.load(modelName: "MovieStore", url: storeURL, in: bundle)
         context = container.newBackgroundContext()
     }
+    
+    private func perform(_ action: @escaping (NSManagedObjectContext) -> Void) {
+            let context = self.context
+            context.perform { action(context) }
+        }
 }
 
 extension CoreDataMoviesStore:FavouriteMoviesStore {
     
     public func insertFavourite(_ movie: StoreMovieDTO, completion: @escaping favouriteInsertionCompletion) {
-        let context = self.context
-        context.perform {
+        perform { context in
             do {
                 let managedFavourite = ManagedFavouriteMovie(context: context)
                 managedFavourite.movie = ManagedFavouriteMovie.managedMovie(from: movie, in: context)
@@ -36,8 +40,7 @@ extension CoreDataMoviesStore:FavouriteMoviesStore {
     }
     
     public func retrieveFavourite(completion: @escaping favouriteRetrievalCompletion) {
-        let context = self.context
-        context.perform {
+        perform { context in
             do {
                 let favourites = try ManagedFavouriteMovie.find(in: context)
                 guard favourites.count > 0 else { return completion(.empty) }
@@ -53,8 +56,7 @@ extension CoreDataMoviesStore:FavouriteMoviesStore {
 extension CoreDataMoviesStore:HiddenMoviesStore {
     
     public func insertHidden(_ movie: StoreMovieDTO, completion: @escaping hiddenInsertionCompletion) {
-        let context = self.context
-        context.perform {
+        perform { context in
             do {
                 let managedHidden = ManagedHiddenMovie(context: context)
                 managedHidden.movie = ManagedHiddenMovie.managedMovie(from: movie, in: context)
@@ -67,8 +69,7 @@ extension CoreDataMoviesStore:HiddenMoviesStore {
     }
     
     public func retrieveHidden(completion: @escaping hiddenRetrievalCompletion) {
-        let context = self.context
-        context.perform {
+        perform { context in
             do {
                 let hiddens = try ManagedHiddenMovie.find(in: context)
                 guard hiddens.count > 0 else { return completion(.empty) }
