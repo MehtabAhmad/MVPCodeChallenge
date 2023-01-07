@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ManagedFavouriteMovie" representedClassName="ManagedFavouriteMovie" syncable="YES">
-        <relationship name="movie" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ManagedMovie" inverseName="favourite" inverseEntity="ManagedMovie"/>
+        <relationship name="movie" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ManagedMovie" inverseName="favourite" inverseEntity="ManagedMovie"/>
     </entity>
     <entity name="ManagedHiddenMovie" representedClassName="ManagedHiddenMovie" syncable="YES">
         <relationship name="movie" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ManagedMovie" inverseName="hidden" inverseEntity="ManagedMovie"/>
     </entity>
     <entity name="ManagedMovie" representedClassName="ManagedMovie" syncable="YES">
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="movieDescription" attributeType="String"/>
         <attribute name="poster" attributeType="URI"/>
         <attribute name="rating" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
