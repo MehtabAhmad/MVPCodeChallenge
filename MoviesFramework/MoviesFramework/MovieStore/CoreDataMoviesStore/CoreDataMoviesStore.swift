@@ -26,13 +26,7 @@ extension CoreDataMoviesStore:FavouriteMoviesStore {
         context.perform {
             do {
                 let managedFavourite = ManagedFavouriteMovie(context: context)
-                let managedMovie = ManagedMovie(context: context)
-                managedMovie.id = movie.id
-                managedMovie.title = movie.title
-                managedMovie.movieDescription = movie.description
-                managedMovie.poster = movie.poster
-                managedMovie.rating = movie.rating
-                managedFavourite.movie = managedMovie
+                managedFavourite.movie = ManagedFavouriteMovie.managedMovie(from: movie, in: context)
                 try context.save()
                 completion(nil)
             } catch {
@@ -49,13 +43,7 @@ extension CoreDataMoviesStore:FavouriteMoviesStore {
                 request.returnsObjectsAsFaults = false
                 let favourites = try context.fetch(request)
                 guard favourites.count > 0 else { return completion(.empty) }
-                
-                completion(.found(
-                    favourites.map {
-                        let movie = $0.movie
-                        return StoreMovieDTO(id: movie.id, title: movie.title, description: movie.movieDescription, poster: movie.poster, rating: movie.rating)
-                    }))
-                
+                completion(.found( favourites.map { $0.DTOFavourite }))
             } catch {
                 completion(.failure(error))
             }
