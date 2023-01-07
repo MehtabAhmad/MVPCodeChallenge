@@ -22,11 +22,44 @@ public final class CoreDataMoviesStore {
 extension CoreDataMoviesStore:FavouriteMoviesStore {
     
     public func insertFavourite(_ movie: StoreMovieDTO, completion: @escaping favouriteInsertionCompletion) {
-        
+        let context = self.context
+        context.perform {
+            do {
+                let managedFavourite = ManagedFavouriteMovie(context: context)
+                let managedMovie = ManagedMovie(context: context)
+                managedMovie.id = movie.id
+                managedMovie.title = movie.title
+                managedMovie.movieDescription = movie.description
+                managedMovie.poster = movie.poster
+                managedMovie.rating = movie.rating
+                managedFavourite.movie = managedMovie
+                try context.save()
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
     }
     
     public func retrieveFavourite(completion: @escaping favouriteRetrievalCompletion) {
-        completion(.empty)
+        let context = self.context
+        context.perform {
+            do {
+                let request = NSFetchRequest<ManagedFavouriteMovie>(entityName: ManagedFavouriteMovie.entity().name!)
+                request.returnsObjectsAsFaults = false
+                let favourites = try context.fetch(request)
+                guard favourites.count > 0 else { return completion(.empty) }
+                
+                completion(.found(
+                    favourites.map {
+                        let movie = $0.movie
+                        return StoreMovieDTO(id: movie.id, title: movie.title, description: movie.movieDescription, poster: movie.poster, rating: movie.rating)
+                    }))
+                
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
 }
 
