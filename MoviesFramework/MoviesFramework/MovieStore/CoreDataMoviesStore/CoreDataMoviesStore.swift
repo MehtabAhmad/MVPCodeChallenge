@@ -57,7 +57,7 @@ extension CoreDataMoviesStore:HiddenMoviesStore {
     }
     
     public func retrieveHidden(completion: @escaping hiddenRetrievalCompletion) {
-        
+        completion(.empty)
     }
 }
 
