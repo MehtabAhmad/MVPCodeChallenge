@@ -34,6 +34,41 @@ final class CoreDataHiddenMovieStoreTests: XCTestCase {
         let error = insert(item1, to: sut)
         XCTAssertNil(error)
     }
+
+    func test_storeOperationsRunSerially() {
+        let sut = makeSUT()
+
+        var completedOperationsInOrder = [XCTestExpectation]()
+        let op1 = expectation(description: "Operation 1")
+
+        sut.insertHidden(uniqueMovieItems().dto) { _ in
+            completedOperationsInOrder.append(op1)
+            op1.fulfill()
+        }
+
+        let op2 = expectation(description: "Operation 2")
+        sut.retrieveHidden() { _ in
+            completedOperationsInOrder.append(op2)
+            op2.fulfill()
+        }
+
+        let op3 = expectation(description: "Operation 2")
+        sut.retrieveHidden() { _ in
+            completedOperationsInOrder.append(op3)
+            op3.fulfill()
+        }
+
+        let op4 = expectation(description: "Operation 1")
+
+        sut.insertHidden(uniqueMovieItems().dto) { _ in
+            completedOperationsInOrder.append(op4)
+            op4.fulfill()
+        }
+
+        waitForExpectations(timeout: 5.0)
+
+        XCTAssertEqual(completedOperationsInOrder, [op1, op2, op3, op4], "Expected side-effects to run serially but operations finished in the wrong order")
+    }
     
     // - MARK: Helpers
     
