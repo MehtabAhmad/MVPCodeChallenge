@@ -29,6 +29,7 @@
 		1B51E177296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E176296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.swift */; };
 		1B51E178296311F1004A6D4C /* MoviesFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B51E1322961DF95004A6D4C /* MoviesFramework.framework */; };
 		1B5EDF5C2969CFAD00560AC2 /* CoreDataHiddenMovieStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5EDF5B2969CFAD00560AC2 /* CoreDataHiddenMovieStoreTests.swift */; };
+		1B5EDF602969E42000560AC2 /* CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5EDF5F2969E42000560AC2 /* CoreDataHelpers.swift */; };
 		1B72A9812969BDAE00A42529 /* ManagedFavouriteMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */; };
 		1B72A9832969BDBA00A42529 /* ManagedHiddenMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9822969BDBA00A42529 /* ManagedHiddenMovie.swift */; };
 		1B72A9852969BDCD00A42529 /* ManagedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9842969BDCD00A42529 /* ManagedMovie.swift */; };
@@ -88,6 +89,7 @@
 		1B51E174296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesFrameworkAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B51E176296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesFrameworkAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		1B5EDF5B2969CFAD00560AC2 /* CoreDataHiddenMovieStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHiddenMovieStoreTests.swift; sourceTree = "<group>"; };
+		1B5EDF5F2969E42000560AC2 /* CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelpers.swift; sourceTree = "<group>"; };
 		1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedFavouriteMovie.swift; sourceTree = "<group>"; };
 		1B72A9822969BDBA00A42529 /* ManagedHiddenMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedHiddenMovie.swift; sourceTree = "<group>"; };
 		1B72A9842969BDCD00A42529 /* ManagedMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedMovie.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */,
 				1B72A9842969BDCD00A42529 /* ManagedMovie.swift */,
 				1B31FCF92967954900436703 /* MovieStore.xcdatamodeld */,
+				1B5EDF5F2969E42000560AC2 /* CoreDataHelpers.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				1B7F6A3029659D74005500D7 /* HideMovieFromSearchUseCaseHandler.swift in Sources */,
 				1B51E1632961F74A004A6D4C /* RemoteMovieLoader.swift in Sources */,
 				1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */,
+				1B5EDF602969E42000560AC2 /* CoreDataHelpers.swift in Sources */,
 				1B72A9832969BDBA00A42529 /* ManagedHiddenMovie.swift in Sources */,
 				1B51E16529623FD7004A6D4C /* HttpClient.swift in Sources */,
 				1B51E16729624066004A6D4C /* MovieItemsMapper.swift in Sources */,
