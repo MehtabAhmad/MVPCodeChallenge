@@ -39,9 +39,7 @@ extension CoreDataMoviesStore:FavouriteMoviesStore {
         let context = self.context
         context.perform {
             do {
-                let request = NSFetchRequest<ManagedFavouriteMovie>(entityName: ManagedFavouriteMovie.entity().name!)
-                request.returnsObjectsAsFaults = false
-                let favourites = try context.fetch(request)
+                let favourites = try ManagedFavouriteMovie.find(in: context)
                 guard favourites.count > 0 else { return completion(.empty) }
                 completion(.found( favourites.map { $0.DTOFavourite }))
             } catch {

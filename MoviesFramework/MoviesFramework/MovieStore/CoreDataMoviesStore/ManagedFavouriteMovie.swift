@@ -25,4 +25,10 @@ class ManagedFavouriteMovie: NSManagedObject {
         managedMovie.rating = movie.rating
         return managedMovie
     }
+    
+    static func find(in context: NSManagedObjectContext) throws -> [ManagedFavouriteMovie] {
+        let request = NSFetchRequest<ManagedFavouriteMovie>(entityName: entity().name!)
+        request.returnsObjectsAsFaults = false
+        return try context.fetch(request)
+    }
 }
