@@ -199,7 +199,7 @@
 				1B31FCE5296637F100436703 /* LoadHiddenMoviesUseCase */,
 				1B7F6A2E29659D4E005500D7 /* HideMovieFromSearchUseCase */,
 				1B7F6A21296588A5005500D7 /* AddFavouriteMovieUseCase */,
-				1B7F6A332965A15D005500D7 /* MovieStore */,
+				1B7F6A332965A15D005500D7 /* Persistence */,
 				1B51E1612961F6FB004A6D4C /* MovieAPI */,
 			);
 			path = MoviesFramework;
@@ -342,7 +342,7 @@
 			path = HideMovieFromSearchUseCase;
 			sourceTree = "<group>";
 		};
-		1B7F6A332965A15D005500D7 /* MovieStore */ = {
+		1B7F6A332965A15D005500D7 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
 				1B5EDF5D2969E1FA00560AC2 /* Infrastructure */,
@@ -350,7 +350,7 @@
 				1B31FCEB29675E3100436703 /* StoreMovieDTO.swift */,
 				1B31FCF12967804C00436703 /* HiddenMoviesStore.swift */,
 			);
-			path = MovieStore;
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 		1B7F6A3A2965F84A005500D7 /* LoadFavouriteMovieUseCase */ = {
