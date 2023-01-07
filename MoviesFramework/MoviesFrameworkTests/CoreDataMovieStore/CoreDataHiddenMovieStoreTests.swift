@@ -27,6 +27,13 @@ final class CoreDataHiddenMovieStoreTests: XCTestCase {
 
         expect(sut, toRetrieve: .found([item1,item2,item3]))
     }
+    func test_insertHidden_shouldInsertSuccessfully() {
+
+        let sut = makeSUT()
+        let item1 = uniqueMovieItems().dto
+        let error = insert(item1, to: sut)
+        XCTAssertNil(error)
+    }
     
     // - MARK: Helpers
     
