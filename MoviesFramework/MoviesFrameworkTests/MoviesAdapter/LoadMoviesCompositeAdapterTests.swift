@@ -14,13 +14,15 @@ class LoadMoviesCompositeAdapter:LoadMovieUseCase {
     let favouriteLoader:LoadMovieUseCase
     let hiddenLoader:LoadMovieUseCase
     
+    typealias Result = MoviesFramework.LoadMovieResult
+    
     init(remoteLoader:LoadMovieUseCase, favouriteLoader:LoadMovieUseCase, hiddenLoader:LoadMovieUseCase) {
         self.remoteLoader = remoteLoader
         self.favouriteLoader = favouriteLoader
         self.hiddenLoader = hiddenLoader
     }
     
-    func load(completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
+    func load(completion: @escaping (Result) -> Void) {
         remoteLoader.load() { [weak self] remoteResult in
             guard let self = self else { return }
             switch remoteResult {
@@ -32,7 +34,7 @@ class LoadMoviesCompositeAdapter:LoadMovieUseCase {
         }
     }
     
-    private func filter(_ remoteMovies:[DomainMovie], completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
+    private func filter(_ remoteMovies:[DomainMovie], completion: @escaping (Result) -> Void) {
         hiddenLoader.load() { [weak self] hiddenResult in
             guard let self = self else { return }
             switch hiddenResult {
