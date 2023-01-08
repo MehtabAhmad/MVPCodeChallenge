@@ -124,6 +124,30 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    func test_load_deliversRemoteMoviesOnMissmatchingRemoteAndHiddenMovies() {
+        
+        let remoteMovies = uniqueMovieItemArray().model
+        let hiddenMovies = uniqueMovieItemArray().model
+        let favouriteMovies = [DomainMovie]()
+        
+        let remoteLoader = LoaderStub(result: .success(remoteMovies))
+        let favouriteLoader = LoaderStub(result: .success(favouriteMovies))
+        let hiddenLoader = LoaderStub(result: .success(hiddenMovies))
+
+        let sut = LoadMoviesCompositeAdapter(remoteLoader: remoteLoader, favouriteLoader: favouriteLoader, hiddenLoader: hiddenLoader)
+        let exp = expectation(description: "wait for load completion")
+        sut.load() { result in
+            switch result {
+            case let .success(receivedMovies):
+                XCTAssertEqual(receivedMovies, remoteMovies)
+            default:
+                XCTFail("Expected successfull movies result, got \(result) instead")
+            }
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 1.0)
+    }
     
     private class LoaderStub:LoadMovieUseCase {
         private let result:MoviesFramework.LoadMovieResult
