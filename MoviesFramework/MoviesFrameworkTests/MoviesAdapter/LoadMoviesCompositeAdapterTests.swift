@@ -83,18 +83,7 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         
         let sut = makeSUT(remoteResult: .success(remoteMovies), favouriteResult: .success([]), hiddenResult: .success([]))
         
-        let exp = expectation(description: "wait for load completion")
-        sut.load() { result in
-            switch result {
-            case let .success(receivedMovies):
-                XCTAssertEqual(receivedMovies, remoteMovies)
-            default:
-                XCTFail("Expected successfull movies result, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success(remoteMovies))
     }
     
     func test_load_excludesHiddenFromRemoteMoviesWhenHiddenAdded() {
@@ -108,36 +97,14 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         
         let sut = makeSUT(remoteResult: .success([item1, item2, item3, item4]), favouriteResult: .success([]), hiddenResult: .success([item1,item4]))
         
-        let exp = expectation(description: "wait for load completion")
-        sut.load() { result in
-            switch result {
-            case let .success(receivedMovies):
-                XCTAssertEqual(receivedMovies, filteredMovies)
-            default:
-                XCTFail("Expected successfull movies result, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success(filteredMovies))
     }
     
     func test_load_deliversEmptyOnEmptyRemoteResultOnNonEmptyHiddenMoviesA() {
         
         let sut = makeSUT(remoteResult: .success([]), favouriteResult: .success([]), hiddenResult: .success(uniqueMovieItemArray().model))
         
-        let exp = expectation(description: "wait for load completion")
-        sut.load() { result in
-            switch result {
-            case let .success(receivedMovies):
-                XCTAssertEqual(receivedMovies, [])
-            default:
-                XCTFail("Expected successfull movies result, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success([]))
     }
     
     func test_load_doesnotExcludeRemoteMoviesOnMissmatchingRemoteAndHiddenMovies() {
@@ -146,18 +113,7 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         
         let sut = makeSUT(remoteResult: .success(remoteMovies), favouriteResult: .success([]), hiddenResult: .success(uniqueMovieItemArray().model))
         
-        let exp = expectation(description: "wait for load completion")
-        sut.load() { result in
-            switch result {
-            case let .success(receivedMovies):
-                XCTAssertEqual(receivedMovies, remoteMovies)
-            default:
-                XCTFail("Expected successfull movies result, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success(remoteMovies))
     }
     
     func test_load_deliversErrorOnRemoteFailure() {
@@ -166,18 +122,7 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         
         let sut = makeSUT(remoteResult: .failure(remoteError), favouriteResult: .success([]), hiddenResult: .success([]))
         
-        let exp = expectation(description: "wait for load completion")
-        sut.load() { result in
-            switch result {
-            case let .failure(error):
-                XCTAssertEqual(error as NSError?, remoteError)
-            default:
-                XCTFail("Expected failure result, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .failure(remoteError))
     }
     
     func test_load_deliversRemoteAsFavouritesWhenMatchingFavouritsExists() {
@@ -191,18 +136,7 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         
         let expectedMovies = [item1.model,item2.favourite,item3.model,item4.favourite]
         
-        let exp = expectation(description: "wait for load completion")
-        sut.load() { result in
-            switch result {
-            case let .success(receivedMovies):
-                XCTAssertEqual(receivedMovies, expectedMovies)
-            default:
-                XCTFail("Expected successfull movies result, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success(expectedMovies))
     }
     
     func test_load_deliversNoRemoteAsFavouriteWhenNoMatchingFavouritExists() {
@@ -218,18 +152,7 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         
         let sut = makeSUT(remoteResult:.success(remoteMovies), favouriteResult: .success(favouriteMovies), hiddenResult: .success(uniqueMovieItemArray().model))
                 
-        let exp = expectation(description: "wait for load completion")
-        sut.load() { result in
-            switch result {
-            case let .success(receivedMovies):
-                XCTAssertEqual(receivedMovies, remoteMovies)
-            default:
-                XCTFail("Expected successfull movies result, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success(remoteMovies))
     }
     
     // MARK: - Helpers
@@ -246,6 +169,25 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         trackForMemoryLeaks(hiddenLoader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
+    }
+    
+    private func expect(_ sut:LoadMovieUseCase, toCompleteWith expectedResult:LoadMoviesCompositeAdapter.Result, file: StaticString = #filePath, line: UInt = #line) {
+        
+        let exp = expectation(description: "wait for load completion")
+        sut.load() { receivedResult in
+            switch (receivedResult,expectedResult) {
+            case let (.success(receivedMovies), .success(expectedMovies)):
+                XCTAssertEqual(receivedMovies, expectedMovies)
+            case let (.failure(receivedError), .failure(expectedError)):
+                XCTAssertEqual(receivedError as NSError, expectedError as NSError)
+            default:
+                XCTFail("Expected \(expectedResult), got \(receivedResult) instead")
+            }
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+        
     }
     
     private class LoaderStub:LoadMovieUseCase {
