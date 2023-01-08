@@ -204,6 +204,31 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         
         wait(for: [exp], timeout: 1.0)
     }
+    
+    func test_load_deliversNoRemoteAsFavouriteWhenNoMatchingFavouritExists() {
+        
+        let movie1 = uniqueMovieItem()
+        let movie2 = uniqueMovieItem()
+        let movie3 = uniqueMovieItem()
+        let movie4 = uniqueMovieItem()
+        let movie5 = uniqueMovieItem()
+        
+        let remoteMovies = [movie1,movie2,movie3]
+        let favouriteMovies = [movie4,movie5]
+        
+        let sut = makeSUT(remoteResult:.success(remoteMovies), favouriteResult: .success(favouriteMovies), hiddenResult: .success(uniqueMovieItemArray().model))
+                
+        let exp = expectation(description: "wait for load completion")
+        sut.load() { result in
+            switch result {
+            case let .success(receivedMovies):
+                XCTAssertEqual(receivedMovies, remoteMovies)
+            default:
+                XCTFail("Expected successfull movies result, got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
         wait(for: [exp], timeout: 1.0)
     }
     
