@@ -13,12 +13,14 @@ public struct DomainMovie: Equatable {
     public let description:String
     public let poster:URL
     public let rating:Float
+    public var isFavourite:Bool
     
-    public init(id: Int, title: String, description: String, poster: URL, rating: Float) {
+    public init(id: Int, title: String, description: String, poster: URL, rating: Float, isFavourite:Bool = false) {
         self.id = id
         self.title = title
         self.description = description
         self.poster = poster
         self.rating = rating
+        self.isFavourite = isFavourite
     }
 }
