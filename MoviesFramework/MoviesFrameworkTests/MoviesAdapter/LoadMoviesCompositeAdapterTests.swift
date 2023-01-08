@@ -21,7 +21,21 @@ class LoadMoviesCompositeAdapter:LoadMovieUseCase {
     }
     
     func load(completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
-        remoteLoader.load(completion: completion)
+        remoteLoader.load() { [unowned self] remoteResult in
+            switch remoteResult {
+            case let .success(remoteMovies):
+                self.hiddenLoader.load() { hiddenResult in
+                    switch hiddenResult {
+                    case let .success(hiddenMovies) where hiddenMovies.count > 0:
+                        let filtered = Array(Set(remoteMovies).subtracting(Set(hiddenMovies)))
+                        completion(.success(filtered))
+                    default:
+                        completion(.success(remoteMovies))
+                    }
+                }
+            case .failure:break
+            }
+        }
     }
     
 }
@@ -52,6 +66,38 @@ final class LoadMoviesCompositeAdapterTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    func test_load_excludesHiddenFromRemoteMoviesWhenHiddenAdded() {
+        
+        let item1 = uniqueMovieItems()
+        let item2 = uniqueMovieItems()
+        let item3 = uniqueMovieItems()
+        let item4 = uniqueMovieItems()
+        
+        let remoteMovies = [item1.model, item2.model, item3.model,item4.model]
+        
+        let hiddenMovies = [item1.model,item4.model]
+        let favouriteMovies = [DomainMovie]()
+        
+        let filteredMovies = [item2.model, item3.model]
+
+        let remoteLoader = LoaderStub(result: .success(remoteMovies))
+        let favouriteLoader = LoaderStub(result: .success(favouriteMovies))
+        let hiddenLoader = LoaderStub(result: .success(hiddenMovies))
+
+        let sut = LoadMoviesCompositeAdapter(remoteLoader: remoteLoader, favouriteLoader: favouriteLoader, hiddenLoader: hiddenLoader)
+        let exp = expectation(description: "wait for load completion")
+        sut.load() { result in
+            switch result {
+            case let .success(receivedMovies):
+                XCTAssertEqual(receivedMovies, filteredMovies)
+            default:
+                XCTFail("Expected successfull movies result, got \(result) instead")
+            }
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 1.0)
+    }
     
     
     private class LoaderStub:LoadMovieUseCase {

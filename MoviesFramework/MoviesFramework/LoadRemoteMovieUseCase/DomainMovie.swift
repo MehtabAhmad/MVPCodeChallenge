@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DomainMovie: Equatable {
+public struct DomainMovie: Hashable {
     public let id:Int
     public let title:String
     public let description:String

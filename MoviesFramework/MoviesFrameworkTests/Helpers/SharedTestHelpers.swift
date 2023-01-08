@@ -25,16 +25,23 @@ func uniqueMovieItem() -> DomainMovie {
         rating: 3.5)
 }
 
-func uniqueMovieItems() -> (model: DomainMovie, dto: StoreMovieDTO) {
-    let model = uniqueMovieItem()
+func uniqueMovieItems() -> (model: DomainMovie, dto: StoreMovieDTO, favourite:DomainMovie) {
+    var model = uniqueMovieItem()
     let dto = StoreMovieDTO(
         id: model.id,
         title: model.title,
         description: model.description,
         poster: model.poster,
         rating: model.rating)
-    
-    return (model, dto)
+    let favourite = DomainMovie(
+        id: model.id,
+        title: model.title,
+        description: model.description,
+        poster: model.poster,
+        rating: model.rating,
+        isFavourite: true)
+        
+    return (model, dto, favourite)
 }
 
 func uniqueMovieItemArray() -> (model: [DomainMovie], dto: [StoreMovieDTO]) {
