@@ -26,7 +26,7 @@ func uniqueMovieItem() -> DomainMovie {
 }
 
 func uniqueMovieItems() -> (model: DomainMovie, dto: StoreMovieDTO, favourite:DomainMovie) {
-    var model = uniqueMovieItem()
+    let model = uniqueMovieItem()
     let dto = StoreMovieDTO(
         id: model.id,
         title: model.title,
