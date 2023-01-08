@@ -21,23 +21,32 @@ class LoadMoviesCompositeAdapter:LoadMovieUseCase {
     }
     
     func load(completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
-        remoteLoader.load() { [unowned self] remoteResult in
+        remoteLoader.load() { [weak self] remoteResult in
+            guard let self = self else { return }
             switch remoteResult {
             case let .success(remoteMovies):
-                self.hiddenLoader.load() { hiddenResult in
-                    switch hiddenResult {
-                    case let .success(hiddenMovies) where hiddenMovies.count > 0:
-                        let hiddenSet = Set(hiddenMovies)
-                        let filtered = remoteMovies.filter { !hiddenSet.contains($0) }
-                        completion(.success(filtered))
-                    default:
-                        completion(.success(remoteMovies))
-                    }
-                }
+                self.filter(remoteMovies, completion: completion)
             case .failure:
                 completion(remoteResult)
             }
         }
+    }
+    
+    private func filter(_ remoteMovies:[DomainMovie], completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
+        hiddenLoader.load() { [weak self] hiddenResult in
+            guard let self = self else { return }
+            switch hiddenResult {
+            case let .success(hiddenMovies) where hiddenMovies.count > 0:
+                completion(.success(self.remove(hiddenMovies, from: remoteMovies)))
+            default:
+                completion(.success(remoteMovies))
+            }
+        }
+    }
+    
+    private func remove(_ hiddenMovies:[DomainMovie], from remoteMovies:[DomainMovie]) -> [DomainMovie] {
+        let hiddenSet = Set(hiddenMovies)
+        return remoteMovies.filter { !hiddenSet.contains($0) }
     }
 }
 
