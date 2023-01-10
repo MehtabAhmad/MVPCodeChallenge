@@ -105,8 +105,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let client = HTTPClientSpy()
-        let url = anyURL()
-        var sut: RemoteMovieLoader? = RemoteMovieLoader(client: client, url: url)
+        var sut: RemoteMovieLoader? = RemoteMovieLoader(client: client, url: {anyURL()})
         
         var capturedResults = [RemoteMovieLoader.Result]()
         sut?.load { capturedResults.append($0) }
@@ -121,7 +120,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
     
     private func makeSUT(url: URL = URL(string: "https://a-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteMovieLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
-        let sut = RemoteMovieLoader(client: client, url: url)
+        let sut = RemoteMovieLoader(client: client, url: {anyURL()})
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(client, file: file, line: line)
         return (sut, client)
