@@ -7,9 +7,11 @@
 
 import Foundation
 
+public typealias Url = () -> URL
+
 final public class RemoteMovieLoader: LoadMovieUseCase {
     private let client:HTTPClient
-    private let url:URL
+    private let url:Url
     
     public enum Error: Swift.Error {
         case connectivity
@@ -18,13 +20,13 @@ final public class RemoteMovieLoader: LoadMovieUseCase {
     
     public typealias Result = LoadMovieResult
     
-    public init(client:HTTPClient, url:URL) {
+    public init(client:HTTPClient, url: @escaping Url) {
         self.client = client
         self.url = url
     }
     
     public func load(completion:@escaping (Result) -> Void) {
-        client.get(from: url) { [weak self] result in
+        client.get(from: url()) { [weak self] result in
             guard self != nil else { return }
             switch result {
             case let .success(data, response):
