@@ -8,7 +8,7 @@
 import XCTest
 import MoviesFramework
 
-final class MoviesFrameworkAPIEndToEndTests: XCTestCase {
+final class RemoteUseCaseIEndToEndTests: XCTestCase {
     
     /// These tests are not more reliable against real backend data which can be change and may break the tests. They should be written against fixed backend data which doesn't change. I added them against real backend data because they are helpful to guarantee that all networking components are working fine in integration and they are bringing the right data back, also they are helpful to insure the JSON contract between app and backend team
     
