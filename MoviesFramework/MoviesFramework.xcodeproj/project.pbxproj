@@ -204,6 +204,13 @@
 			path = CoreDataMovieStore;
 			sourceTree = "<group>";
 		};
+		1B463B45296F58C000DD90A9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1B51E1282961DF95004A6D4C = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +219,7 @@
 				1B51E175296311F1004A6D4C /* RemoteUseCaseIEndToEndTests */,
 				1B6CE56A296EFD0D00FAB478 /* MoviesIOSApp */,
 				1B51E1332961DF95004A6D4C /* Products */,
+				1B463B45296F58C000DD90A9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -851,6 +859,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mehtabAhmed.MoviesFramework;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -880,6 +889,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mehtabAhmed.MoviesFramework;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -900,6 +910,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = mehtabAhmed.MoviesFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -921,6 +932,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = mehtabAhmed.MoviesFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 			};
