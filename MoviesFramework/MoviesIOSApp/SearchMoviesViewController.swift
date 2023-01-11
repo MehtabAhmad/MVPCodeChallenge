@@ -6,13 +6,21 @@
 //
 
 import UIKit
+import MoviesFramework
 
-class SearchMoviesViewController: UIViewController {
+public final class SearchMoviesViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UITextField!
     @IBOutlet weak var searchResultsTableView: UITableView!
     
-    override func viewDidLoad() {
+    private var moviesLoader:LoadMovieUseCase?
+    
+    public convenience init(loader: LoadMovieUseCase) {
+        self.init()
+        self.moviesLoader = loader
+    }
+    
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         searchResultsTableView.dataSource = self
@@ -33,11 +41,11 @@ class SearchMoviesViewController: UIViewController {
 }
 
 extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchMovieCell") as! MovieCell
         cell.fadeIn(UIImage(named: "image-\(indexPath.row)"))
         return cell
