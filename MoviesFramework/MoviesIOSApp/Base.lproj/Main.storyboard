@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="500" id="GC9-Tw-mrM">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="500" id="GC9-Tw-mrM" customClass="MovieCell" customModule="MoviesIOSApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="393" height="500"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GC9-Tw-mrM" id="Gjb-FX-ptN">
@@ -118,6 +118,14 @@
                                         <constraint firstItem="JiH-38-S2M" firstAttribute="top" secondItem="Gjb-FX-ptN" secondAttribute="topMargin" id="zWu-PX-qHu"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="donotShowAgainButton" destination="ETO-1S-Ms3" id="KHF-80-0Qz"/>
+                                    <outlet property="movieDescription" destination="gVL-0n-a4Z" id="6ua-Pd-N1q"/>
+                                    <outlet property="movieImageContainer" destination="4Qe-W8-efn" id="raH-ZM-WvL"/>
+                                    <outlet property="movieImageView" destination="UeN-F2-8Q1" id="Rfo-OO-xVh"/>
+                                    <outlet property="movieRating" destination="DRb-pi-Stg" id="RKH-Ly-3bR"/>
+                                    <outlet property="movieTitle" destination="fCW-8k-xUk" id="vub-qK-kkn"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
