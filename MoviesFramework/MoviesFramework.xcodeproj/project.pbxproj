@@ -41,6 +41,8 @@
 		1B6CE578296EFD1300FAB478 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B6CE576296EFD1300FAB478 /* LaunchScreen.storyboard */; };
 		1B6CE57E296F077300FAB478 /* FavouriteMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6CE57D296F077300FAB478 /* FavouriteMoviesViewController.swift */; };
 		1B6CE580296F1FAA00FAB478 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6CE57F296F1FAA00FAB478 /* MovieCell.swift */; };
+		1B6CE583296F268B00FAB478 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6CE581296F268B00FAB478 /* MovieDetailViewController.swift */; };
+		1B6CE584296F268B00FAB478 /* MovieDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6CE582296F268B00FAB478 /* MovieDetailViewController.xib */; };
 		1B72A9812969BDAE00A42529 /* ManagedFavouriteMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */; };
 		1B72A9832969BDBA00A42529 /* ManagedHiddenMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9822969BDBA00A42529 /* ManagedHiddenMovie.swift */; };
 		1B72A9852969BDCD00A42529 /* ManagedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72A9842969BDCD00A42529 /* ManagedMovie.swift */; };
@@ -114,6 +116,8 @@
 		1B6CE579296EFD1300FAB478 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B6CE57D296F077300FAB478 /* FavouriteMoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesViewController.swift; sourceTree = "<group>"; };
 		1B6CE57F296F1FAA00FAB478 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		1B6CE581296F268B00FAB478 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
+		1B6CE582296F268B00FAB478 /* MovieDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieDetailViewController.xib; sourceTree = "<group>"; };
 		1B72A9802969BDAD00A42529 /* ManagedFavouriteMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedFavouriteMovie.swift; sourceTree = "<group>"; };
 		1B72A9822969BDBA00A42529 /* ManagedHiddenMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedHiddenMovie.swift; sourceTree = "<group>"; };
 		1B72A9842969BDCD00A42529 /* ManagedMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedMovie.swift; sourceTree = "<group>"; };
@@ -365,6 +369,8 @@
 				1B6CE579296EFD1300FAB478 /* Info.plist */,
 				1B6CE57D296F077300FAB478 /* FavouriteMoviesViewController.swift */,
 				1B6CE57F296F1FAA00FAB478 /* MovieCell.swift */,
+				1B6CE581296F268B00FAB478 /* MovieDetailViewController.swift */,
+				1B6CE582296F268B00FAB478 /* MovieDetailViewController.xib */,
 			);
 			path = MoviesIOSApp;
 			sourceTree = "<group>";
@@ -580,6 +586,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B6CE584296F268B00FAB478 /* MovieDetailViewController.xib in Resources */,
 				1B6CE578296EFD1300FAB478 /* LaunchScreen.storyboard in Resources */,
 				1B6CE575296EFD1300FAB478 /* Assets.xcassets in Resources */,
 				1B6CE573296EFD0D00FAB478 /* Main.storyboard in Resources */,
@@ -656,6 +663,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B6CE56C296EFD0D00FAB478 /* AppDelegate.swift in Sources */,
+				1B6CE583296F268B00FAB478 /* MovieDetailViewController.swift in Sources */,
 				1B6CE57E296F077300FAB478 /* FavouriteMoviesViewController.swift in Sources */,
 				1B6CE580296F1FAA00FAB478 /* MovieCell.swift in Sources */,
 				1B6CE56E296EFD0D00FAB478 /* SceneDelegate.swift in Sources */,

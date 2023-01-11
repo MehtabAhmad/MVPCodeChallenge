@@ -19,4 +19,8 @@ class FavouriteMoviesViewController: UITableViewController {
         cell.fadeIn(UIImage(named: "image-\(indexPath.row)"))
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.show(MovieDetailViewController(), sender: self)
+    }
 }
