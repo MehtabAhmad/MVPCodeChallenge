@@ -23,4 +23,9 @@ class FavouriteMoviesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.show(MovieDetailViewController(), sender: self)
     }
+    
+    
+    @IBAction func searchAction(_ sender: Any) {
+        
+    }
 }
