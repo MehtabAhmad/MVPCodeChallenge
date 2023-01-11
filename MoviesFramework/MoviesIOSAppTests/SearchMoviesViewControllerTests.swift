@@ -16,6 +16,12 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         let _ = SearchMoviesViewController(loader:loader)
         XCTAssertEqual(loader.searchCallCount, 0)
     }
+    
+    func test_viewDidLoad_doesNotInvokeSearch() {
+        let loader = LoaderSpy()
+        let _ = SearchMoviesViewController(loader:loader)
+        XCTAssertEqual(loader.searchCallCount, 0)
+    }
 
     
     private class LoaderSpy:LoadMovieUseCase {
