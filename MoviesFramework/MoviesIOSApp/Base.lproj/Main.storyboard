@@ -56,7 +56,7 @@
                                                     </constraints>
                                                 </stackView>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Qe-W8-efn">
-                                                    <rect key="frame" x="0.0" y="54.333333333333314" width="353" height="353.00000000000006"/>
+                                                    <rect key="frame" x="0.0" y="54.333333333333314" width="353" height="353"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UeN-F2-8Q1">
                                                             <rect key="frame" x="0.0" y="0.0" width="353" height="353"/>
@@ -140,7 +140,7 @@
         <!--Search Movies View Controller-->
         <scene sceneID="MQ6-Qk-VSP">
             <objects>
-                <viewController id="YQ2-0s-RB1" customClass="SearchMoviesViewController" customModule="MoviesIOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchMoviesViewController" id="YQ2-0s-RB1" customClass="SearchMoviesViewController" customModule="MoviesIOSApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HXp-Jj-jNO">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

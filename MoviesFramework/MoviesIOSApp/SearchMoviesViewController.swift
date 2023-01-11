@@ -10,21 +10,17 @@ import MoviesFramework
 
 public final class SearchMoviesViewController: UIViewController {
 
-    @IBOutlet weak var searchBar: UITextField!
-    @IBOutlet weak var searchResultsTableView: UITableView!
+    @IBOutlet public weak private(set) var  searchBar: UITextField!
+    @IBOutlet public private(set) weak var searchResultsTableView: UITableView!
     
-    private var moviesLoader:LoadMovieUseCase?
-    
-    public convenience init(loader: LoadMovieUseCase) {
-        self.init()
-        self.moviesLoader = loader
-    }
+    public var moviesLoader:LoadMovieUseCase?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         searchResultsTableView.dataSource = self
         searchResultsTableView.delegate = self
+        searchBar.delegate = self
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         
@@ -38,6 +34,13 @@ public final class SearchMoviesViewController: UIViewController {
     }
     
     
+}
+
+extension SearchMoviesViewController: UITextFieldDelegate {
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return true
+    }
 }
 
 extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource {
