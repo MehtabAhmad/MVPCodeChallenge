@@ -195,6 +195,23 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertEqual(view1?.renderedImage, imageData1, "Expected image for second view once second image loading completes successfully")
     }
     
+    func test_movieImageView_preloadsImageURLWhenNearVisible() {
+        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
+        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0, movie1])
+        XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL requests until image is near visible")
+        
+        sut.simulateMovieImageViewNearVisible(at: 0)
+        XCTAssertEqual(loader.loadedImageURLs, [movie0.poster], "Expected first image URL request once first image is near visible")
+        
+        sut.simulateMovieImageViewNearVisible(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [movie0.poster, movie1.poster], "Expected second image URL request once second image is near visible")
+    }
+    
     
     // MARK: - Helpers
     
@@ -344,6 +361,12 @@ private extension SearchMoviesViewController {
         let delegate = searchResultsTableView.delegate
         let index = IndexPath(row: row, section: moviesSection)
         delegate?.tableView?(searchResultsTableView, didEndDisplaying: cell!, forRowAt: index)
+    }
+    
+    func simulateMovieImageViewNearVisible(at row: Int) {
+        let ds = searchResultsTableView.prefetchDataSource
+        let index = IndexPath(row: row, section: moviesSection)
+        ds?.tableView(searchResultsTableView, prefetchRowsAt: [index])
     }
 }
 

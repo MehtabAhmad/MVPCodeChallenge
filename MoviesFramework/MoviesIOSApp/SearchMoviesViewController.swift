@@ -33,6 +33,7 @@ public final class SearchMoviesViewController: UIViewController {
 
         searchResultsTableView.dataSource = self
         searchResultsTableView.delegate = self
+        searchResultsTableView.prefetchDataSource = self
         searchBar.delegate = self
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
@@ -72,7 +73,8 @@ extension SearchMoviesViewController: UITextFieldDelegate {
     }
 }
 
-extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource {
+extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching {
+    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableModel.count
     }
@@ -99,6 +101,13 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tasks[indexPath]?.cancel()
         tasks[indexPath] = nil
+    }
+    
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            let cellModel = tableModel[indexPath.row]
+            _ = imageLoader?.loadImageData(from: cellModel.poster) { _ in }
+        }
     }
 }
 
