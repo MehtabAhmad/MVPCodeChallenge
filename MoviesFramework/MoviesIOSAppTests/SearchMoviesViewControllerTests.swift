@@ -213,6 +213,24 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     
+    func test_feedImageView_cancelsImageURLPreloadingWhenNotNearVisibleAnymore() {
+        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
+        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0, movie1])
+        XCTAssertEqual(loader.cancelledImageURLs, [], "Expected no cancelled image URL requests until image is not near visible")
+        
+        sut.simulateMovieImageViewNotNearVisible(at: 0)
+        XCTAssertEqual(loader.cancelledImageURLs, [movie0.poster], "Expected first cancelled image URL request once first image is not near visible anymore")
+        
+        sut.simulateMovieImageViewNotNearVisible(at: 1)
+        XCTAssertEqual(loader.cancelledImageURLs, [movie0.poster, movie1.poster], "Expected second cancelled image URL request once second image is not near visible anymore")
+    }
+    
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut:SearchMoviesViewController, loader:LoaderSpy) {
@@ -367,6 +385,14 @@ private extension SearchMoviesViewController {
         let ds = searchResultsTableView.prefetchDataSource
         let index = IndexPath(row: row, section: moviesSection)
         ds?.tableView(searchResultsTableView, prefetchRowsAt: [index])
+    }
+    
+    func simulateMovieImageViewNotNearVisible(at row: Int) {
+        simulateMovieImageViewNearVisible(at: row)
+        
+        let ds = searchResultsTableView.prefetchDataSource
+        let index = IndexPath(row: row, section: moviesSection)
+        ds?.tableView?(searchResultsTableView, cancelPrefetchingForRowsAt: [index])
     }
 }
 
