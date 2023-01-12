@@ -33,12 +33,19 @@ public final class SearchMoviesViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    private func search(with query:String) {
+        moviesLoader?.load() { _ in }
+    }
     
 }
 
 extension SearchMoviesViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if !(textField.text ?? "").isEmpty {
+            search(with: textField.text!)
+        }
+        
         return true
     }
 }

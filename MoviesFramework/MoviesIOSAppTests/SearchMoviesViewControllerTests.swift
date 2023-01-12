@@ -28,6 +28,13 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         sut.searchBar.delegate?.textFieldShouldReturn?(sut.searchBar)
         XCTAssertEqual(loader.searchCallCount, 0)
     }
+    
+    func test_search_invokeSearchWhenSearchFieldIsNotEmpty() {
+        let (sut,loader) = makeSUT()
+        sut.searchBar.text = "abc"
+        sut.searchBar.delegate?.textFieldShouldReturn?(sut.searchBar)
+        XCTAssertEqual(loader.searchCallCount, 1)
+    }
 
     
     // MARK: - Helpers
@@ -46,8 +53,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     private class LoaderSpy:LoadMovieUseCase {
         
-        func load(completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
-        }
         var searchCallCount = 0
+        
+        func load(completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
+            searchCallCount += 1
+        }
     }
 }
