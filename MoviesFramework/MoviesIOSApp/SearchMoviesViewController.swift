@@ -15,6 +15,7 @@ public final class SearchMoviesViewController: UIViewController {
     
     public var moviesLoader:LoadMovieUseCase?
     public var refreshControl: UIRefreshControl!
+    private var tableModel = [DomainMovie]()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +37,13 @@ public final class SearchMoviesViewController: UIViewController {
     
     private func search() {
         refreshControl?.beginRefreshing()
-        moviesLoader?.load() { [weak self]_ in
+        moviesLoader?.load() { [weak self] result in
+            switch result {
+            case let .success(movies):
+                self?.tableModel = movies
+                self?.searchResultsTableView.reloadData()
+            default: break
+            }
             self?.refreshControl?.endRefreshing()
         }
     }
@@ -56,12 +63,28 @@ extension SearchMoviesViewController: UITextFieldDelegate {
 
 extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return tableModel.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "searchMovieCell") as! MovieCell
-        cell.fadeIn(UIImage(named: "image-\(indexPath.row)"))
+        let cell = tableView.dequeueReusableCell(withIdentifier: "searchMovieCell") as! SearchMovieCell
+        let cellModel = tableModel[indexPath.row]
+        cell.titleLabel.text = cellModel.title
+        cell.descriptionLabel.text = cellModel.description
+        cell.ratingLabel.text = String(cellModel.rating)
+        cell.donotShowAgainButton.isHidden = cellModel.isFavourite
+        let favouriteButtonImage = cellModel.isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        cell.favouriteButton.setImage(favouriteButtonImage, for: .normal)
         return cell
     }
+}
+
+public class SearchMovieCell: UITableViewCell {
+    @IBOutlet public private(set) var titleLabel:UILabel!
+    @IBOutlet public private(set) var descriptionLabel: UILabel!
+    @IBOutlet public private(set) var ratingLabel: UILabel!
+    @IBOutlet private(set) var movieImageContainer: UIView!
+    @IBOutlet private(set) var movieImageView: UIImageView!
+    @IBOutlet public private(set) var donotShowAgainButton: UIButton!
+    @IBOutlet public private(set) var favouriteButton: UIButton!
 }

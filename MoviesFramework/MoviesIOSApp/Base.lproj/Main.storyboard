@@ -168,7 +168,7 @@
                                 <rect key="frame" x="0.0" y="119" width="393" height="664"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchMovieCell" rowHeight="500" id="oUv-id-6UL" customClass="MovieCell" customModule="MoviesIOSApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchMovieCell" rowHeight="500" id="oUv-id-6UL" customClass="SearchMovieCell" customModule="MoviesIOSApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="500"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oUv-id-6UL" id="xIO-NV-mZI">
@@ -187,7 +187,7 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adE-MP-oW1">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adE-MP-oW1">
                                                                     <rect key="frame" x="316.33333333333331" y="5.0000000000000009" width="36.666666666666686" height="10.333333333333336"/>
                                                                     <state key="normal">
                                                                         <imageReference key="image" image="heart.fill" catalog="system" symbolScale="large" renderingMode="original"/>
@@ -272,12 +272,13 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="donotShowAgainButton" destination="EOi-TC-isH" id="tRV-4N-RqD"/>
-                                            <outlet property="movieDescription" destination="l31-hU-T9H" id="SPU-cG-Hl7"/>
-                                            <outlet property="movieImageContainer" destination="AHO-Bw-aSh" id="qlV-dc-Z7a"/>
-                                            <outlet property="movieImageView" destination="4xb-bg-sM4" id="7L4-2a-beU"/>
-                                            <outlet property="movieRating" destination="ayy-Od-mzF" id="Nfl-Xx-e5F"/>
-                                            <outlet property="movieTitle" destination="VxP-Dj-COI" id="Bc7-CW-9pe"/>
+                                            <outlet property="descriptionLabel" destination="l31-hU-T9H" id="7bf-l4-S0j"/>
+                                            <outlet property="donotShowAgainButton" destination="EOi-TC-isH" id="kMe-uQ-9E2"/>
+                                            <outlet property="favouriteButton" destination="adE-MP-oW1" id="kpP-Pn-ECa"/>
+                                            <outlet property="movieImageContainer" destination="AHO-Bw-aSh" id="TWU-Sc-6gM"/>
+                                            <outlet property="movieImageView" destination="4xb-bg-sM4" id="gVs-ur-4yt"/>
+                                            <outlet property="ratingLabel" destination="ayy-Od-mzF" id="CAw-Md-eiN"/>
+                                            <outlet property="titleLabel" destination="VxP-Dj-COI" id="Mld-KR-PH4"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
