@@ -53,7 +53,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when when user initiated a search request")
         
         loader.completeLoading()
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when when user initiated search request has been completed")
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when when user initiated search request completed successfully")
+        
+        loader.completeLoadingWithError()
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when when user initiated search request completed with error")
     }
     
     func test_userInitiatedSearch_onlyInvokeSearchRequestWhenNoPreviousSearchRunning() {
