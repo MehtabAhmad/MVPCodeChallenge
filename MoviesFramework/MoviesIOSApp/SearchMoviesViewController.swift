@@ -86,8 +86,11 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         cell.donotShowAgainButton.isHidden = cellModel.isFavourite
         let favouriteButtonImage = cellModel.isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         cell.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+        cell.movieImageView.image = nil
         cell.movieImageContainer.startShimmering()
         tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.poster) { [weak cell] result in
+            let data = try? result.get()
+            cell?.movieImageView.image = data.map(UIImage.init) ?? nil
             cell?.movieImageContainer.stopShimmering()
         }
         return cell
@@ -104,7 +107,7 @@ public class SearchMovieCell: UITableViewCell {
     @IBOutlet public private(set) var descriptionLabel: UILabel!
     @IBOutlet public private(set) var ratingLabel: UILabel!
     @IBOutlet public private(set) var movieImageContainer: UIView!
-    @IBOutlet private(set) var movieImageView: UIImageView!
+    @IBOutlet public private(set) var movieImageView: UIImageView!
     @IBOutlet public private(set) var donotShowAgainButton: UIButton!
     @IBOutlet public private(set) var favouriteButton: UIButton!
 }
