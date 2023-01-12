@@ -98,7 +98,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     func test_searchCompletion_doesNotAlterCurrentRenderingStateOnError() {
         
         let movie0 = makeMovie()
-   
+        
         let (sut,loader) = makeSUT()
         
         sut.simulateUserInitiatedSearch()
@@ -108,7 +108,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedSearch()
         loader.completeLoadingWithError(at: 0)
         assertThat(sut, isRendering: [movie0])
-     
+        
     }
     
     func test_movieCell_loadsImageURLWhenVisible() {
@@ -146,7 +146,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     func test_movieCellLoadingIndicator_isVisibleWhileLoadingImage() {
-       let (sut, loader) = makeSUT()
+        let (sut, loader) = makeSUT()
         
         sut.simulateUserInitiatedSearch()
         loader.completeLoading(with: [makeMovie(), makeMovie()])
@@ -168,7 +168,6 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     func test_MovieImageView_rendersImageLoadedFromURL() {
         
-       
         let (sut, loader) = makeSUT()
         
         sut.simulateUserInitiatedSearch()
@@ -269,31 +268,25 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     private func assertThat(_ sut: SearchMoviesViewController, isRendering movies: [DomainMovie], file: StaticString = #file, line: UInt = #line) {
-            guard sut.numberOfRenderedMovies() == movies.count else {
-                return XCTFail("Expected \(movies.count) movies, got \(sut.numberOfRenderedMovies()) instead.", file: file, line: line)
-            }
-            
-            movies.enumerated().forEach { index, movie in
-                assertThat(sut, hasCellConfiguredFor: movie, at: index, file: file, line: line)
-            }
+        guard sut.numberOfRenderedMovies() == movies.count else {
+            return XCTFail("Expected \(movies.count) movies, got \(sut.numberOfRenderedMovies()) instead.", file: file, line: line)
         }
+        
+        movies.enumerated().forEach { index, movie in
+            assertThat(sut, hasCellConfiguredFor: movie, at: index, file: file, line: line)
+        }
+    }
     
     private class LoaderSpy:LoadMovieUseCase, ImageDataLoader {
         
         typealias LoadResult = MoviesFramework.LoadMovieResult
-        
-        var loadedImageURLs: [URL] {
-            return imageRequests.map { $0.url }
-        }
-        
-        private(set) var cancelledImageURLs = [URL]()
         
         var searchCallCount:Int {
             movieLoadingCompletions.count
         }
         
         private var movieLoadingCompletions = [(LoadResult) -> Void]()
-        private var imageRequests = [(url: URL, completion: (ImageDataLoader.Result) -> Void)]()
+        
         
         func load(completion: @escaping (LoadResult) -> Void) {
             movieLoadingCompletions.append(completion)
@@ -307,6 +300,16 @@ final class SearchMoviesViewControllerTests: XCTestCase {
             let error = NSError(domain: "an error", code: 0)
             movieLoadingCompletions[index](.failure(error))
         }
+        
+        // MARK: - ImageLoader
+        
+        private var imageRequests = [(url: URL, completion: (ImageDataLoader.Result) -> Void)]()
+        
+        var loadedImageURLs: [URL] {
+            return imageRequests.map { $0.url }
+        }
+        
+        private(set) var cancelledImageURLs = [URL]()
         
         private struct TaskSpy: ImageDataLoaderTask {
             let cancelCallback: () -> Void
@@ -332,6 +335,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         }
     }
 }
+
 
 private extension SearchMoviesViewController {
     
