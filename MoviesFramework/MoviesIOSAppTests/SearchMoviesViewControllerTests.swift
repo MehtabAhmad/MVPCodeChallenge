@@ -92,6 +92,22 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [movie0,movie1,movie2,movie3])
     }
     
+    func test_searchCompletion_doesNotAlterCurrentRenderingStateOnError() {
+        
+        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url")!, rating: 3.5)
+   
+        let (sut,loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0], at: 0)
+        assertThat(sut, isRendering: [movie0])
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoadingWithError(at: 0)
+        assertThat(sut, isRendering: [movie0])
+     
+    }
+    
     
     // MARK: - Helpers
     
@@ -158,6 +174,11 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         
         func completeLoading(with movies:[DomainMovie] = [], at index:Int = 0) {
             loadingCompletions[index](.success(movies))
+        }
+        
+        func completeLoadingWithError(at index:Int = 0) {
+            let error = NSError(domain: "an error", code: 0)
+            loadingCompletions[index](.failure(error))
         }
     }
 }
