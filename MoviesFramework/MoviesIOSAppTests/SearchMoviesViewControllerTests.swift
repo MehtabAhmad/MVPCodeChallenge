@@ -129,6 +129,22 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadedImageURLs, [movie0.poster, movie1.poster], "Expected second image URL request once second view also becomes visible")
     }
     
+    func test_movieCell_cancelsImageLoadingWhenNotVisibleAnymore() {
+        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
+        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0, movie1], at: 0)
+        XCTAssertEqual(loader.cancelledImageURLs, [], "Expected no cancelled image URL requests until image is not visible")
+        
+        sut.simulateMovieCellNotVisible(at: 0)
+        XCTAssertEqual(loader.cancelledImageURLs, [movie0.poster], "Expected one cancelled image URL request once first image is not visible anymore")
+        
+        sut.simulateMovieCellNotVisible(at: 1)
+        XCTAssertEqual(loader.cancelledImageURLs, [movie0.poster, movie1.poster], "Expected two cancelled image URL requests once second image is also not visible anymore")
+    }
+    
     
     // MARK: - Helpers
     
@@ -185,6 +201,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         
         typealias LoadResult = MoviesFramework.LoadMovieResult
         private(set) var loadedImageURLs = [URL]()
+        private(set) var cancelledImageURLs = [URL]()
         
         var searchCallCount:Int {
             loadingCompletions.count
@@ -206,6 +223,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         
         func loadImageData(from url: URL) {
             loadedImageURLs.append(url)
+        }
+        
+        func cancelImageDataLoad(from url: URL) {
+            cancelledImageURLs.append(url)
         }
     }
 }
@@ -240,8 +261,17 @@ private extension SearchMoviesViewController {
         return 0
     }
     
-    func simulateMovieCellVisible(at index: Int) {
-        _ = movieCell(at: index)
+    @discardableResult
+    func simulateMovieCellVisible(at index: Int) -> SearchMovieCell? {
+        let cell = movieCell(at: index) as? SearchMovieCell
+        return cell
+    }
+    
+    func simulateMovieCellNotVisible(at row: Int) {
+        let cell = simulateMovieCellVisible(at: row)
+        let delegate = searchResultsTableView.delegate
+        let index = IndexPath(row: row, section: moviesSection)
+        delegate?.tableView?(searchResultsTableView, didEndDisplaying: cell!, forRowAt: index)
     }
 }
 

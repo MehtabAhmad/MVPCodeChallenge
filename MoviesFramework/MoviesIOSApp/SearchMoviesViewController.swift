@@ -10,6 +10,7 @@ import MoviesFramework
 
 public protocol ImageDataLoader {
     func loadImageData(from url: URL)
+    func cancelImageDataLoad(from url: URL)
 }
 
 public final class SearchMoviesViewController: UIViewController {
@@ -83,6 +84,11 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         imageLoader?.loadImageData(from: cellModel.poster)
         return cell
     }
+    
+    public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            let cellModel = tableModel[indexPath.row]
+            imageLoader?.cancelImageDataLoad(from: cellModel.poster)
+        }
 }
 
 public class SearchMovieCell: UITableViewCell {
