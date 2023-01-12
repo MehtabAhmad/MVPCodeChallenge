@@ -40,6 +40,12 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
     
+    func test_userInitiatedSearch_showsLoadingIndicator() {
+        let (sut,_) = makeSUT()
+        sut.simulateUserInitiatedSearch()
+        XCTAssertTrue(sut.isShowingLoadingIndicator)
+    }
+    
 
     
     // MARK: - Helpers
