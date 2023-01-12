@@ -8,12 +8,17 @@
 import UIKit
 import MoviesFramework
 
+public protocol ImageDataLoader {
+    func loadImageData(from url: URL)
+}
+
 public final class SearchMoviesViewController: UIViewController {
 
     @IBOutlet public weak private(set) var  searchBar: UITextField!
     @IBOutlet public private(set) weak var searchResultsTableView: UITableView!
     
     public var moviesLoader:LoadMovieUseCase?
+    public var imageLoader: ImageDataLoader?
     public var refreshControl: UIRefreshControl!
     private var tableModel = [DomainMovie]()
     
@@ -75,6 +80,7 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         cell.donotShowAgainButton.isHidden = cellModel.isFavourite
         let favouriteButtonImage = cellModel.isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         cell.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+        imageLoader?.loadImageData(from: cellModel.poster)
         return cell
     }
 }

@@ -111,6 +111,24 @@ final class SearchMoviesViewControllerTests: XCTestCase {
      
     }
     
+    func test_movieCell_loadsImageURLWhenVisible() {
+        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
+        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0, movie1], at: 0)
+        
+        XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL requests until views become visible")
+        
+        sut.simulateMovieCellVisible(at: 0)
+        XCTAssertEqual(loader.loadedImageURLs, [movie0.poster], "Expected first image URL request once first view becomes visible")
+        
+        sut.simulateMovieCellVisible(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [movie0.poster, movie1.poster], "Expected second image URL request once second view also becomes visible")
+    }
+    
     
     // MARK: - Helpers
     
@@ -120,6 +138,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         let sut = storyboard.instantiateViewController(
             identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
         sut.moviesLoader = loader
+        sut.imageLoader = loader
         sut.loadViewIfNeeded()
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
@@ -162,9 +181,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
             }
         }
     
-    private class LoaderSpy:LoadMovieUseCase {
+    private class LoaderSpy:LoadMovieUseCase, ImageDataLoader {
         
         typealias LoadResult = MoviesFramework.LoadMovieResult
+        private(set) var loadedImageURLs = [URL]()
         
         var searchCallCount:Int {
             loadingCompletions.count
@@ -182,6 +202,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         func completeLoadingWithError(at index:Int = 0) {
             let error = NSError(domain: "an error", code: 0)
             loadingCompletions[index](.failure(error))
+        }
+        
+        func loadImageData(from url: URL) {
+            loadedImageURLs.append(url)
         }
     }
 }
@@ -214,6 +238,10 @@ private extension SearchMoviesViewController {
     
     private var moviesSection: Int {
         return 0
+    }
+    
+    func simulateMovieCellVisible(at index: Int) {
+        _ = movieCell(at: index)
     }
 }
 
