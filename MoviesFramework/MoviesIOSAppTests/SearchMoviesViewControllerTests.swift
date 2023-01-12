@@ -35,6 +35,11 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.searchCallCount, 1)
     }
     
+    func test_viewDidLoad_doesNotShowLoadingIndicator() {
+        let (sut,_) = makeSUT()
+        XCTAssertFalse(sut.isShowingLoadingIndicator)
+    }
+    
 
     
     // MARK: - Helpers
@@ -71,6 +76,10 @@ private extension SearchMoviesViewController {
     
     private func setSearchText(_ text:String) {
         searchBar.text = text
+    }
+    
+    var isShowingLoadingIndicator:Bool {
+        return refreshControl?.isRefreshing == true
     }
 }
 
