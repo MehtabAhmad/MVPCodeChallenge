@@ -221,12 +221,18 @@ final class SearchMoviesViewControllerTests: XCTestCase {
             loadingCompletions[index](.failure(error))
         }
         
-        func loadImageData(from url: URL) {
-            loadedImageURLs.append(url)
+        private struct TaskSpy: ImageDataLoaderTask {
+            let cancelCallback: () -> Void
+            func cancel() {
+                cancelCallback()
+            }
         }
         
-        func cancelImageDataLoad(from url: URL) {
-            cancelledImageURLs.append(url)
+        func loadImageData(from url: URL) -> ImageDataLoaderTask {
+            loadedImageURLs.append(url)
+            return TaskSpy { [weak self ] in
+                self?.cancelledImageURLs.append(url)
+            }
         }
     }
 }

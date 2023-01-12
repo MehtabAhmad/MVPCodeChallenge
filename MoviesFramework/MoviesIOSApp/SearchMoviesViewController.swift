@@ -8,9 +8,12 @@
 import UIKit
 import MoviesFramework
 
+public protocol ImageDataLoaderTask {
+    func cancel()
+}
+
 public protocol ImageDataLoader {
-    func loadImageData(from url: URL)
-    func cancelImageDataLoad(from url: URL)
+    func loadImageData(from url: URL) -> ImageDataLoaderTask
 }
 
 public final class SearchMoviesViewController: UIViewController {
@@ -22,6 +25,7 @@ public final class SearchMoviesViewController: UIViewController {
     public var imageLoader: ImageDataLoader?
     public var refreshControl: UIRefreshControl!
     private var tableModel = [DomainMovie]()
+    private var tasks = [IndexPath: ImageDataLoaderTask]()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,14 +85,14 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         cell.donotShowAgainButton.isHidden = cellModel.isFavourite
         let favouriteButtonImage = cellModel.isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         cell.favouriteButton.setImage(favouriteButtonImage, for: .normal)
-        imageLoader?.loadImageData(from: cellModel.poster)
+        tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.poster)
         return cell
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-            let cellModel = tableModel[indexPath.row]
-            imageLoader?.cancelImageDataLoad(from: cellModel.poster)
-        }
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
+    }
 }
 
 public class SearchMovieCell: UITableViewCell {
