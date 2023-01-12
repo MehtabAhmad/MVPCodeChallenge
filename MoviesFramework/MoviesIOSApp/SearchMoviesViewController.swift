@@ -36,7 +36,9 @@ public final class SearchMoviesViewController: UIViewController {
     
     private func search() {
         refreshControl?.beginRefreshing()
-        moviesLoader?.load() { _ in }
+        moviesLoader?.load() { [weak self]_ in
+            self?.refreshControl?.endRefreshing()
+        }
     }
     
 }

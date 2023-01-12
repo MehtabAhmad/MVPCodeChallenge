@@ -46,6 +46,16 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.isShowingLoadingIndicator)
     }
     
+    func test_userInitiatedSearch_hideLoadingIndicatorOnCompletion() {
+        let (sut,loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        XCTAssertTrue(sut.isShowingLoadingIndicator)
+        
+        loader.completeLoading()
+        XCTAssertFalse(sut.isShowingLoadingIndicator)
+    }
+    
 
     
     // MARK: - Helpers
@@ -64,10 +74,19 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     private class LoaderSpy:LoadMovieUseCase {
         
-        var searchCallCount = 0
+        typealias LoadResult = MoviesFramework.LoadMovieResult
         
-        func load(completion: @escaping (MoviesFramework.LoadMovieResult) -> Void) {
-            searchCallCount += 1
+        var searchCallCount:Int {
+            loadingCompletions.count
+        }
+        var loadingCompletions = [(LoadResult) -> Void]()
+        
+        func load(completion: @escaping (LoadResult) -> Void) {
+            loadingCompletions.append(completion)
+        }
+        
+        func completeLoading(at index:Int = 0) {
+            loadingCompletions[index](.success([]))
         }
     }
 }
