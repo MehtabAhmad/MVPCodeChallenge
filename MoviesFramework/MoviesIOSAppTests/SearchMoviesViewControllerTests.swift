@@ -11,10 +11,6 @@ import MoviesIOSApp
 
 final class SearchMoviesViewControllerTests: XCTestCase {
 
-    func test_init_doesNotInvokeSearch() {
-        let (_,loader) = makeSUT()
-        XCTAssertEqual(loader.searchCallCount, 0)
-    }
     
     func test_viewDidLoad_doesNotInvokeSearch() {
         let (_,loader) = makeSUT()
@@ -23,8 +19,14 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     func test_searchFiedlDelegates_shouldBeConnected() {
         let (sut,_) = makeSUT()
-        sut.loadViewIfNeeded()
         XCTAssertNotNil(sut.searchBar.delegate, "SearchField delegates")
+    }
+    
+    func test_search_doesNotInvokeSearchWhenSearchFieldIsEmpty() {
+        let (sut,loader) = makeSUT()
+        sut.searchBar.text = ""
+        sut.searchBar.delegate?.textFieldShouldReturn?(sut.searchBar)
+        XCTAssertEqual(loader.searchCallCount, 0)
     }
 
     
@@ -36,6 +38,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         let sut = storyboard.instantiateViewController(
         identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
         sut.moviesLoader = loader
+        sut.loadViewIfNeeded()
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return(sut,loader)
