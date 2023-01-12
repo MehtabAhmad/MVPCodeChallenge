@@ -22,19 +22,19 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertNotNil(sut.searchBar.delegate, "SearchField delegates")
     }
     
-    func test_search_doesNotInvokeSearchWhenSearchFieldIsEmpty() {
+    func test_userInitiatedSearch_doesNotInvokeSearchWhenSearchFieldIsEmpty() {
         let (sut,loader) = makeSUT()
-        sut.searchBar.text = ""
-        sut.searchBar.delegate?.textFieldShouldReturn?(sut.searchBar)
+        let emptyText = ""
+        sut.simulateUserInitiatedSearch(with: emptyText)
         XCTAssertEqual(loader.searchCallCount, 0)
     }
     
-    func test_search_invokeSearchWhenSearchFieldIsNotEmpty() {
+    func test_userInitiatedSearch_invokeSearchWhenSearchFieldIsNotEmpty() {
         let (sut,loader) = makeSUT()
-        sut.searchBar.text = "abc"
-        sut.searchBar.delegate?.textFieldShouldReturn?(sut.searchBar)
+        sut.simulateUserInitiatedSearch()
         XCTAssertEqual(loader.searchCallCount, 1)
     }
+    
 
     
     // MARK: - Helpers
@@ -60,3 +60,17 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         }
     }
 }
+
+private extension SearchMoviesViewController {
+    
+    @discardableResult
+    func simulateUserInitiatedSearch(with text: String = "any-text") -> Bool {
+        setSearchText(text)
+        return ((searchBar.delegate?.textFieldShouldReturn?(searchBar)) != nil)
+    }
+    
+    private func setSearchText(_ text:String) {
+        searchBar.text = text
+    }
+}
+
