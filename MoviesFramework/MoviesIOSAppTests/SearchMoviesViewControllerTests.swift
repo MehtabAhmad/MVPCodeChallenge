@@ -145,6 +145,30 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.cancelledImageURLs, [movie0.poster, movie1.poster], "Expected two cancelled image URL requests once second image is also not visible anymore")
     }
     
+    func test_movieCellLoadingIndicator_isVisibleWhileLoadingImage() {
+        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
+        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0, movie1])
+        
+        let view0 = sut.simulateMovieCellVisible(at: 0)
+        let view1 = sut.simulateMovieCellVisible(at: 1)
+        
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, true, "Expected loading indicator for first view while loading first image")
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, true, "Expected loading indicator for second view while loading second image")
+        
+        loader.completeImageLoading(at: 0)
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false, "Expected no loading indicator for first view once first image loading completes successfully")
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, true, "Expected no loading indicator state change for second view once first image loading completes successfully")
+        
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false, "Expected no loading indicator state change for first view once second image loading completes with error")
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, false, "Expected no loading indicator for second view once second image loading completes with error")
+    }
+    
     
     // MARK: - Helpers
     
@@ -200,25 +224,31 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     private class LoaderSpy:LoadMovieUseCase, ImageDataLoader {
         
         typealias LoadResult = MoviesFramework.LoadMovieResult
-        private(set) var loadedImageURLs = [URL]()
+        
+        var loadedImageURLs: [URL] {
+            return imageRequests.map { $0.url }
+        }
+        
         private(set) var cancelledImageURLs = [URL]()
         
         var searchCallCount:Int {
-            loadingCompletions.count
+            movieLoadingCompletions.count
         }
-        var loadingCompletions = [(LoadResult) -> Void]()
+        
+        private var movieLoadingCompletions = [(LoadResult) -> Void]()
+        private var imageRequests = [(url: URL, completion: (ImageDataLoader.Result) -> Void)]()
         
         func load(completion: @escaping (LoadResult) -> Void) {
-            loadingCompletions.append(completion)
+            movieLoadingCompletions.append(completion)
         }
         
         func completeLoading(with movies:[DomainMovie] = [], at index:Int = 0) {
-            loadingCompletions[index](.success(movies))
+            movieLoadingCompletions[index](.success(movies))
         }
         
         func completeLoadingWithError(at index:Int = 0) {
             let error = NSError(domain: "an error", code: 0)
-            loadingCompletions[index](.failure(error))
+            movieLoadingCompletions[index](.failure(error))
         }
         
         private struct TaskSpy: ImageDataLoaderTask {
@@ -228,11 +258,20 @@ final class SearchMoviesViewControllerTests: XCTestCase {
             }
         }
         
-        func loadImageData(from url: URL) -> ImageDataLoaderTask {
-            loadedImageURLs.append(url)
+        func loadImageData(from url: URL, completion: @escaping (ImageDataLoader.Result) -> Void) -> ImageDataLoaderTask {
+            imageRequests.append((url,completion))
             return TaskSpy { [weak self ] in
                 self?.cancelledImageURLs.append(url)
             }
+        }
+        
+        func completeImageLoading(with imageData:Data = Data(), at index:Int) {
+            imageRequests[index].completion(.success(imageData))
+        }
+        
+        func completeImageLoadingWithError(at index: Int = 0) {
+            let error = NSError(domain: "an error", code: 0)
+            imageRequests[index].completion(.failure(error))
         }
     }
 }
@@ -300,6 +339,10 @@ private extension SearchMovieCell {
     
     var isFavouriteButtonHighlighted:Bool {
         return favouriteButton.currentImage === UIImage(systemName: "heart.fill")
+    }
+    
+    var isShowingImageLoadingIndicator:Bool {
+        return movieImageContainer.isShimmering
     }
 }
 

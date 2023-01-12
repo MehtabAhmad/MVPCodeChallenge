@@ -13,7 +13,8 @@ public protocol ImageDataLoaderTask {
 }
 
 public protocol ImageDataLoader {
-    func loadImageData(from url: URL) -> ImageDataLoaderTask
+    typealias Result = Swift.Result<Data, Error>
+    func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> ImageDataLoaderTask
 }
 
 public final class SearchMoviesViewController: UIViewController {
@@ -85,7 +86,10 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         cell.donotShowAgainButton.isHidden = cellModel.isFavourite
         let favouriteButtonImage = cellModel.isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         cell.favouriteButton.setImage(favouriteButtonImage, for: .normal)
-        tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.poster)
+        cell.movieImageContainer.startShimmering()
+        tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.poster) { [weak cell] result in
+            cell?.movieImageContainer.stopShimmering()
+        }
         return cell
     }
     
@@ -99,7 +103,7 @@ public class SearchMovieCell: UITableViewCell {
     @IBOutlet public private(set) var titleLabel:UILabel!
     @IBOutlet public private(set) var descriptionLabel: UILabel!
     @IBOutlet public private(set) var ratingLabel: UILabel!
-    @IBOutlet private(set) var movieImageContainer: UIView!
+    @IBOutlet public private(set) var movieImageContainer: UIView!
     @IBOutlet private(set) var movieImageView: UIImageView!
     @IBOutlet public private(set) var donotShowAgainButton: UIButton!
     @IBOutlet public private(set) var favouriteButton: UIButton!
