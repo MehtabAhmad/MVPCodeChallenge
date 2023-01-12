@@ -97,7 +97,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     func test_searchCompletion_doesNotAlterCurrentRenderingStateOnError() {
         
-        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url")!, rating: 3.5)
+        let movie0 = makeMovie()
    
         let (sut,loader) = makeSUT()
         
@@ -112,8 +112,8 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     func test_movieCell_loadsImageURLWhenVisible() {
-        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
-        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        let movie0 = makeMovie(poster: URL(string: "any-url-0.com")!)
+        let movie1 = makeMovie(poster: URL(string: "any-url-1.com")!)
         
         let (sut, loader) = makeSUT()
         
@@ -130,8 +130,8 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     func test_movieCell_cancelsImageLoadingWhenNotVisibleAnymore() {
-        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
-        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        let movie0 = makeMovie()
+        let movie1 = makeMovie()
         let (sut, loader) = makeSUT()
         
         sut.simulateUserInitiatedSearch()
@@ -146,13 +146,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     func test_movieCellLoadingIndicator_isVisibleWhileLoadingImage() {
-        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
-        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
-        
-        let (sut, loader) = makeSUT()
+       let (sut, loader) = makeSUT()
         
         sut.simulateUserInitiatedSearch()
-        loader.completeLoading(with: [movie0, movie1])
+        loader.completeLoading(with: [makeMovie(), makeMovie()])
         
         let view0 = sut.simulateMovieCellVisible(at: 0)
         let view1 = sut.simulateMovieCellVisible(at: 1)
@@ -171,13 +168,11 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     func test_MovieImageView_rendersImageLoadedFromURL() {
         
-        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
-        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
-        
+       
         let (sut, loader) = makeSUT()
         
         sut.simulateUserInitiatedSearch()
-        loader.completeLoading(with: [movie0, movie1])
+        loader.completeLoading(with: [makeMovie(), makeMovie()])
         
         let view0 = sut.simulateMovieCellVisible(at: 0)
         let view1 = sut.simulateMovieCellVisible(at: 1)
@@ -196,8 +191,8 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     func test_movieImageView_preloadsImageURLWhenNearVisible() {
-        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
-        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        let movie0 = makeMovie()
+        let movie1 = makeMovie()
         
         let (sut, loader) = makeSUT()
         
@@ -214,8 +209,8 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     
     func test_feedImageView_cancelsImageURLPreloadingWhenNotNearVisibleAnymore() {
-        let movie0 = makeMovie(title: "a title", description: "a description", poster: URL(string: "any-url-0.com")!, rating: 3.5)
-        let movie1 = makeMovie(title: "title2", description: "description2", poster: URL(string: "any-url-1.com")!, rating: 3.6, favourite: true)
+        let movie0 = makeMovie()
+        let movie1 = makeMovie()
         
         let (sut, loader) = makeSUT()
         
@@ -246,7 +241,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         return(sut,loader)
     }
     
-    private func makeMovie(title: String, description: String, poster: URL, rating: Float, favourite:Bool = false) -> DomainMovie {
+    private func makeMovie(title: String = "a title", description: String = "a discription", poster: URL = URL(string: "a_url.com")!, rating: Float = 0.0, favourite:Bool = false) -> DomainMovie {
         
         return DomainMovie(id: UUID().hashValue, title: title, description: description, poster: poster, rating: rating, isFavourite: favourite)
     }
