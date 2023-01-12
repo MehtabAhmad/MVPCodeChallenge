@@ -56,6 +56,24 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
     
+    func test_userInitiatedSearch_onlyInvokeSearchRequestWhenNoPreviousSearchRunning() {
+        let (sut,loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        XCTAssertEqual(loader.searchCallCount, 1)
+        
+        sut.simulateUserInitiatedSearch()
+        XCTAssertEqual(loader.searchCallCount, 1)
+        
+        sut.simulateUserInitiatedSearch()
+        XCTAssertEqual(loader.searchCallCount, 1)
+        
+        loader.completeLoading()
+        
+        sut.simulateUserInitiatedSearch()
+        XCTAssertEqual(loader.searchCallCount, 2)
+    }
+    
 
     
     // MARK: - Helpers

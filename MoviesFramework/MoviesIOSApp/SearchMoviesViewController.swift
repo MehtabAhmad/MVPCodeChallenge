@@ -46,7 +46,7 @@ public final class SearchMoviesViewController: UIViewController {
 extension SearchMoviesViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if !(textField.text ?? "").isEmpty {
+        if !(textField.text ?? "").isEmpty && refreshControl.isRefreshing == false {
             search()
         }
         
