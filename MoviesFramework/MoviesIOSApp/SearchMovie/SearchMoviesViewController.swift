@@ -8,17 +8,8 @@
 import UIKit
 import MoviesFramework
 
-public protocol ImageDataLoaderTask {
-    func cancel()
-}
-
-public protocol ImageDataLoader {
-    typealias Result = Swift.Result<Data, Error>
-    func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> ImageDataLoaderTask
-}
-
 public final class SearchMoviesViewController: UIViewController {
-
+    
     @IBOutlet public weak private(set) var  searchBar: UITextField!
     @IBOutlet public private(set) weak var searchResultsTableView: UITableView!
     
@@ -30,7 +21,7 @@ public final class SearchMoviesViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         searchResultsTableView.dataSource = self
         searchResultsTableView.delegate = self
         searchResultsTableView.prefetchDataSource = self
@@ -59,7 +50,6 @@ public final class SearchMoviesViewController: UIViewController {
             self?.refreshControl?.endRefreshing()
         }
     }
-    
 }
 
 extension SearchMoviesViewController: UITextFieldDelegate {
@@ -110,21 +100,11 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-            indexPaths.forEach(cancelTask)
-        }
-        
-        private func cancelTask(forRowAt indexPath: IndexPath) {
-            tasks[indexPath]?.cancel()
-            tasks[indexPath] = nil
-        }
-}
-
-public class SearchMovieCell: UITableViewCell {
-    @IBOutlet public private(set) var titleLabel:UILabel!
-    @IBOutlet public private(set) var descriptionLabel: UILabel!
-    @IBOutlet public private(set) var ratingLabel: UILabel!
-    @IBOutlet public private(set) var movieImageContainer: UIView!
-    @IBOutlet public private(set) var movieImageView: UIImageView!
-    @IBOutlet public private(set) var donotShowAgainButton: UIButton!
-    @IBOutlet public private(set) var favouriteButton: UIButton!
+        indexPaths.forEach(cancelTask)
+    }
+    
+    private func cancelTask(forRowAt indexPath: IndexPath) {
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
+    }
 }
