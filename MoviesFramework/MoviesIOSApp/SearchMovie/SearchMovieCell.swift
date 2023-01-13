@@ -16,4 +16,11 @@ public class SearchMovieCell: UITableViewCell {
     @IBOutlet public private(set) var movieImageView: UIImageView!
     @IBOutlet public private(set) var donotShowAgainButton: UIButton!
     @IBOutlet public private(set) var favouriteButton: UIButton!
+    
+    var hideMovieAction: (() -> Void)?
+    
+    @IBAction func doNoShowAgainButtonTap(_ sender: Any) {
+        hideMovieAction?()
+    }
+    
 }

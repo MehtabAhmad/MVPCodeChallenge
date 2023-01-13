@@ -224,6 +224,45 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.cancelledImageURLs, [movie0.poster, movie1.poster], "Expected second cancelled image URL request once second image is not near visible anymore")
     }
     
+    func test_movieCellDoNotShowAgainAction_showLoadingIndicator() {
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [makeMovie()])
+        
+        let cell = sut.simulateMovieCellVisible(at: 0)
+        cell?.simulateDoNotShowAgainAction()
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'don't show again' button")
+        
+        loader.completeHideMovieRequestSuccessfully()
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when hide movie request completed successfully")
+        
+        cell?.simulateDoNotShowAgainAction()
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'don't show again' button")
+        
+        loader.completeHideMovieRequestWithError()
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when hide movie request completed with error")
+    }
+    
+    func test_movieCellDoNotShowAgainAction_hidesMovieOnSuccess() {
+        let (sut, loader) = makeSUT()
+        let movie0 = makeMovie()
+        let movie1 = makeMovie()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0, movie0])
+        
+        let cell0 = sut.simulateMovieCellVisible(at: 0)
+        let cell1 = sut.simulateMovieCellVisible(at: 1)
+        
+        cell0?.simulateDoNotShowAgainAction()
+        
+        loader.completeHideMovieRequestSuccessfully()
+        
+        assertThat(sut, isRendering: [movie1])
+        
+    }
+    
     
     // MARK: - Helpers
     
@@ -234,6 +273,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
             identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
         sut.moviesLoader = loader
         sut.imageLoader = loader
+        sut.hideMovieHandler = loader
         sut.loadViewIfNeeded()
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
@@ -277,7 +317,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         }
     }
     
-    private class LoaderSpy:LoadMovieUseCase, ImageDataLoader {
+    private class LoaderSpy:LoadMovieUseCase, ImageDataLoader, HideMovieFromSearchUseCase {
         
         typealias LoadResult = MoviesFramework.LoadMovieResult
         
@@ -333,9 +373,26 @@ final class SearchMoviesViewControllerTests: XCTestCase {
             let error = NSError(domain: "an error", code: 0)
             imageRequests[index].completion(.failure(error))
         }
+        
+        
+        // MARK: - ImageLoader
+        
+        var hideMovieRequests = [(hideMovieResult) -> Void]()
+        
+        func hide(_ movie: DomainMovie, completion: @escaping (hideMovieResult) -> Void) {
+            hideMovieRequests.append(completion)
+        }
+        
+        func completeHideMovieRequestSuccessfully(at index:Int = 0){
+            hideMovieRequests[index](nil)
+        }
+        
+        func completeHideMovieRequestWithError(at index:Int = 0){
+            let error = NSError(domain: "an error", code: 0)
+            hideMovieRequests[index](error)
+        }
     }
 }
-
 
 private extension SearchMoviesViewController {
     
@@ -423,6 +480,10 @@ private extension SearchMovieCell {
     var renderedImage: Data? {
         return movieImageView.image?.pngData()
     }
+    
+    func simulateDoNotShowAgainAction() {
+        donotShowAgainButton.simulateTap()
+    }
 }
 
 private extension UIImage {
@@ -435,6 +496,12 @@ private extension UIImage {
             color.setFill()
             rendererContext.fill(rect)
         }
+    }
+}
+
+private extension UIButton {
+    func simulateTap() {
+        sendActions(for: .touchUpInside)
     }
 }
 

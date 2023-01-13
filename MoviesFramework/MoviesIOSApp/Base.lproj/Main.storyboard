@@ -240,6 +240,9 @@
                                                                     <state key="normal" title="Don't show again">
                                                                         <color key="titleColor" systemColor="systemPinkColor"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="doNoShowAgainButtonTap:" destination="oUv-id-6UL" eventType="touchUpInside" id="Xkf-GX-luX"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                         </stackView>
@@ -273,7 +276,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="l31-hU-T9H" id="7bf-l4-S0j"/>
-                                            <outlet property="donotShowAgainButton" destination="EOi-TC-isH" id="kMe-uQ-9E2"/>
+                                            <outlet property="donotShowAgainButton" destination="EOi-TC-isH" id="z0p-IC-L7R"/>
                                             <outlet property="favouriteButton" destination="adE-MP-oW1" id="kpP-Pn-ECa"/>
                                             <outlet property="movieImageContainer" destination="AHO-Bw-aSh" id="TWU-Sc-6gM"/>
                                             <outlet property="movieImageView" destination="4xb-bg-sM4" id="gVs-ur-4yt"/>

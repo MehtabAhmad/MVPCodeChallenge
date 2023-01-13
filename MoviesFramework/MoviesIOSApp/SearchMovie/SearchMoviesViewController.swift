@@ -14,6 +14,7 @@ public final class SearchMoviesViewController: UIViewController {
     @IBOutlet public private(set) weak var searchResultsTableView: UITableView!
     
     public var moviesLoader:LoadMovieUseCase?
+    public var hideMovieHandler:HideMovieFromSearchUseCase?
     public var imageLoader: ImageDataLoader?
     public var refreshControl: UIRefreshControl!
     private var tableModel = [DomainMovie]()
@@ -84,6 +85,16 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
             let data = try? result.get()
             cell?.movieImageView.image = data.map(UIImage.init) ?? nil
             cell?.movieImageContainer.stopShimmering()
+        }
+        cell.hideMovieAction = { [weak self] in
+            self?.refreshControl.beginRefreshing()
+            self?.hideMovieHandler?.hide(cellModel) { [weak self] error in
+                if error == nil {
+                    self?.tableModel.remove(at: indexPath.row)
+                    self?.searchResultsTableView.reloadData()
+                }
+                self?.refreshControl.endRefreshing()
+            }
         }
         return cell
     }
