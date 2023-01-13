@@ -226,6 +226,24 @@
 			path = ImageLoader;
 			sourceTree = "<group>";
 		};
+		1B231AF0297164D0002374E0 /* FavouriteMovies */ = {
+			isa = PBXGroup;
+			children = (
+				1B6CE57D296F077300FAB478 /* FavouriteMoviesViewController.swift */,
+				1B6CE57F296F1FAA00FAB478 /* MovieCell.swift */,
+			);
+			path = FavouriteMovies;
+			sourceTree = "<group>";
+		};
+		1B231AF1297164EC002374E0 /* MvoieDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1B6CE582296F268B00FAB478 /* MovieDetailViewController.xib */,
+				1B6CE581296F268B00FAB478 /* MovieDetailViewController.swift */,
+			);
+			path = MvoieDetail;
+			sourceTree = "<group>";
+		};
 		1B31FCDF296622A400436703 /* LoadFavouriteMovieUseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +433,8 @@
 		1B6CE56A296EFD0D00FAB478 /* MoviesIOSApp */ = {
 			isa = PBXGroup;
 			children = (
+				1B231AF1297164EC002374E0 /* MvoieDetail */,
+				1B231AF0297164D0002374E0 /* FavouriteMovies */,
 				1B231AED2970C542002374E0 /* ImageLoader */,
 				1B231AEA2970C2B5002374E0 /* SearchMovie */,
 				1B6CE56B296EFD0D00FAB478 /* AppDelegate.swift */,
@@ -423,10 +443,6 @@
 				1B6CE574296EFD1300FAB478 /* Assets.xcassets */,
 				1B6CE576296EFD1300FAB478 /* LaunchScreen.storyboard */,
 				1B6CE579296EFD1300FAB478 /* Info.plist */,
-				1B6CE57D296F077300FAB478 /* FavouriteMoviesViewController.swift */,
-				1B6CE57F296F1FAA00FAB478 /* MovieCell.swift */,
-				1B6CE581296F268B00FAB478 /* MovieDetailViewController.swift */,
-				1B6CE582296F268B00FAB478 /* MovieDetailViewController.xib */,
 			);
 			path = MoviesIOSApp;
 			sourceTree = "<group>";
