@@ -302,6 +302,21 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when favourite movie request completed with error")
     }
     
+    func test_movieCellFavouriteAction_highlightFavouriteOnSuccess() {
+        let (sut, loader) = makeSUT()
+        let movie0 = makeMovie()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0])
+        
+        let cell0 = sut.simulateMovieCellVisible(at: 0)
+        
+        cell0?.simulateFavouriteAction()
+        XCTAssertEqual(cell0?.isFavouriteButtonHighlighted, false)
+        
+        loader.completeFavouriteRequestSuccessfully()
+        XCTAssertEqual(cell0?.isFavouriteButtonHighlighted, true)
+    }
     
     
     // MARK: - Helpers

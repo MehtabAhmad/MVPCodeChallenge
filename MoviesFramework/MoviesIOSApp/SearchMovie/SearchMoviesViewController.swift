@@ -101,6 +101,9 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
             self?.refreshControl.beginRefreshing()
             self?.favouriteMovieHandler?.addFavourite(cellModel) { [weak self, weak cell] error in
                 if error == nil {
+                    self?.tableModel[indexPath.row].isFavourite = true
+                    cell?.favouriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    self?.searchResultsTableView.reloadData()
                 }
                 self?.refreshControl.endRefreshing()
             }
