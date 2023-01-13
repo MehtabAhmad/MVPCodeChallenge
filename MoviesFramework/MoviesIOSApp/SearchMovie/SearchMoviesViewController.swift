@@ -82,6 +82,7 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         cell.favouriteButton.setImage(favouriteButtonImage, for: .normal)
         cell.movieImageView.image = nil
         cell.movieImageContainer.startShimmering()
+        cell.favouriteButton.isEnabled = !cellModel.isFavourite
         tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.poster) { [weak cell] result in
             let data = try? result.get()
             cell?.movieImageView.image = data.map(UIImage.init) ?? nil

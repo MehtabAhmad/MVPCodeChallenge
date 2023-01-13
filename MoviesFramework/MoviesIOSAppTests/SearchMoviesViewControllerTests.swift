@@ -377,6 +377,9 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         let shouldFavouriteButtonBeHighlighted = movie.isFavourite
         XCTAssertEqual(cell.isFavouriteButtonHighlighted, shouldFavouriteButtonBeHighlighted, "Expected 'isFavouriteButtonHeighlighted' to be \(shouldFavouriteButtonBeHighlighted) for movie at index (\(index))", file: file, line: line)
         
+        let shouldFavouriteButtonBeEnabled = !movie.isFavourite
+        XCTAssertEqual(cell.isFavouriteButtonEnabled, shouldFavouriteButtonBeEnabled, "Expected 'isFavouriteButtonEnabled' to be \(shouldFavouriteButtonBeEnabled) for movie at index (\(index))", file: file, line: line)
+        
     }
     
     private func assertThat(_ sut: SearchMoviesViewController, isRendering movies: [DomainMovie], file: StaticString = #file, line: UInt = #line) {
@@ -561,6 +564,10 @@ private extension SearchMovieCell {
     
     var isFavouriteButtonHighlighted:Bool {
         return favouriteButton.currentImage === UIImage(systemName: "heart.fill")
+    }
+    
+    var isFavouriteButtonEnabled:Bool {
+        return favouriteButton.isEnabled
     }
     
     var isShowingImageLoadingIndicator:Bool {
