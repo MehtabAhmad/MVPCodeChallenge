@@ -90,23 +90,11 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         }
         cell.hideMovieAction = { [weak self] in
             self?.refreshControl.beginRefreshing()
-            self?.hideMovieHandler?.hide(cellModel) { [weak self] error in
-                if error == nil {
-                    self?.tableModel.remove(at: indexPath.row)
-                    self?.searchResultsTableView.reloadData()
-                }
-                self?.refreshControl.endRefreshing()
-            }
+            self?.hideMovie(cellModel, from: indexPath)
         }
         cell.favouriteAction = { [weak self] in
             self?.refreshControl.beginRefreshing()
-            self?.favouriteMovieHandler?.addFavourite(cellModel) { [weak self] error in
-                if error == nil {
-                    self?.tableModel[indexPath.row].isFavourite = true
-                    self?.searchResultsTableView.reloadData()
-                }
-                self?.refreshControl.endRefreshing()
-            }
+            self?.favourite(cellModel, from: indexPath)
         }
         return cell
     }
@@ -129,5 +117,25 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     private func cancelTask(forRowAt indexPath: IndexPath) {
         tasks[indexPath]?.cancel()
         tasks[indexPath] = nil
+    }
+    
+    private func hideMovie(_ movie:DomainMovie, from indexPath:IndexPath) {
+        hideMovieHandler?.hide(movie) { [weak self] error in
+            if error == nil {
+                self?.tableModel.remove(at: indexPath.row)
+                self?.searchResultsTableView.reloadData()
+            }
+            self?.refreshControl.endRefreshing()
+        }
+    }
+    
+    private func favourite(_ movie:DomainMovie, from indexPath:IndexPath) {
+        favouriteMovieHandler?.addFavourite(movie) { [weak self] error in
+            if error == nil {
+                self?.tableModel[indexPath.row].isFavourite = true
+                self?.searchResultsTableView.reloadData()
+            }
+            self?.refreshControl.endRefreshing()
+        }
     }
 }
