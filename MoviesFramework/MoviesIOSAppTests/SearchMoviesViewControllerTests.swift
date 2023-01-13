@@ -207,7 +207,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     }
     
     
-    func test_feedImageView_cancelsImageURLPreloadingWhenNotNearVisibleAnymore() {
+    func test_movieImageView_cancelsImageURLPreloadingWhenNotNearVisibleAnymore() {
         let movie0 = makeMovie()
         let movie1 = makeMovie()
         
@@ -250,10 +250,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         let movie1 = makeMovie()
         
         sut.simulateUserInitiatedSearch()
-        loader.completeLoading(with: [movie0, movie0])
+        loader.completeLoading(with: [movie0, movie1])
         
         let cell0 = sut.simulateMovieCellVisible(at: 0)
-        let cell1 = sut.simulateMovieCellVisible(at: 1)
+        _ = sut.simulateMovieCellVisible(at: 1)
         
         cell0?.simulateDoNotShowAgainAction()
         
@@ -269,10 +269,10 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         let movie1 = makeMovie()
         
         sut.simulateUserInitiatedSearch()
-        loader.completeLoading(with: [movie0, movie0])
+        loader.completeLoading(with: [movie0, movie1])
         
         let cell0 = sut.simulateMovieCellVisible(at: 0)
-        let cell1 = sut.simulateMovieCellVisible(at: 1)
+        _ = sut.simulateMovieCellVisible(at: 1)
         
         cell0?.simulateDoNotShowAgainAction()
         
@@ -281,6 +281,27 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [movie0, movie1])
         
     }
+    
+    func test_movieCellFavouriteAction_showLoadingIndicator() {
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [makeMovie()])
+        
+        let cell = sut.simulateMovieCellVisible(at: 0)
+        cell?.simulateFavouriteAction()
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'favourite' button")
+        
+        loader.completeFavouriteRequestSuccessfully()
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when favourite movie request completed successfully")
+        
+        cell?.simulateDoNotShowAgainAction()
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'favourite' button")
+        
+        loader.completeFavouriteRequestWithError()
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when favourite movie request completed with error")
+    }
+    
     
     
     // MARK: - Helpers
@@ -293,6 +314,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         sut.moviesLoader = loader
         sut.imageLoader = loader
         sut.hideMovieHandler = loader
+        sut.favouriteMovieHandler = loader
         sut.loadViewIfNeeded()
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
@@ -336,7 +358,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         }
     }
     
-    private class LoaderSpy:LoadMovieUseCase, ImageDataLoader, HideMovieFromSearchUseCase {
+    private class LoaderSpy:LoadMovieUseCase, ImageDataLoader, HideMovieFromSearchUseCase, AddFavouriteMovieUseCase {
         
         typealias LoadResult = MoviesFramework.LoadMovieResult
         
@@ -394,7 +416,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         }
         
         
-        // MARK: - ImageLoader
+        // MARK: - HideMovieUseCase
         
         var hideMovieRequests = [(hideMovieResult) -> Void]()
         
@@ -409,6 +431,24 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         func completeHideMovieRequestWithError(at index:Int = 0){
             let error = NSError(domain: "an error", code: 0)
             hideMovieRequests[index](error)
+        }
+        
+        
+        // MARK: - FavouriteMovieUseCase
+        
+        var favouriteRequests = [(addFavouriteResult) -> Void]()
+        
+        func addFavourite(_ movie: DomainMovie, completion: @escaping (addFavouriteResult) -> Void) {
+            favouriteRequests.append(completion)
+        }
+        
+        func completeFavouriteRequestSuccessfully(at index:Int = 0){
+            favouriteRequests[index](nil)
+        }
+        
+        func completeFavouriteRequestWithError(at index:Int = 0){
+            let error = NSError(domain: "an error", code: 0)
+            favouriteRequests[index](error)
         }
     }
 }
@@ -502,6 +542,10 @@ private extension SearchMovieCell {
     
     func simulateDoNotShowAgainAction() {
         donotShowAgainButton.simulateTap()
+    }
+    
+    func simulateFavouriteAction() {
+        favouriteButton.simulateTap()
     }
 }
 

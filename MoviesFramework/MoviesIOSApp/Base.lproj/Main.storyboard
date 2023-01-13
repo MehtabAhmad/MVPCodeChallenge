@@ -197,6 +197,9 @@
                                                                         <imageReference key="image" image="heart" catalog="system" symbolScale="large" renderingMode="original"/>
                                                                         <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="bold"/>
                                                                     </buttonConfiguration>
+                                                                    <connections>
+                                                                        <action selector="favouriteButtonTap:" destination="oUv-id-6UL" eventType="touchUpInside" id="awB-CY-gHB"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                             <constraints>

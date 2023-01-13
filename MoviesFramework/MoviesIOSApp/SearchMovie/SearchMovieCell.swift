@@ -18,9 +18,13 @@ public class SearchMovieCell: UITableViewCell {
     @IBOutlet public private(set) var favouriteButton: UIButton!
     
     var hideMovieAction: (() -> Void)?
+    var favouriteAction: (() -> Void)?
     
     @IBAction func doNoShowAgainButtonTap(_ sender: Any) {
         hideMovieAction?()
     }
     
+    @IBAction func favouriteButtonTap(_ sender: Any) {
+        favouriteAction?()
+    }
 }

@@ -15,6 +15,7 @@ public final class SearchMoviesViewController: UIViewController {
     
     public var moviesLoader:LoadMovieUseCase?
     public var hideMovieHandler:HideMovieFromSearchUseCase?
+    public var favouriteMovieHandler:AddFavouriteMovieUseCase?
     public var imageLoader: ImageDataLoader?
     public var refreshControl: UIRefreshControl!
     private var tableModel = [DomainMovie]()
@@ -92,6 +93,14 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
                 if error == nil {
                     self?.tableModel.remove(at: indexPath.row)
                     self?.searchResultsTableView.reloadData()
+                }
+                self?.refreshControl.endRefreshing()
+            }
+        }
+        cell.favouriteAction = { [weak self] in
+            self?.refreshControl.beginRefreshing()
+            self?.favouriteMovieHandler?.addFavourite(cellModel) { [weak self, weak cell] error in
+                if error == nil {
                 }
                 self?.refreshControl.endRefreshing()
             }
