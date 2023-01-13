@@ -352,7 +352,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         return(sut,loader)
     }
     
-    private func makeMovie(title: String = "a title", description: String = "a discription", poster: URL = URL(string: "a_url.com")!, rating: Float = 0.0, favourite:Bool = false) -> DomainMovie {
+    private func makeMovie(title: String = UUID().uuidString, description: String = UUID().uuidString, poster: URL = URL(string: "\(UUID().uuidString).com")!, rating: Float = 0.0, favourite:Bool = false) -> DomainMovie {
         
         return DomainMovie(id: UUID().hashValue, title: title, description: description, poster: poster, rating: rating, isFavourite: favourite)
     }
