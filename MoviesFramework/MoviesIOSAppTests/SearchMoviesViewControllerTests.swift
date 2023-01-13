@@ -263,6 +263,25 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         
     }
     
+    func test_movieCellDoNotShowAgainAction_shouldNotHidesMovieOnError() {
+        let (sut, loader) = makeSUT()
+        let movie0 = makeMovie()
+        let movie1 = makeMovie()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0, movie0])
+        
+        let cell0 = sut.simulateMovieCellVisible(at: 0)
+        let cell1 = sut.simulateMovieCellVisible(at: 1)
+        
+        cell0?.simulateDoNotShowAgainAction()
+        
+        loader.completeHideMovieRequestWithError()
+        
+        assertThat(sut, isRendering: [movie0, movie1])
+        
+    }
+    
     
     // MARK: - Helpers
     
