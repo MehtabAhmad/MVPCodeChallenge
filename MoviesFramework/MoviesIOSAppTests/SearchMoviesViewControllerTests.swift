@@ -318,6 +318,22 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertEqual(cell0?.isFavouriteButtonHighlighted, true)
     }
     
+    func test_movieCellFavouriteAction_shouldNotHighlightFavouriteOnFailure() {
+        let (sut, loader) = makeSUT()
+        let movie0 = makeMovie()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [movie0])
+        
+        let cell0 = sut.simulateMovieCellVisible(at: 0)
+        
+        cell0?.simulateFavouriteAction()
+        XCTAssertEqual(cell0?.isFavouriteButtonHighlighted, false)
+        
+        loader.completeFavouriteRequestWithError()
+        XCTAssertEqual(cell0?.isFavouriteButtonHighlighted, false)
+    }
+    
     
     // MARK: - Helpers
     
