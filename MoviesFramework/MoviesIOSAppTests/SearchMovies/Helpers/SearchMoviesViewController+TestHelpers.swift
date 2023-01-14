@@ -22,7 +22,7 @@ extension SearchMoviesViewController {
     }
     
     var isShowingLoadingIndicator:Bool {
-        return refreshControl?.isRefreshing == true
+        return searchResultsTableView.refreshControl?.isRefreshing == true
     }
     
     func numberOfRenderedMovies() -> Int {

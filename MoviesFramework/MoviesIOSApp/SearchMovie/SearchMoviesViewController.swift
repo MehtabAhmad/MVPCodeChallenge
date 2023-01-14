@@ -13,12 +13,16 @@ public final class SearchMoviesViewController: UIViewController {
     @IBOutlet public weak private(set) var  searchBar: UITextField!
     @IBOutlet public private(set) weak var searchResultsTableView: UITableView!
     
-    public var moviesLoader:LoadMovieUseCase?
+    public var moviesLoader:LoadMovieUseCase!
     public var hideMovieHandler:HideMovieFromSearchUseCase?
     public var favouriteMovieHandler:AddFavouriteMovieUseCase?
     public var imageLoader: ImageDataLoader?
-    public var refreshControl: UIRefreshControl!
-    private var tableModel = [DomainMovie]()
+    var refreshController: MovieRefreshController?
+    private var tableModel = [DomainMovie]() {
+        didSet {
+            searchResultsTableView.reloadData()
+        }
+    }
     private var tasks = [IndexPath: ImageDataLoaderTask]()
     
     public override func viewDidLoad() {
@@ -30,10 +34,11 @@ public final class SearchMoviesViewController: UIViewController {
         searchBar.delegate = self
         
         setupKeyboardHidding()
+        setupRefreshController()
         
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(search), for: .valueChanged)
-        searchResultsTableView.refreshControl = refreshControl
+        refreshController?.onRefresh = { [weak self] movies in
+            self?.tableModel = movies
+        }
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -41,22 +46,29 @@ public final class SearchMoviesViewController: UIViewController {
     }
     
     @objc private func search() {
-        guard !(searchBar.text ?? "").isEmpty, refreshControl.isRefreshing == false else { return }
-        refreshControl?.beginRefreshing()
-        moviesLoader?.load() { [weak self] result in
-            switch result {
-            case let .success(movies):
-                self?.tableModel = movies
-                self?.searchResultsTableView.reloadData()
-            default: break
-            }
-            self?.refreshControl?.endRefreshing()
+        guard !(searchBar.text ?? "").isEmpty, refreshController?.isRefreshing == false else { return }
+        refreshController?.refresh()
+        if searchResultsTableView.refreshControl?.isRefreshing == true {
+            print("refreshing")
         }
     }
     
     private func setupKeyboardHidding(){
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         searchResultsTableView.keyboardDismissMode = .onDrag
+    }
+    
+    private func setupRefreshController() {
+        refreshController = MovieRefreshController(loader: moviesLoader)
+        searchResultsTableView.refreshControl = refreshController?.view
+    }
+    
+    private func endRefreshing() {
+        refreshController?.endRefreshing()
+    }
+    
+    private func beginRefreshing() {
+        refreshController?.beginRefreshing()
     }
 }
 
@@ -92,11 +104,11 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
             cell?.movieImageContainer.stopShimmering()
         }
         cell.hideMovieAction = { [weak self] in
-            self?.refreshControl.beginRefreshing()
+            self?.beginRefreshing()
             self?.hideMovie(cellModel, from: indexPath)
         }
         cell.favouriteAction = { [weak self] in
-            self?.refreshControl.beginRefreshing()
+            self?.beginRefreshing()
             self?.favourite(cellModel, from: indexPath)
         }
         return cell
@@ -128,7 +140,7 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
                 self?.tableModel.remove(at: indexPath.row)
                 self?.searchResultsTableView.reloadData()
             }
-            self?.refreshControl.endRefreshing()
+            self?.endRefreshing()
         }
     }
     
@@ -138,7 +150,7 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
                 self?.tableModel[indexPath.row].isFavourite = true
                 self?.searchResultsTableView.reloadData()
             }
-            self?.refreshControl.endRefreshing()
+            self?.endRefreshing()
         }
     }
 }

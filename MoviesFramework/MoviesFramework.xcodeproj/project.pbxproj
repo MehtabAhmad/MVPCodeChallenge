@@ -16,6 +16,7 @@
 		1B231B122971855B002374E0 /* SearchMoviesViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B231B112971855B002374E0 /* SearchMoviesViewController+TestHelpers.swift */; };
 		1B231B14297185BB002374E0 /* SearchMoviesViewControllerTests+LoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B231B13297185BB002374E0 /* SearchMoviesViewControllerTests+LoaderSpy.swift */; };
 		1B231B1629718633002374E0 /* SearchMoviesViewControllerTests+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B231B1529718633002374E0 /* SearchMoviesViewControllerTests+Assertions.swift */; };
+		1B231B1D2972ED76002374E0 /* MovieRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B231B1C2972ED76002374E0 /* MovieRefreshController.swift */; };
 		1B31FCE1296622BB00436703 /* FavouriteMovieLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31FCE0296622BB00436703 /* FavouriteMovieLoader.swift */; };
 		1B31FCE42966268900436703 /* LoadHiddenMoviesUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31FCE32966268900436703 /* LoadHiddenMoviesUseCaseTests.swift */; };
 		1B31FCE72966381300436703 /* HiddenMoviesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31FCE62966381300436703 /* HiddenMoviesLoader.swift */; };
@@ -117,17 +118,18 @@
 /* Begin PBXFileReference section */
 		1B231AEB2970C32C002374E0 /* SearchMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieCell.swift; sourceTree = "<group>"; };
 		1B231AEE2970C564002374E0 /* ImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataLoader.swift; sourceTree = "<group>"; };
-		1B231B0229718349002374E0 /* MoviesFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MoviesFramework.framework; path = /Users/Mehtab/Desktop/workspace/MVPCodeChallenge/MoviesFramework/build/Debug/MoviesFramework.framework; sourceTree = "<absolute>"; };
-		1B231B0329718349002374E0 /* MoviesFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MoviesFrameworkTests.xctest; path = /Users/Mehtab/Desktop/workspace/MVPCodeChallenge/MoviesFramework/build/Debug/MoviesFrameworkTests.xctest; sourceTree = "<absolute>"; };
-		1B231B0429718349002374E0 /* MoviesFrameworkAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MoviesFrameworkAPIEndToEndTests.xctest; path = /Users/Mehtab/Desktop/workspace/MVPCodeChallenge/MoviesFramework/build/Debug/MoviesFrameworkAPIEndToEndTests.xctest; sourceTree = "<absolute>"; };
-		1B231B0529718349002374E0 /* MoviesIOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MoviesIOSApp.app; path = "/Users/Mehtab/Desktop/workspace/MVPCodeChallenge/MoviesFramework/build/Debug-iphoneos/MoviesIOSApp.app"; sourceTree = "<absolute>"; };
-		1B231B0629718349002374E0 /* MoviesIOSAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MoviesIOSAppTests.xctest; path = "/Users/Mehtab/Desktop/workspace/MVPCodeChallenge/MoviesFramework/build/Debug-iphoneos/MoviesIOSAppTests.xctest"; sourceTree = "<absolute>"; };
 		1B231B09297183E2002374E0 /* UIButton+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+TestHelpers.swift"; sourceTree = "<group>"; };
 		1B231B0B29718428002374E0 /* UIImage+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+TestHelpers.swift"; sourceTree = "<group>"; };
 		1B231B0F297184FB002374E0 /* SearchMovieCell+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchMovieCell+TestHelpers.swift"; sourceTree = "<group>"; };
 		1B231B112971855B002374E0 /* SearchMoviesViewController+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchMoviesViewController+TestHelpers.swift"; sourceTree = "<group>"; };
 		1B231B13297185BB002374E0 /* SearchMoviesViewControllerTests+LoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchMoviesViewControllerTests+LoaderSpy.swift"; sourceTree = "<group>"; };
 		1B231B1529718633002374E0 /* SearchMoviesViewControllerTests+Assertions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchMoviesViewControllerTests+Assertions.swift"; sourceTree = "<group>"; };
+		1B231B172972B484002374E0 /* MoviesFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MoviesFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B231B182972B484002374E0 /* MoviesFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B231B192972B484002374E0 /* MoviesFrameworkAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesFrameworkAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B231B1A2972B484002374E0 /* MoviesIOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesIOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B231B1B2972B484002374E0 /* MoviesIOSAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesIOSAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B231B1C2972ED76002374E0 /* MovieRefreshController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRefreshController.swift; sourceTree = "<group>"; };
 		1B31FCE0296622BB00436703 /* FavouriteMovieLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMovieLoader.swift; sourceTree = "<group>"; };
 		1B31FCE32966268900436703 /* LoadHiddenMoviesUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadHiddenMoviesUseCaseTests.swift; sourceTree = "<group>"; };
 		1B31FCE62966381300436703 /* HiddenMoviesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenMoviesLoader.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			children = (
 				1B6CE589296F343300FAB478 /* SearchMoviesViewController.swift */,
 				1B231AEB2970C32C002374E0 /* SearchMovieCell.swift */,
+				1B231B1C2972ED76002374E0 /* MovieRefreshController.swift */,
 			);
 			path = SearchMovie;
 			sourceTree = "<group>";
@@ -327,6 +330,11 @@
 				1B51E175296311F1004A6D4C /* RemoteUseCaseIEndToEndTests */,
 				1B6CE56A296EFD0D00FAB478 /* MoviesIOSApp */,
 				1B463B55296F5FC800DD90A9 /* MoviesIOSAppTests */,
+				1B231B172972B484002374E0 /* MoviesFramework.framework */,
+				1B231B182972B484002374E0 /* MoviesFrameworkTests.xctest */,
+				1B231B192972B484002374E0 /* MoviesFrameworkAPIEndToEndTests.xctest */,
+				1B231B1A2972B484002374E0 /* MoviesIOSApp.app */,
+				1B231B1B2972B484002374E0 /* MoviesIOSAppTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -563,7 +571,7 @@
 			);
 			name = MoviesIOSAppTests;
 			productName = MoviesIOSAppTests;
-			productReference = 1B231B0629718349002374E0 /* MoviesIOSAppTests.xctest */;
+			productReference = 1B231B1B2972B484002374E0 /* MoviesIOSAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1B51E1312961DF95004A6D4C /* MoviesFramework */ = {
@@ -581,7 +589,7 @@
 			);
 			name = MoviesFramework;
 			productName = MoviesFramework;
-			productReference = 1B231B0229718349002374E0 /* MoviesFramework.framework */;
+			productReference = 1B231B172972B484002374E0 /* MoviesFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		1B51E1542961EAD0004A6D4C /* MoviesFrameworkTests */ = {
@@ -599,7 +607,7 @@
 			);
 			name = MoviesFrameworkTests;
 			productName = MoviesFrameworkTests;
-			productReference = 1B231B0329718349002374E0 /* MoviesFrameworkTests.xctest */;
+			productReference = 1B231B182972B484002374E0 /* MoviesFrameworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1B51E173296311F1004A6D4C /* MoviesFrameworkAPIEndToEndTests */ = {
@@ -617,7 +625,7 @@
 			);
 			name = MoviesFrameworkAPIEndToEndTests;
 			productName = MoviesFrameworkAPIEndToEndTests;
-			productReference = 1B231B0429718349002374E0 /* MoviesFrameworkAPIEndToEndTests.xctest */;
+			productReference = 1B231B192972B484002374E0 /* MoviesFrameworkAPIEndToEndTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1B6CE568296EFD0D00FAB478 /* MoviesIOSApp */ = {
@@ -636,7 +644,7 @@
 			);
 			name = MoviesIOSApp;
 			productName = MoviesIOSApp;
-			productReference = 1B231B0529718349002374E0 /* MoviesIOSApp.app */;
+			productReference = 1B231B1A2972B484002374E0 /* MoviesIOSApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -816,6 +824,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B6CE56C296EFD0D00FAB478 /* AppDelegate.swift in Sources */,
+				1B231B1D2972ED76002374E0 /* MovieRefreshController.swift in Sources */,
 				1B6CE583296F268B00FAB478 /* MovieDetailViewController.swift in Sources */,
 				1B6CE57E296F077300FAB478 /* FavouriteMoviesViewController.swift in Sources */,
 				1B6CE580296F1FAA00FAB478 /* MovieCell.swift in Sources */,
