@@ -29,9 +29,8 @@ public final class SearchMoviesViewController: UIViewController {
         searchResultsTableView.prefetchDataSource = self
         searchBar.delegate = self
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
+        setupKeyboardHidding()
         
-        searchResultsTableView.keyboardDismissMode = .onDrag
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(search), for: .valueChanged)
         searchResultsTableView.refreshControl = refreshControl
@@ -53,6 +52,11 @@ public final class SearchMoviesViewController: UIViewController {
             }
             self?.refreshControl?.endRefreshing()
         }
+    }
+    
+    private func setupKeyboardHidding(){
+        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
+        searchResultsTableView.keyboardDismissMode = .onDrag
     }
 }
 
