@@ -10,6 +10,7 @@ import MoviesFramework
 
 
 public final class SearchMoviesViewControllerComposer {
+    
     public static func compose(moviesLoader:LoadMovieUseCase, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase, imageLoader: ImageDataLoader) -> SearchMoviesViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -20,15 +21,21 @@ public final class SearchMoviesViewControllerComposer {
         viewController.favouriteMovieHandler = favouriteMovieHandler
         
         let refreshController = MovieRefreshController(loader: moviesLoader)
-        refreshController.onRefresh = { [weak viewController] movies in
+        refreshController.onRefresh = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader)
+        
+        viewController.refreshController = refreshController
+        
+        return viewController
+    }
+    
+    
+    private static func adaptMoviesToCellControllers(forwardingTo viewController: SearchMoviesViewController, imageLoader: ImageDataLoader) -> ([DomainMovie]) -> Void {
+        return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
                 let controller = SearchMovieCellController(movie: $0, imageLoader: imageLoader)
                 return controller
             }
         }
-        
-        viewController.refreshController = refreshController
-        return viewController
     }
 }
 
