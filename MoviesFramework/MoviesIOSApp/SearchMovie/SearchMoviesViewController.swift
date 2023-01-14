@@ -33,6 +33,7 @@ public final class SearchMoviesViewController: UIViewController {
         
         searchResultsTableView.keyboardDismissMode = .onDrag
         refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(search), for: .valueChanged)
         searchResultsTableView.refreshControl = refreshControl
     }
     
@@ -40,7 +41,8 @@ public final class SearchMoviesViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    private func search() {
+    @objc private func search() {
+        guard !(searchBar.text ?? "").isEmpty, refreshControl.isRefreshing == false else { return }
         refreshControl?.beginRefreshing()
         moviesLoader?.load() { [weak self] result in
             switch result {
@@ -57,10 +59,7 @@ public final class SearchMoviesViewController: UIViewController {
 extension SearchMoviesViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if !(textField.text ?? "").isEmpty && refreshControl.isRefreshing == false {
-            search()
-        }
-        
+        search()
         return true
     }
 }
