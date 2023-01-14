@@ -228,19 +228,20 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         
         sut.simulateUserInitiatedSearch()
-        loader.completeLoading(with: [makeMovie()])
+        loader.completeLoading(with: [makeMovie(), makeMovie()])
         
-        let cell = sut.simulateMovieCellVisible(at: 0)
+        var cell = sut.simulateMovieCellVisible(at: 0)
         cell?.simulateDoNotShowAgainAction()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'don't show again' button")
         
-        loader.completeHideMovieRequestSuccessfully()
+        loader.completeHideMovieRequestSuccessfully(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when hide movie request completed successfully")
         
+        cell = sut.simulateMovieCellVisible(at: 0)
         cell?.simulateDoNotShowAgainAction()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'don't show again' button")
         
-        loader.completeHideMovieRequestWithError()
+        loader.completeHideMovieRequestWithError(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when hide movie request completed with error")
     }
     
@@ -292,13 +293,13 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         cell?.simulateFavouriteAction()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'favourite' button")
         
-        loader.completeFavouriteRequestSuccessfully()
+        loader.completeFavouriteRequestSuccessfully(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when favourite movie request completed successfully")
         
-        cell?.simulateDoNotShowAgainAction()
+        cell?.simulateFavouriteAction()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expect loading indicator when user tap 'favourite' button")
         
-        loader.completeFavouriteRequestWithError()
+        loader.completeFavouriteRequestWithError(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when favourite movie request completed with error")
     }
     
@@ -374,13 +375,8 @@ final class SearchMoviesViewControllerTests: XCTestCase {
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut:SearchMoviesViewController, loader:LoaderSpy) {
         let loader = LoaderSpy()
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let sut = storyboard.instantiateViewController(
-            identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
-        sut.moviesLoader = loader
-        sut.imageLoader = loader
-        sut.hideMovieHandler = loader
-        sut.favouriteMovieHandler = loader
+        
+        let sut = SearchMoviesViewControllerComposer.compose(moviesLoader: loader, hideMovieHandler: loader, favouriteMovieHandler: loader, imageLoader: loader)
         sut.loadViewIfNeeded()
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
