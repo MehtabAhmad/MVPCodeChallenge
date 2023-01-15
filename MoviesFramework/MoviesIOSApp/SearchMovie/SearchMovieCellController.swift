@@ -22,8 +22,6 @@ final class SearchMovieCellController {
     var isLoading:Observer<Bool>?
     
     var hideMovieCompletion:Observer<Result<SearchMovieCellController, Error>>?
-    var favouriteMovieCompletion:Observer<Result<SearchMovieCellController, Error>>?
- 
     
     init(movie: DomainMovie, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) {
         self.model = movie
@@ -63,8 +61,10 @@ final class SearchMovieCellController {
             guard let self = self else {return}
             self.isLoading?(true)
             self.favouriteMovieHandler.addFavourite(self.model) { [weak self] error in
-                guard let self = self else {return}
-                self.favouriteMovieCompletion?(self.result(from: error))
+                guard let self = self else { return }
+                if error == nil {
+                    self.model.isFavourite = true
+                }
                 self.isLoading?(false)
             }
         }

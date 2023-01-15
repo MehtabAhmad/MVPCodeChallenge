@@ -38,7 +38,6 @@ public final class SearchMoviesViewControllerComposer {
                 controller.isLoading = viewController?.loadingObserver
                 
                 controller.hideMovieCompletion = hideMovieCompletion(for: viewController)
-                controller.favouriteMovieCompletion = favouriteMovieCompletion(for: viewController)
                
                 return controller
             }
@@ -51,13 +50,6 @@ public final class SearchMoviesViewControllerComposer {
             if let index = viewController?.tableModel.firstIndex(where: {$0 === controller }) {
                 viewController?.tableModel.remove(at: index)
             }
-        }
-    }
-    
-    private static func favouriteMovieCompletion(for viewController:SearchMoviesViewController?) -> (Result<SearchMovieCellController, Error>) -> Void {
-        return { [weak viewController] result in
-            guard let controller = try? result.get() else { return }
-            viewController?.tableModel.filter({$0 === controller }).first?.model.isFavourite = true
         }
     }
 }
