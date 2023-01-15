@@ -9,23 +9,25 @@ import Foundation
 import UIKit
 
 final class SearchMovieCellController {
-    typealias Observer<T> = (T) -> Void
     
-   let viewModel:MoviesCellViewModel<UIImage>
+    private let viewModel:MoviesCellViewModel<UIImage>
+    private var cell:SearchMovieCell?
     
     init(viewModel: MoviesCellViewModel<UIImage>) {
         
         self.viewModel = viewModel
     }
     
-    public func view(in tableView: UITableView, at indexPath:IndexPath) -> SearchMovieCell {
+    public func view(in tableView: UITableView, at indexPath:IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "searchMovieCell") as! SearchMovieCell
-        
-        return binded(cell, at: indexPath)
+        cell = tableView.dequeueReusableCell()
+        binded(indexPath)
+        return cell!
     }
     
-    private func binded(_ cell: SearchMovieCell, at indexPath:IndexPath) -> SearchMovieCell {
+    private func binded(_ indexPath:IndexPath) {
+        
+        guard let cell = cell else {return}
         
         cell.titleLabel.text = viewModel.title
         cell.descriptionLabel.text = viewModel.description
@@ -35,8 +37,9 @@ final class SearchMovieCellController {
         cell.favouriteButton.isEnabled = viewModel.isFavouriteButtonEnabled
         cell.movieImageView.image = nil
         
-        viewModel.onImageLoaded = { [weak cell] image in
-            cell?.movieImageView.image = image
+        viewModel.onImageLoaded = { [weak self] image in
+            guard let self = self else {return}
+            self.cell?.movieImageView.image = image
         }
         
         viewModel.onImageLoadingStateChange = { [weak cell] isShimmering in
@@ -55,7 +58,6 @@ final class SearchMovieCellController {
             self.viewModel.addMovieToFavourites()
         }
         
-        return cell
     }
     
     func preLoad() {
@@ -64,6 +66,17 @@ final class SearchMovieCellController {
     
     func cancelLoad() {
         viewModel.cancelLoad()
+        releaseCellForReuse()
     }
+    
+    private func releaseCellForReuse() {
+         cell = nil
+    }
+}
 
+extension UITableView {
+    func dequeueReusableCell<T: UITableViewCell>() -> T {
+        let identifier = String(describing: T.self)
+        return dequeueReusableCell(withIdentifier: identifier) as! T
+    }
 }

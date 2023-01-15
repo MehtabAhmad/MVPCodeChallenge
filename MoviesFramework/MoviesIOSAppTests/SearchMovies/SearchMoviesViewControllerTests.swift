@@ -224,6 +224,18 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.cancelledImageURLs, [movie0.poster, movie1.poster], "Expected second cancelled image URL request once second image is not near visible anymore")
     }
     
+    func test_movieImageView_doesNotRenderLoadedImageWhenNotVisibleAnymore() {
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateUserInitiatedSearch()
+        loader.completeLoading(with: [makeMovie()])
+
+        let view = sut.simulateMovieCellNotVisible(at: 0)
+        loader.completeImageLoading(with: anyImageData(), at: 0)
+        
+        XCTAssertNil(view?.renderedImage, "Expected no rendered image when an image load finishes after the view is not visible anymore")
+    }
+    
     func test_movieCellDoNotShowAgainAction_showLoadingIndicator() {
         let (sut, loader) = makeSUT()
         
@@ -387,5 +399,9 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         
         return DomainMovie(id: UUID().hashValue, title: title, description: description, poster: poster, rating: rating, isFavourite: favourite)
     }
+    
+    private func anyImageData() -> Data {
+            return UIImage.make(withColor: .red).pngData()!
+        }
 }
 

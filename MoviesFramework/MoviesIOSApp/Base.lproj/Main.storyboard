@@ -168,7 +168,7 @@
                                 <rect key="frame" x="0.0" y="119" width="393" height="664"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchMovieCell" rowHeight="500" id="oUv-id-6UL" customClass="SearchMovieCell" customModule="MoviesIOSApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SearchMovieCell" rowHeight="500" id="oUv-id-6UL" customClass="SearchMovieCell" customModule="MoviesIOSApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="500"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oUv-id-6UL" id="xIO-NV-mZI">
