@@ -10,14 +10,20 @@ import MoviesFramework
 import UIKit
 
 final class SearchMovieCellController {
-   
-    var model: DomainMovie
-    private let imageLoader: ImageDataLoader?
-    private var task: ImageDataLoaderTask?
     
-    init(movie: DomainMovie, imageLoader: ImageDataLoader?) {
+    var model: DomainMovie
+    private let imageLoader: ImageDataLoader
+    private var task: ImageDataLoaderTask?
+    private let hideMovieHandler:HideMovieFromSearchUseCase
+    var isLoading:((Bool) -> Void)?
+    
+    var hideMovieCompletion:((Result<SearchMovieCellController, Error>) -> Void)?
+    
+    
+    init(movie: DomainMovie, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase) {
         self.model = movie
         self.imageLoader = imageLoader
+        self.hideMovieHandler = hideMovieHandler
     }
     
     public func view(in tableView: UITableView) -> SearchMovieCell {
@@ -31,22 +37,35 @@ final class SearchMovieCellController {
         cell.movieImageView.image = nil
         cell.movieImageContainer.startShimmering()
         cell.favouriteButton.isEnabled = !model.isFavourite
-        task = imageLoader?.loadImageData(from: model.poster) { [weak cell] result in
+        task = imageLoader.loadImageData(from: model.poster) { [weak cell] result in
             let data = try? result.get()
             cell?.movieImageView.image = data.map(UIImage.init) ?? nil
             cell?.movieImageContainer.stopShimmering()
         }
         
+        cell.hideMovieAction = { [weak self] in
+            guard let self = self else {return}
+            self.isLoading?(true)
+            self.hideMovieHandler.hide(self.model) { [weak self] error in
+                guard let self = self else {return}
+                self.hideMovieCompletion?(self.result(from: error))
+                self.isLoading?(false)
+            }
+        }
         
         return cell
     }
     
     func preLoad() {
-        task = imageLoader?.loadImageData(from: model.poster) { _ in}
+        task = imageLoader.loadImageData(from: model.poster) { _ in}
     }
     
-
     func cancelLoad() {
         task?.cancel()
+    }
+    
+    private func result(from error:Error?) -> Result<SearchMovieCellController, Error> {
+        guard let error = error else { return .success(self) }
+        return .failure(error)
     }
 }

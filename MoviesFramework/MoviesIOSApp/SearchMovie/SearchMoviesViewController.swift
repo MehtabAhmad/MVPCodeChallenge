@@ -17,11 +17,10 @@ public final class SearchMoviesViewControllerComposer {
         let viewController = storyboard.instantiateViewController(
             identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
         
-        viewController.hideMovieHandler = hideMovieHandler
         viewController.favouriteMovieHandler = favouriteMovieHandler
         
         let refreshController = MovieRefreshController(loader: moviesLoader)
-        refreshController.onRefresh = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader)
+        refreshController.onRefresh = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler)
         
         viewController.refreshController = refreshController
         
@@ -29,11 +28,26 @@ public final class SearchMoviesViewControllerComposer {
     }
     
     
-    private static func adaptMoviesToCellControllers(forwardingTo viewController: SearchMoviesViewController, imageLoader: ImageDataLoader) -> ([DomainMovie]) -> Void {
+    private static func adaptMoviesToCellControllers(forwardingTo viewController: SearchMoviesViewController, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase) -> ([DomainMovie]) -> Void {
+        
         return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
-                let controller = SearchMovieCellController(movie: $0, imageLoader: imageLoader)
+                
+                let controller = SearchMovieCellController(movie: $0, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler)
+                
+                controller.isLoading = viewController?.loadingObserver
+                
+                controller.hideMovieCompletion = hideMovieCompletion(for: viewController)
                 return controller
+            }
+        }
+    }
+    
+    private static func hideMovieCompletion(for viewController:SearchMoviesViewController?) -> (Result<SearchMovieCellController, Error>) -> Void {
+        return { [weak viewController] result in
+            guard let controller = try? result.get() else { return }
+            if let index = viewController?.tableModel.firstIndex(where: {$0 === controller }) {
+                viewController?.tableModel.remove(at: index)
             }
         }
     }
@@ -45,10 +59,12 @@ public final class SearchMoviesViewController: UIViewController {
     @IBOutlet public weak private(set) var  searchBar: UITextField!
     @IBOutlet public private(set) weak var searchResultsTableView: UITableView!
     
-    public var hideMovieHandler:HideMovieFromSearchUseCase?
     public var favouriteMovieHandler:AddFavouriteMovieUseCase?
     
-    var refreshController: MovieRefreshController?
+    var refreshController: MovieRefreshController!
+    
+    var loadingObserver:((Bool) -> Void)?
+    
     var tableModel = [SearchMovieCellController]() {
         didSet {
             searchResultsTableView.reloadData()
@@ -65,7 +81,7 @@ public final class SearchMoviesViewController: UIViewController {
         
         setupKeyboardHidding()
         setupRefreshController()
-        
+        observeLoading()
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -84,6 +100,13 @@ public final class SearchMoviesViewController: UIViewController {
     
     private func setupRefreshController() {
         searchResultsTableView.refreshControl = refreshController?.view
+    }
+    
+    private func observeLoading() {
+        loadingObserver = { [ weak self ] isLoading in
+            guard let self = self else {return}
+            isLoading ? self.refreshController.beginRefreshing() : self.refreshController.endRefreshing()
+        }
     }
     
     private func endRefreshing() {
@@ -113,11 +136,6 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let controller = cellController(forRowAt: indexPath)
         let cell = controller.view(in: tableView)
-        
-        cell.hideMovieAction = { [weak self] in
-            self?.beginRefreshing()
-            self?.hideMovie(controller.model, from: indexPath)
-        }
         
         cell.favouriteAction = { [weak self] in
             self?.beginRefreshing()
@@ -150,14 +168,6 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
         return tableModel[indexPath.row]
     }
     
-    private func hideMovie(_ movie:DomainMovie, from indexPath:IndexPath) {
-        hideMovieHandler?.hide(movie) { [weak self] error in
-            if error == nil {
-                self?.tableModel.remove(at: indexPath.row)
-            }
-            self?.endRefreshing()
-        }
-    }
     
     private func favourite(_ movie:DomainMovie, from indexPath:IndexPath) {
         favouriteMovieHandler?.addFavourite(movie) { [weak self] error in
