@@ -16,10 +16,12 @@ public final class SearchMoviesViewControllerComposer {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(
             identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
-                
-        let refreshController = MovieRefreshController(loader: moviesLoader)
-        refreshController.onRefresh = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
         
+        let moviesViewModel = MoviesViewModel(moviesLoader: moviesLoader)
+        moviesViewModel.onMoviesLoad = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
+        
+        let refreshController = MovieRefreshController(moviesViewModel: moviesViewModel)
+       
         viewController.refreshController = refreshController
         
         return viewController

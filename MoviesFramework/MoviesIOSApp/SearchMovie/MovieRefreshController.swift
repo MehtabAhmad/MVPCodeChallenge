@@ -6,38 +6,35 @@
 //
 
 import Foundation
-import MoviesFramework
 import UIKit
 
 final class MovieRefreshController {
-    private(set) lazy var view: UIRefreshControl = {
-        let view = UIRefreshControl()
-        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        return view
-    }()
+    private(set) lazy var view = binded(UIRefreshControl())
     
-    private let loadMovieHandler: LoadMovieUseCase
+    private let moviesViewModel: MoviesViewModel
     
     var isRefreshing:Bool {
         return view.isRefreshing
     }
     
-    init(loader: LoadMovieUseCase) {
-        loadMovieHandler = loader
+    init(moviesViewModel: MoviesViewModel) {
+        self.moviesViewModel = moviesViewModel
     }
-
-    var onRefresh: (([DomainMovie]) -> Void)?
     
     @objc func refresh() {
-        beginRefreshing()
-        loadMovieHandler.load { [weak self] result in
-            switch(result) {
-            case let .success(movies):
-                self?.onRefresh?(movies)
-            default: break
+        moviesViewModel.loadMovie()
+    }
+    
+    private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
+        moviesViewModel.onLoadingStateChange = { [weak self] isLoading in
+            if isLoading {
+                self?.beginRefreshing()
+            } else {
+                self?.endRefreshing()
             }
-            self?.endRefreshing()
         }
+        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return view
     }
     
     func beginRefreshing() {
