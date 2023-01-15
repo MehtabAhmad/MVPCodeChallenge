@@ -13,7 +13,7 @@ public final class CoreDataMoviesStore {
     private let container: NSPersistentContainer
     private let context: NSManagedObjectContext
     
-    public init(storeURL: URL, bundle: Bundle = .main) throws {
+    public init(storeURL: URL, bundle: Bundle = Bundle(for: CoreDataMoviesStore.self)) throws {
         container = try NSPersistentContainer.load(modelName: "MovieStore", url: storeURL, in: bundle)
         context = container.newBackgroundContext()
     }
