@@ -11,6 +11,8 @@ import MoviesFramework
 
 public final class SearchMoviesViewControllerComposer {
     
+    private init() {}
+    
     public static func compose(moviesLoader:LoadMovieUseCase, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase, imageLoader: ImageDataLoader) -> SearchMoviesViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
