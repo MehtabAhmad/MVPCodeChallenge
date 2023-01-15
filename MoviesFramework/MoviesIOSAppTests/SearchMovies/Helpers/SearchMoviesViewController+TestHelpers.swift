@@ -22,7 +22,7 @@ extension SearchMoviesViewController {
     }
     
     var isShowingLoadingIndicator:Bool {
-        return refreshControl?.isRefreshing == true
+        return searchResultsTableView.refreshControl?.isRefreshing == true
     }
     
     func numberOfRenderedMovies() -> Int {
@@ -45,11 +45,13 @@ extension SearchMoviesViewController {
         return cell
     }
     
-    func simulateMovieCellNotVisible(at row: Int) {
+    @discardableResult
+    func simulateMovieCellNotVisible(at row: Int) -> SearchMovieCell? {
         let cell = simulateMovieCellVisible(at: row)
         let delegate = searchResultsTableView.delegate
         let index = IndexPath(row: row, section: moviesSection)
         delegate?.tableView?(searchResultsTableView, didEndDisplaying: cell!, forRowAt: index)
+        return cell
     }
     
     func simulateMovieImageViewNearVisible(at row: Int) {

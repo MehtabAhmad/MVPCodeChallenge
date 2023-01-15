@@ -1,7 +1,5 @@
 //
 //  ImageDataLoader.swift
-//  MoviesIOSApp
-//
 //  Created by Mehtab on 12/01/2023.
 //
 
