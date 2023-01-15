@@ -9,7 +9,9 @@ import Foundation
 import MoviesFramework
 import UIKit
 
+
 final class SearchMovieCellController {
+    typealias Observer<T> = (T) -> Void
     
     var model: DomainMovie
     private let imageLoader: ImageDataLoader
@@ -17,10 +19,10 @@ final class SearchMovieCellController {
     private let hideMovieHandler:HideMovieFromSearchUseCase
     private let favouriteMovieHandler:AddFavouriteMovieUseCase
     
-    var isLoading:((Bool) -> Void)?
+    var isLoading:Observer<Bool>?
     
-    var hideMovieCompletion:((Result<SearchMovieCellController, Error>) -> Void)?
-    var favouriteMovieCompletion:((Result<SearchMovieCellController, Error>) -> Void)?
+    var hideMovieCompletion:Observer<Result<SearchMovieCellController, Error>>?
+    var favouriteMovieCompletion:Observer<Result<SearchMovieCellController, Error>>?
  
     
     init(movie: DomainMovie, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) {
