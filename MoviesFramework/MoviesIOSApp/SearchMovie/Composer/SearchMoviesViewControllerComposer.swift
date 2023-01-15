@@ -36,7 +36,7 @@ public final class SearchMoviesViewControllerComposer {
         return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
                 
-                let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler, imageTransformer: UIImage.init)
+                let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), hideMovieHandler: MainQueueDispatchDecorator(decoratee: hideMovieHandler), favouriteMovieHandler: MainQueueDispatchDecorator(decoratee: favouriteMovieHandler), imageTransformer: UIImage.init)
                 
                 cellViewModel.onLoadingStateChange = viewController?.loadingObserver
                 cellViewModel.hideMovieCompletion = hideMovieCompletion(for: viewController)
@@ -80,3 +80,33 @@ extension MainQueueDispatchDecorator: LoadMovieUseCase where T == LoadMovieUseCa
         }
     }
 }
+
+extension MainQueueDispatchDecorator: HideMovieFromSearchUseCase where T == HideMovieFromSearchUseCase {
+    
+    func hide(_ movie: MoviesFramework.DomainMovie, completion: @escaping (hideMovieResult) -> Void) {
+        decoratee.hide(movie) { [weak self] result in
+            self?.dispatch { completion(result) }
+        }
+    }
+}
+
+extension MainQueueDispatchDecorator: AddFavouriteMovieUseCase where T == AddFavouriteMovieUseCase {
+    
+    func addFavourite(_ movie: MoviesFramework.DomainMovie, completion: @escaping (addFavouriteResult) -> Void) {
+        decoratee.addFavourite(movie) { [weak self] result in
+            self?.dispatch { completion(result) }
+        }
+    }
+}
+
+extension MainQueueDispatchDecorator: ImageDataLoader where T == ImageDataLoader {
+    
+    func loadImageData(from url: URL, completion: @escaping (ImageDataLoader.Result) -> Void) -> MoviesFramework.ImageDataLoaderTask {
+        decoratee.loadImageData(from: url) { [weak self] result in
+            self?.dispatch { completion(result)
+                
+            }
+        }
+    }
+}
+
