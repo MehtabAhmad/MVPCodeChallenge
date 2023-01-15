@@ -27,6 +27,7 @@
 		1B31FCF829678D3300436703 /* CoreDataMoviesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31FCF729678D3300436703 /* CoreDataMoviesStore.swift */; };
 		1B31FCFB2967954900436703 /* MovieStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1B31FCF92967954900436703 /* MovieStore.xcdatamodeld */; };
 		1B360A4629731FAE003A3C36 /* SearchMovieCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B360A4529731FAE003A3C36 /* SearchMovieCellController.swift */; };
+		1B360A4829738056003A3C36 /* SearchMoviesViewControllerComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B360A4729738056003A3C36 /* SearchMoviesViewControllerComposer.swift */; };
 		1B463B57296F5FC900DD90A9 /* SearchMoviesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B463B56296F5FC800DD90A9 /* SearchMoviesViewControllerTests.swift */; };
 		1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14A2961E00D004A6D4C /* DomainMovie.swift */; };
 		1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */; };
@@ -141,6 +142,7 @@
 		1B31FCF729678D3300436703 /* CoreDataMoviesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMoviesStore.swift; sourceTree = "<group>"; };
 		1B31FCFA2967954900436703 /* MovieStore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieStore.xcdatamodel; sourceTree = "<group>"; };
 		1B360A4529731FAE003A3C36 /* SearchMovieCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieCellController.swift; sourceTree = "<group>"; };
+		1B360A4729738056003A3C36 /* SearchMoviesViewControllerComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoviesViewControllerComposer.swift; sourceTree = "<group>"; };
 		1B463B56296F5FC800DD90A9 /* SearchMoviesViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoviesViewControllerTests.swift; sourceTree = "<group>"; };
 		1B51E14A2961E00D004A6D4C /* DomainMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainMovie.swift; sourceTree = "<group>"; };
 		1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMovieUseCase.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				1B231AEB2970C32C002374E0 /* SearchMovieCell.swift */,
 				1B231B1C2972ED76002374E0 /* MovieRefreshController.swift */,
 				1B360A4529731FAE003A3C36 /* SearchMovieCellController.swift */,
+				1B360A4729738056003A3C36 /* SearchMoviesViewControllerComposer.swift */,
 			);
 			path = SearchMovie;
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 				1B6CE57E296F077300FAB478 /* FavouriteMoviesViewController.swift in Sources */,
 				1B6CE580296F1FAA00FAB478 /* MovieCell.swift in Sources */,
 				1B231AEF2970C564002374E0 /* ImageDataLoader.swift in Sources */,
+				1B360A4829738056003A3C36 /* SearchMoviesViewControllerComposer.swift in Sources */,
 				1B231AEC2970C32C002374E0 /* SearchMovieCell.swift in Sources */,
 				1B6CE58A296F343300FAB478 /* SearchMoviesViewController.swift in Sources */,
 				1B6CE56E296EFD0D00FAB478 /* SceneDelegate.swift in Sources */,
