@@ -22,7 +22,7 @@ extension SearchMoviesViewControllerTests {
         
         XCTAssertEqual(cell.descriptionText, movie.description, "Expected description text \(movie.description) for movie at index (\(index))", file: file, line: line)
         
-        XCTAssertEqual(cell.ratingText, String(movie.rating), "Expected rating text \(movie.rating) for movie at index (\(index))", file: file, line: line)
+        XCTAssertEqual(cell.ratingText, "Rating: \(movie.rating)", "Expected rating text \(movie.rating) for movie at index (\(index))", file: file, line: line)
         
         let shouldDoNotShowAgainButtonBeVisible = !movie.isFavourite
         XCTAssertEqual(cell.isDoNotShowAgainButtonShowing, shouldDoNotShowAgainButtonBeVisible, "Expected 'isDoNotShowAgainButtonShowing' to be \(shouldDoNotShowAgainButtonBeVisible) for movie at index (\(index))", file: file, line: line)

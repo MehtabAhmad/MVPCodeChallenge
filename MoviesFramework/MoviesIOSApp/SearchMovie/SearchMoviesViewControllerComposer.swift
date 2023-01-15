@@ -33,12 +33,13 @@ public final class SearchMoviesViewControllerComposer {
         return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
                 
-                let controller = SearchMovieCellController(movie: $0, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
+                let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
                 
-                controller.isLoading = viewController?.loadingObserver
+                cellViewModel.onLoadingStateChange = viewController?.loadingObserver
+                cellViewModel.hideMovieCompletion = hideMovieCompletion(for: viewController)
                 
-                controller.hideMovieCompletion = hideMovieCompletion(for: viewController)
-               
+                let controller = SearchMovieCellController(viewModel: cellViewModel)
+                
                 return controller
             }
         }

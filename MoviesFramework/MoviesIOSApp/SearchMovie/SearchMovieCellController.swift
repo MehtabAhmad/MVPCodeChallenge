@@ -6,83 +6,64 @@
 //
 
 import Foundation
-import MoviesFramework
 import UIKit
-
-
 
 final class SearchMovieCellController {
     typealias Observer<T> = (T) -> Void
     
-    var model: DomainMovie
-    private let imageLoader: ImageDataLoader
-    private var task: ImageDataLoaderTask?
-    private let hideMovieHandler:HideMovieFromSearchUseCase
-    private let favouriteMovieHandler:AddFavouriteMovieUseCase
+   let viewModel:MoviesCellViewModel
     
-    var isLoading:Observer<Bool>?
-    
-    var hideMovieCompletion:Observer<Result<IndexPath, Error>>?
-    
-    init(movie: DomainMovie, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) {
-        self.model = movie
-        self.imageLoader = imageLoader
-        self.hideMovieHandler = hideMovieHandler
-        self.favouriteMovieHandler = favouriteMovieHandler
+    init(viewModel: MoviesCellViewModel) {
+        
+        self.viewModel = viewModel
     }
     
     public func view(in tableView: UITableView, at indexPath:IndexPath) -> SearchMovieCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchMovieCell") as! SearchMovieCell
-        cell.titleLabel.text = model.title
-        cell.descriptionLabel.text = model.description
-        cell.ratingLabel.text = String(model.rating)
-        cell.donotShowAgainButton.isHidden = model.isFavourite
-        let favouriteButtonImage = model.isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
-        cell.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+        
+        return binded(cell, at: indexPath)
+    }
+    
+    private func binded(_ cell: SearchMovieCell, at indexPath:IndexPath) -> SearchMovieCell {
+        
+        cell.titleLabel.text = viewModel.title
+        cell.descriptionLabel.text = viewModel.description
+        cell.ratingLabel.text = viewModel.rating
+        cell.donotShowAgainButton.isHidden = viewModel.isFavourite
+        cell.favouriteButton.setImage(UIImage(systemName: viewModel.favouriteImageName), for: .normal)
+        cell.favouriteButton.isEnabled = viewModel.isFavouriteButtonEnabled
         cell.movieImageView.image = nil
-        cell.movieImageContainer.startShimmering()
-        cell.favouriteButton.isEnabled = !model.isFavourite
-        task = imageLoader.loadImageData(from: model.poster) { [weak cell] result in
-            let data = try? result.get()
-            cell?.movieImageView.image = data.map(UIImage.init) ?? nil
-            cell?.movieImageContainer.stopShimmering()
+        
+        viewModel.onImageLoaded = { [weak cell] image in
+            cell?.movieImageView.image = image
         }
         
+        viewModel.onImageLoadingStateChange = { [weak cell] isShimmering in
+            cell?.movieImageContainer.isShimmering = isShimmering
+        }
+        
+        viewModel.loadImageData()
+    
         cell.hideMovieAction = { [weak self] in
             guard let self = self else {return}
-            self.isLoading?(true)
-            
-            self.hideMovieHandler.hide(self.model) { [weak self] error in
-                guard let self = self else {return}
-                if let error = error {
-                    self.hideMovieCompletion?(.failure(error))
-                } else { self.hideMovieCompletion?(.success(indexPath)) }
-                
-                self.isLoading?(false)
-            }
+            self.viewModel.hideMovie(at: indexPath)
         }
         
         cell.favouriteAction = { [weak self] in
             guard let self = self else {return}
-            self.isLoading?(true)
-            self.favouriteMovieHandler.addFavourite(self.model) { [weak self] error in
-                guard let self = self else { return }
-                if error == nil {
-                    self.model.isFavourite = true
-                }
-                self.isLoading?(false)
-            }
+            self.viewModel.addMovieToFavourites()
         }
         
         return cell
     }
     
     func preLoad() {
-        task = imageLoader.loadImageData(from: model.poster) { _ in}
+        viewModel.loadImageData()
     }
     
     func cancelLoad() {
-        task?.cancel()
+        viewModel.cancelLoad()
     }
 
 }
