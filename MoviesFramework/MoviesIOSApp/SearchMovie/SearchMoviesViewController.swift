@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MoviesFramework
 
 public final class SearchMoviesViewController: UIViewController {
     
