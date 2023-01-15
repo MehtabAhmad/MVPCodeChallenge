@@ -11,9 +11,9 @@ import UIKit
 final class SearchMovieCellController {
     typealias Observer<T> = (T) -> Void
     
-   let viewModel:MoviesCellViewModel
+   let viewModel:MoviesCellViewModel<UIImage>
     
-    init(viewModel: MoviesCellViewModel) {
+    init(viewModel: MoviesCellViewModel<UIImage>) {
         
         self.viewModel = viewModel
     }

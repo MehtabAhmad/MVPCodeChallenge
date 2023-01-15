@@ -7,22 +7,22 @@
 
 import Foundation
 import MoviesFramework
-import UIKit
 
-final class MoviesCellViewModel {
+final class MoviesCellViewModel<Image> {
     typealias Observer<T> = (T) -> Void
     
-    var model: DomainMovie
+    private var model: DomainMovie
     private let imageLoader: ImageDataLoader
     private var task: ImageDataLoaderTask?
     private let hideMovieHandler:HideMovieFromSearchUseCase
     private let favouriteMovieHandler:AddFavouriteMovieUseCase
+    private let imageTransformer: (Data) -> Image?
     
     var onLoadingStateChange:Observer<Bool>?
     var onImageLoadingStateChange:Observer<Bool>?
     
     var hideMovieCompletion:Observer<Result<IndexPath, Error>>?
-    var onImageLoaded:Observer<UIImage>?
+    var onImageLoaded:Observer<Image>?
     
     var title: String {
         return model.title
@@ -49,12 +49,13 @@ final class MoviesCellViewModel {
     }
     
     
-    init(model: DomainMovie, imageLoader: ImageDataLoader, task: ImageDataLoaderTask? = nil, hideMovieHandler: HideMovieFromSearchUseCase, favouriteMovieHandler: AddFavouriteMovieUseCase) {
+    init(model: DomainMovie, imageLoader: ImageDataLoader, task: ImageDataLoaderTask? = nil, hideMovieHandler: HideMovieFromSearchUseCase, favouriteMovieHandler: AddFavouriteMovieUseCase, imageTransformer: @escaping (Data) -> Image?) {
         self.model = model
         self.imageLoader = imageLoader
         self.task = task
         self.hideMovieHandler = hideMovieHandler
         self.favouriteMovieHandler = favouriteMovieHandler
+        self.imageTransformer = imageTransformer
     }
     
     func loadImageData() {
@@ -65,7 +66,7 @@ final class MoviesCellViewModel {
     }
     
     private func handle(_ result: ImageDataLoader.Result) {
-        if let image = (try? result.get()).flatMap(UIImage.init) {
+        if let image = (try? result.get()).flatMap(imageTransformer) {
             onImageLoaded?(image)
         }
         onImageLoadingStateChange?(false)
