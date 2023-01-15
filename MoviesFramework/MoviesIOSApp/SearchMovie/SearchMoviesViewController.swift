@@ -16,11 +16,9 @@ public final class SearchMoviesViewControllerComposer {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(
             identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
-        
-        viewController.favouriteMovieHandler = favouriteMovieHandler
-        
+                
         let refreshController = MovieRefreshController(loader: moviesLoader)
-        refreshController.onRefresh = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler)
+        refreshController.onRefresh = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
         
         viewController.refreshController = refreshController
         
@@ -28,16 +26,18 @@ public final class SearchMoviesViewControllerComposer {
     }
     
     
-    private static func adaptMoviesToCellControllers(forwardingTo viewController: SearchMoviesViewController, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase) -> ([DomainMovie]) -> Void {
+    private static func adaptMoviesToCellControllers(forwardingTo viewController: SearchMoviesViewController, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) -> ([DomainMovie]) -> Void {
         
         return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
                 
-                let controller = SearchMovieCellController(movie: $0, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler)
+                let controller = SearchMovieCellController(movie: $0, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
                 
                 controller.isLoading = viewController?.loadingObserver
                 
                 controller.hideMovieCompletion = hideMovieCompletion(for: viewController)
+                controller.favouriteMovieCompletion = favouriteMovieCompletion(for: viewController)
+               
                 return controller
             }
         }
@@ -51,6 +51,13 @@ public final class SearchMoviesViewControllerComposer {
             }
         }
     }
+    
+    private static func favouriteMovieCompletion(for viewController:SearchMoviesViewController?) -> (Result<SearchMovieCellController, Error>) -> Void {
+        return { [weak viewController] result in
+            guard let controller = try? result.get() else { return }
+            viewController?.tableModel.filter({$0 === controller }).first?.model.isFavourite = true
+        }
+    }
 }
 
 
@@ -58,9 +65,7 @@ public final class SearchMoviesViewController: UIViewController {
     
     @IBOutlet public weak private(set) var  searchBar: UITextField!
     @IBOutlet public private(set) weak var searchResultsTableView: UITableView!
-    
-    public var favouriteMovieHandler:AddFavouriteMovieUseCase?
-    
+        
     var refreshController: MovieRefreshController!
     
     var loadingObserver:((Bool) -> Void)?
@@ -134,15 +139,7 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let controller = cellController(forRowAt: indexPath)
-        let cell = controller.view(in: tableView)
-        
-        cell.favouriteAction = { [weak self] in
-            self?.beginRefreshing()
-            self?.favourite(controller.model, from: indexPath)
-        }
-        
-        return cell
+        cellController(forRowAt: indexPath).view(in: tableView)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -166,15 +163,5 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     
     private func cellController(forRowAt indexPath: IndexPath) -> SearchMovieCellController {
         return tableModel[indexPath.row]
-    }
-    
-    
-    private func favourite(_ movie:DomainMovie, from indexPath:IndexPath) {
-        favouriteMovieHandler?.addFavourite(movie) { [weak self] error in
-            if error == nil {
-                self?.tableModel[indexPath.row].model.isFavourite = true
-            }
-            self?.endRefreshing()
-        }
     }
 }

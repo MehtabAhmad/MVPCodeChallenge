@@ -15,15 +15,19 @@ final class SearchMovieCellController {
     private let imageLoader: ImageDataLoader
     private var task: ImageDataLoaderTask?
     private let hideMovieHandler:HideMovieFromSearchUseCase
+    private let favouriteMovieHandler:AddFavouriteMovieUseCase
+    
     var isLoading:((Bool) -> Void)?
     
     var hideMovieCompletion:((Result<SearchMovieCellController, Error>) -> Void)?
+    var favouriteMovieCompletion:((Result<SearchMovieCellController, Error>) -> Void)?
+ 
     
-    
-    init(movie: DomainMovie, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase) {
+    init(movie: DomainMovie, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) {
         self.model = movie
         self.imageLoader = imageLoader
         self.hideMovieHandler = hideMovieHandler
+        self.favouriteMovieHandler = favouriteMovieHandler
     }
     
     public func view(in tableView: UITableView) -> SearchMovieCell {
@@ -49,6 +53,16 @@ final class SearchMovieCellController {
             self.hideMovieHandler.hide(self.model) { [weak self] error in
                 guard let self = self else {return}
                 self.hideMovieCompletion?(self.result(from: error))
+                self.isLoading?(false)
+            }
+        }
+        
+        cell.favouriteAction = { [weak self] in
+            guard let self = self else {return}
+            self.isLoading?(true)
+            self.favouriteMovieHandler.addFavourite(self.model) { [weak self] error in
+                guard let self = self else {return}
+                self.favouriteMovieCompletion?(self.result(from: error))
                 self.isLoading?(false)
             }
         }
