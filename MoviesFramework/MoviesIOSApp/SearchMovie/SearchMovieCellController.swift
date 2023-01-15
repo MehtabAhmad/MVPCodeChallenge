@@ -10,6 +10,7 @@ import MoviesFramework
 import UIKit
 
 
+
 final class SearchMovieCellController {
     typealias Observer<T> = (T) -> Void
     
@@ -21,7 +22,7 @@ final class SearchMovieCellController {
     
     var isLoading:Observer<Bool>?
     
-    var hideMovieCompletion:Observer<Result<SearchMovieCellController, Error>>?
+    var hideMovieCompletion:Observer<Result<IndexPath, Error>>?
     
     init(movie: DomainMovie, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) {
         self.model = movie
@@ -30,7 +31,7 @@ final class SearchMovieCellController {
         self.favouriteMovieHandler = favouriteMovieHandler
     }
     
-    public func view(in tableView: UITableView) -> SearchMovieCell {
+    public func view(in tableView: UITableView, at indexPath:IndexPath) -> SearchMovieCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchMovieCell") as! SearchMovieCell
         cell.titleLabel.text = model.title
         cell.descriptionLabel.text = model.description
@@ -50,9 +51,13 @@ final class SearchMovieCellController {
         cell.hideMovieAction = { [weak self] in
             guard let self = self else {return}
             self.isLoading?(true)
+            
             self.hideMovieHandler.hide(self.model) { [weak self] error in
                 guard let self = self else {return}
-                self.hideMovieCompletion?(self.result(from: error))
+                if let error = error {
+                    self.hideMovieCompletion?(.failure(error))
+                } else { self.hideMovieCompletion?(.success(indexPath)) }
+                
                 self.isLoading?(false)
             }
         }
@@ -79,9 +84,5 @@ final class SearchMovieCellController {
     func cancelLoad() {
         task?.cancel()
     }
-    
-    private func result(from error:Error?) -> Result<SearchMovieCellController, Error> {
-        guard let error = error else { return .success(self) }
-        return .failure(error)
-    }
+
 }

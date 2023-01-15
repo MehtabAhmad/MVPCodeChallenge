@@ -44,12 +44,10 @@ public final class SearchMoviesViewControllerComposer {
         }
     }
     
-    private static func hideMovieCompletion(for viewController:SearchMoviesViewController?) -> (Result<SearchMovieCellController, Error>) -> Void {
+    private static func hideMovieCompletion(for viewController:SearchMoviesViewController?) -> (Result<IndexPath, Error>) -> Void {
         return { [weak viewController] result in
-            guard let controller = try? result.get() else { return }
-            if let index = viewController?.tableModel.firstIndex(where: {$0 === controller }) {
-                viewController?.tableModel.remove(at: index)
-            }
+            guard let indexPath = try? result.get() else { return }
+            viewController?.tableModel.remove(at: indexPath.row)
         }
     }
 }
