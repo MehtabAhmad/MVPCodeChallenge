@@ -19,7 +19,8 @@ public final class SearchMoviesViewControllerComposer {
         let viewController = storyboard.instantiateViewController(
             identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
         
-        let moviesViewModel = MoviesViewModel(moviesLoader: moviesLoader)
+        let moviesViewModel = MoviesViewModel(moviesLoader: MainQueueDispatchDecorator(decoratee: moviesLoader))
+        
         moviesViewModel.onMoviesLoad = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
         
         let refreshController = MovieRefreshController(moviesViewModel: moviesViewModel)
@@ -51,6 +52,26 @@ public final class SearchMoviesViewControllerComposer {
         return { [weak viewController] result in
             guard let indexPath = try? result.get() else { return }
             viewController?.tableModel.remove(at: indexPath.row)
+        }
+    }
+}
+
+private final class MainQueueDispatchDecorator: LoadMovieUseCase {
+    private let decoratee: LoadMovieUseCase
+    
+    init(decoratee: LoadMovieUseCase) {
+        self.decoratee = decoratee
+    }
+    
+    func load(completion: @escaping (LoadMovieResult) -> Void) {
+        decoratee.load { result in
+            if Thread.isMainThread {
+                completion(result)
+            } else {
+                DispatchQueue.main.async {
+                    completion(result)
+                }
+            }
         }
     }
 }
