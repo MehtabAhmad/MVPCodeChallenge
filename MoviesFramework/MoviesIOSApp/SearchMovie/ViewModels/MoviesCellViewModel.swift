@@ -59,9 +59,11 @@ final class MoviesCellViewModel<Image> {
     }
     
     func loadImageData() {
-        onImageLoadingStateChange?(true)
-        task = imageLoader.loadImageData(from: model.poster) { [weak self] result in
-            self?.handle(result)
+        if let url = model.poster {
+            onImageLoadingStateChange?(true)
+            task = imageLoader.loadImageData(from: url) { [weak self] result in
+                self?.handle(result)
+            }
         }
     }
     
