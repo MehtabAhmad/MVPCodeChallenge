@@ -154,7 +154,7 @@ final class RemoteMovieLoaderTests: XCTestCase {
             "id": model.id,
             "title": model.title,
             "overview": model.description,
-            "poster_path": model.poster.absoluteString,
+            "poster_path": model.poster!.absoluteString,
             "vote_average":model.rating] as [String : Any]
         
         return (model, json)

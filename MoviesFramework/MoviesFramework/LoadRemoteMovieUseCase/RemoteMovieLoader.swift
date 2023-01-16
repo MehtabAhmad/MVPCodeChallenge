@@ -50,6 +50,6 @@ final public class RemoteMovieLoader: LoadMovieUseCase {
 
 private extension Array where Element == APIMovie {
     func toDomainMovies() -> [DomainMovie] {
-        return map { DomainMovie(id: $0.id, title: $0.title, description: $0.overview, poster: URL(string: "https://image.tmdb.org/t/p/w400/\($0.poster_path.absoluteString)")!, rating: $0.vote_average)}
+        return map { DomainMovie(id: $0.id, title: $0.title, description: $0.overview, poster: $0.poster_path, rating: $0.vote_average)}
     }
 }

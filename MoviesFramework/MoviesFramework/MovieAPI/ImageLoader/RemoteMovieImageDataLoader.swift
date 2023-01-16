@@ -10,9 +10,11 @@ import Foundation
 
 public final class RemoteMovieImageDataLoader: ImageDataLoader {
     private let client: HTTPClient
+    private let baseUrl:String
     
-    public init(client: HTTPClient) {
+    public init(client: HTTPClient, baseUrl:String) {
         self.client = client
+        self.baseUrl = baseUrl
     }
     
     public enum Error: Swift.Error {
@@ -45,9 +47,11 @@ public final class RemoteMovieImageDataLoader: ImageDataLoader {
     
     public func loadImageData(from url: URL, completion: @escaping (ImageDataLoader.Result) -> Void) -> ImageDataLoaderTask {
         
+        let imgURL = URL(string: baseUrl+url.absoluteString)!
+        
         let task = HTTPClientTaskWrapper(completion)
         
-        task.wrapped = client.get(from: url) { [weak self] result in
+        task.wrapped = client.get(from: imgURL) { [weak self] result in
             guard self != nil else { return }
             
             switch result {
