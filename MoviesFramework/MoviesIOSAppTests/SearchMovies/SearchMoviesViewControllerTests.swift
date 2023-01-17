@@ -321,14 +321,13 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedSearch()
         loader.completeLoading(with: [makeMovie()])
         
-        var cell0 = sut.simulateMovieCellVisible(at: 0)
+        let cell0 = sut.simulateMovieCellVisible(at: 0)
         
         cell0?.simulateFavouriteAction()
         XCTAssertEqual(cell0?.isFavouriteButtonHighlighted, false)
         
         loader.completeFavouriteRequestSuccessfully()
         
-        cell0 = sut.simulateMovieCellVisible(at: 0)
         XCTAssertEqual(cell0?.isFavouriteButtonHighlighted, true)
     }
     
@@ -338,14 +337,13 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedSearch()
         loader.completeLoading(with: [makeMovie()])
         
-        var cell0 = sut.simulateMovieCellVisible(at: 0)
+        let cell0 = sut.simulateMovieCellVisible(at: 0)
         
         cell0?.simulateFavouriteAction()
         XCTAssertEqual(cell0?.isDoNotShowAgainButtonShowing, true)
         
         loader.completeFavouriteRequestSuccessfully()
         
-        cell0 = sut.simulateMovieCellVisible(at: 0)
         XCTAssertEqual(cell0?.isDoNotShowAgainButtonShowing, false)
     }
     
@@ -355,14 +353,13 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedSearch()
         loader.completeLoading(with: [makeMovie()])
         
-        var cell0 = sut.simulateMovieCellVisible(at: 0)
+        let cell0 = sut.simulateMovieCellVisible(at: 0)
         
         cell0?.simulateFavouriteAction()
         XCTAssertEqual(cell0?.isDoNotShowAgainButtonShowing, true)
         
         loader.completeFavouriteRequestWithError()
         
-        cell0 = sut.simulateMovieCellVisible(at: 0)
         XCTAssertEqual(cell0?.isDoNotShowAgainButtonShowing, true)
     }
     

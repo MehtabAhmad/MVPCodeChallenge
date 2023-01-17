@@ -22,7 +22,9 @@ final class MoviesCellViewModel<Image> {
     var onImageLoadingStateChange:Observer<Bool>?
     
     var hideMovieCompletion:Observer<Result<IndexPath, Error>>?
+    var favouriteMovieCompletion:Observer<Result<IndexPath, Error>>?
     var onImageLoaded:Observer<Image>?
+    var onFavourite:(() -> Void)?
     
     var title: String {
         return model.title
@@ -37,7 +39,13 @@ final class MoviesCellViewModel<Image> {
     }
     
     var isFavourite: Bool {
-        return model.isFavourite
+        set {
+            model.isFavourite = true
+            onFavourite?()
+        }
+        get {
+            return model.isFavourite
+        }
     }
     
     var favouriteImageName:String {
@@ -91,7 +99,7 @@ final class MoviesCellViewModel<Image> {
         self.favouriteMovieHandler.addFavourite(self.model) { [weak self] error in
             guard let self = self else {return}
             if error == nil {
-                self.model.isFavourite = true
+                self.isFavourite = true
             }
             self.onLoadingStateChange?(false)
         }

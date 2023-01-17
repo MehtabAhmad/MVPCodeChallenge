@@ -46,6 +46,13 @@ final class SearchMovieCellController {
             cell?.movieImageContainer.isShimmering = isShimmering
         }
         
+        viewModel.onFavourite = { [weak self] in
+            guard let self = self else {return}
+            cell.favouriteButton.setImage(UIImage(systemName: self.viewModel.favouriteImageName), for: .normal)
+            cell.donotShowAgainButton.isHidden = self.viewModel.isFavourite
+            cell.layoutSubviews()
+        }
+        
         viewModel.loadImageData()
     
         cell.hideMovieAction = { [weak self] in
