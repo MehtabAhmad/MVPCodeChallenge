@@ -33,6 +33,7 @@
 		1B443FB02974701000E0AED1 /* UITableView+Dequeuing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B443FAF2974701000E0AED1 /* UITableView+Dequeuing.swift */; };
 		1B443FB229747AC000E0AED1 /* RemoteMovieImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B443FB129747AC000E0AED1 /* RemoteMovieImageDataLoader.swift */; };
 		1B443FB429747BCE00E0AED1 /* ImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B231AEE2970C564002374E0 /* ImageDataLoader.swift */; };
+		1B443FBB2974C3F800E0AED1 /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B443FBA2974C3F800E0AED1 /* MainQueueDispatchDecorator.swift */; };
 		1B463B57296F5FC900DD90A9 /* SearchMoviesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B463B56296F5FC800DD90A9 /* SearchMoviesViewControllerTests.swift */; };
 		1B51E14B2961E00D004A6D4C /* DomainMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14A2961E00D004A6D4C /* DomainMovie.swift */; };
 		1B51E14D2961E87F004A6D4C /* LoadMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */; };
@@ -153,6 +154,7 @@
 		1B360A512974400A003A3C36 /* UIView+Shimmering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shimmering.swift"; sourceTree = "<group>"; };
 		1B443FAF2974701000E0AED1 /* UITableView+Dequeuing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Dequeuing.swift"; sourceTree = "<group>"; };
 		1B443FB129747AC000E0AED1 /* RemoteMovieImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMovieImageDataLoader.swift; sourceTree = "<group>"; };
+		1B443FBA2974C3F800E0AED1 /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 		1B463B56296F5FC800DD90A9 /* SearchMoviesViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoviesViewControllerTests.swift; sourceTree = "<group>"; };
 		1B51E14A2961E00D004A6D4C /* DomainMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainMovie.swift; sourceTree = "<group>"; };
 		1B51E14C2961E87F004A6D4C /* LoadMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMovieUseCase.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				1B360A4729738056003A3C36 /* SearchMoviesViewControllerComposer.swift */,
+				1B443FBA2974C3F800E0AED1 /* MainQueueDispatchDecorator.swift */,
 			);
 			path = Composer;
 			sourceTree = "<group>";
@@ -879,6 +882,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B6CE56C296EFD0D00FAB478 /* AppDelegate.swift in Sources */,
+				1B443FBB2974C3F800E0AED1 /* MainQueueDispatchDecorator.swift in Sources */,
 				1B231B1D2972ED76002374E0 /* MovieRefreshController.swift in Sources */,
 				1B360A4629731FAE003A3C36 /* SearchMovieCellController.swift in Sources */,
 				1B360A522974400A003A3C36 /* UIView+Shimmering.swift in Sources */,

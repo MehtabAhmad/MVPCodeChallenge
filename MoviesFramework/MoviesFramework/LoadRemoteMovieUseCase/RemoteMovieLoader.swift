@@ -7,11 +7,11 @@
 
 import Foundation
 
-public typealias Url = () -> URL
+public typealias URLProvider = () -> URL
 
 final public class RemoteMovieLoader: LoadMovieUseCase {
     private let client:HTTPClient
-    private let url:Url
+    public var provideUrl:URLProvider!
     
     public enum Error: Swift.Error {
         case connectivity
@@ -20,13 +20,12 @@ final public class RemoteMovieLoader: LoadMovieUseCase {
     
     public typealias Result = LoadMovieResult
     
-    public init(client:HTTPClient, url: @escaping Url) {
+    public init(client:HTTPClient) {
         self.client = client
-        self.url = url
     }
     
     public func load(completion:@escaping (Result) -> Void) {
-        client.get(from: url()) { [weak self] result in
+        client.get(from: provideUrl()) { [weak self] result in
             guard self != nil else { return }
             switch result {
             case let .success(data, response):
@@ -50,6 +49,6 @@ final public class RemoteMovieLoader: LoadMovieUseCase {
 
 private extension Array where Element == APIMovie {
     func toDomainMovies() -> [DomainMovie] {
-        return map { DomainMovie(id: $0.id, title: $0.title, description: $0.overview, poster: URL(string: "https://image.tmdb.org/t/p/w400/\($0.poster_path.absoluteString)")!, rating: $0.vote_average)}
+        return map { DomainMovie(id: $0.id, title: $0.title, description: $0.overview, poster: $0.poster_path, rating: $0.vote_average)}
     }
 }

@@ -33,8 +33,8 @@ final class SearchMovieCellController {
         cell.descriptionLabel.text = viewModel.description
         cell.ratingLabel.text = viewModel.rating
         cell.donotShowAgainButton.isHidden = viewModel.isFavourite
-        cell.favouriteButton.setImage(UIImage(systemName: viewModel.favouriteImageName), for: .normal)
-        cell.favouriteButton.isEnabled = viewModel.isFavouriteButtonEnabled
+        cell.favouriteButton.setImage(UIImage(named: viewModel.favouriteImageName), for: .normal)
+        cell.favouriteButton.isUserInteractionEnabled = viewModel.isFavouriteButtonEnabled
         cell.movieImageView.image = nil
         
         viewModel.onImageLoaded = { [weak self] image in
@@ -44,6 +44,14 @@ final class SearchMovieCellController {
         
         viewModel.onImageLoadingStateChange = { [weak cell] isShimmering in
             cell?.movieImageContainer.isShimmering = isShimmering
+        }
+        
+        viewModel.onFavourite = { [weak self] in
+            guard let self = self else {return}
+            cell.favouriteButton.setImage(UIImage(named: self.viewModel.favouriteImageName), for: .normal)
+            cell.donotShowAgainButton.isHidden = self.viewModel.isFavourite
+            cell.favouriteButton.isUserInteractionEnabled = self.viewModel.isFavouriteButtonEnabled
+            cell.layoutSubviews()
         }
         
         viewModel.loadImageData()

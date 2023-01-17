@@ -85,7 +85,7 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cellController(forRowAt: indexPath).view(in: tableView, at: indexPath)
+        cellController(forRowAt: indexPath)!.view(in: tableView, at: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -95,7 +95,7 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         
         indexPaths.forEach { indexPath in
-            cellController(forRowAt: indexPath).preLoad()
+            cellController(forRowAt: indexPath)?.preLoad()
         }
     }
     
@@ -104,10 +104,11 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
-        cellController(forRowAt: indexPath).cancelLoad()
+        cellController(forRowAt: indexPath)?.cancelLoad()
     }
     
-    private func cellController(forRowAt indexPath: IndexPath) -> SearchMovieCellController {
+    private func cellController(forRowAt indexPath: IndexPath) -> SearchMovieCellController? {
+        guard tableModel.count > indexPath.row else { return nil }
         return tableModel[indexPath.row]
     }
 }

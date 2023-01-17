@@ -19,7 +19,8 @@ public final class SearchMoviesViewControllerComposer {
         let viewController = storyboard.instantiateViewController(
             identifier: String(describing: SearchMoviesViewController.self)) as! SearchMoviesViewController
         
-        let moviesViewModel = MoviesViewModel(moviesLoader: moviesLoader)
+        let moviesViewModel = MoviesViewModel(moviesLoader: MainQueueDispatchDecorator(decoratee: moviesLoader))
+        
         moviesViewModel.onMoviesLoad = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
         
         let refreshController = MovieRefreshController(moviesViewModel: moviesViewModel)
@@ -35,7 +36,7 @@ public final class SearchMoviesViewControllerComposer {
         return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
                 
-                let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler, imageTransformer: UIImage.init)
+                let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), hideMovieHandler: MainQueueDispatchDecorator(decoratee: hideMovieHandler), favouriteMovieHandler: MainQueueDispatchDecorator(decoratee: favouriteMovieHandler), imageTransformer: UIImage.init)
                 
                 cellViewModel.onLoadingStateChange = viewController?.loadingObserver
                 cellViewModel.hideMovieCompletion = hideMovieCompletion(for: viewController)
@@ -54,3 +55,4 @@ public final class SearchMoviesViewControllerComposer {
         }
     }
 }
+
