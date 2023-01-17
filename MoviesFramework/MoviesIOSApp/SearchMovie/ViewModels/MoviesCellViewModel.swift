@@ -49,7 +49,7 @@ final class MoviesCellViewModel<Image> {
     }
     
     var favouriteImageName:String {
-        model.isFavourite ? "heart.fill" : "heart"
+        model.isFavourite ? "favourite_selected" : "favourite_unselected"
     }
     
     var isFavouriteButtonEnabled:Bool {
