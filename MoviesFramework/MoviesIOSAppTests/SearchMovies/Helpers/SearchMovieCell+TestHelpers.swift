@@ -27,11 +27,11 @@ extension SearchMovieCell {
     }
     
     var isFavouriteButtonHighlighted:Bool {
-        return favouriteButton.currentImage === UIImage(systemName: "heart.fill")
+        return favouriteButton.currentImage === UIImage(named: "favourite_selected")
     }
     
     var isFavouriteButtonEnabled:Bool {
-        return favouriteButton.isEnabled
+        return favouriteButton.isUserInteractionEnabled
     }
     
     var isShowingImageLoadingIndicator:Bool {
