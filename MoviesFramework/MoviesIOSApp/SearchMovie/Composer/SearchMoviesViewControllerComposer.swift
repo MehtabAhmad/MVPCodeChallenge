@@ -21,7 +21,18 @@ public final class SearchMoviesViewControllerComposer {
         
         let moviesViewModel = MoviesViewModel(moviesLoader: MainQueueDispatchDecorator(decoratee: moviesLoader))
         
-        moviesViewModel.onMoviesLoad = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
+        moviesViewModel.onMoviesLoad = { [weak viewController] result in
+            switch result {
+            case let .success(movies):
+                adaptMoviesToCellControllers(movies, forwardingTo: viewController, imageLoader: imageLoader, hideMovieHandler: hideMovieHandler, favouriteMovieHandler: favouriteMovieHandler)
+                break
+            case let .failure(error as RemoteMovieLoader.Error):
+                if error == .connectivity {
+                    viewController?.errorAlert(message: "Internet connection not available")
+                }
+            default: break
+            }
+        }
         
         let refreshController = MovieRefreshController(moviesViewModel: moviesViewModel)
        
@@ -31,9 +42,7 @@ public final class SearchMoviesViewControllerComposer {
     }
     
     
-    private static func adaptMoviesToCellControllers(forwardingTo viewController: SearchMoviesViewController, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) -> ([DomainMovie]) -> Void {
-        
-        return { [weak viewController] movies in
+    private static func adaptMoviesToCellControllers(_ movies:[DomainMovie], forwardingTo viewController: SearchMoviesViewController?, imageLoader: ImageDataLoader, hideMovieHandler:HideMovieFromSearchUseCase, favouriteMovieHandler:AddFavouriteMovieUseCase) {
             viewController?.tableModel = movies.map {
                 
                 let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), hideMovieHandler: MainQueueDispatchDecorator(decoratee: hideMovieHandler), favouriteMovieHandler: MainQueueDispatchDecorator(decoratee: favouriteMovieHandler), imageTransformer: UIImage.init, cellTapAction: cellTapAction(in: viewController))
@@ -44,7 +53,6 @@ public final class SearchMoviesViewControllerComposer {
                 let controller = SearchMovieCellController(viewModel: cellViewModel)
                 
                 return controller
-            }
         }
     }
     

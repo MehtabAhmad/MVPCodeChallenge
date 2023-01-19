@@ -24,7 +24,14 @@ public final class FavouriteMoviesViewControllerComposer {
         
         let moviesViewModel = MoviesViewModel(moviesLoader: MainQueueDispatchDecorator(decoratee: moviesLoader))
         
-        moviesViewModel.onMoviesLoad = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader)
+        moviesViewModel.onMoviesLoad = { [weak viewController] result in
+            switch result {
+            case let .success(movies):
+                adaptMoviesToCellControllers(movies, forwardingTo: viewController, imageLoader: imageLoader)
+                break
+            default:break
+            }
+        }
         
         viewController.searchAction = { [weak viewController] in
             let vc = makeDestination()
@@ -37,18 +44,15 @@ public final class FavouriteMoviesViewControllerComposer {
         return viewController
     }
     
-    
-    private static func adaptMoviesToCellControllers(forwardingTo viewController: FavouriteMoviesViewController, imageLoader: ImageDataLoader) -> ([DomainMovie]) -> Void {
+    private static func adaptMoviesToCellControllers(_ movies: [DomainMovie], forwardingTo viewController: FavouriteMoviesViewController?, imageLoader: ImageDataLoader) {
         
-        return { [weak viewController] movies in
-            viewController?.tableModel = movies.map {
-                
-                let cellViewModel = FavouriteCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), imageTransformer: UIImage.init, cellTapAction: cellTapAction(in: viewController))
-                
-                let controller = FavouriteMovieCellController(viewModel: cellViewModel)
-                
-                return controller
-            }
+        viewController?.tableModel = movies.map {
+            
+            let cellViewModel = FavouriteCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), imageTransformer: UIImage.init, cellTapAction: cellTapAction(in: viewController))
+            
+            let controller = FavouriteMovieCellController(viewModel: cellViewModel)
+            
+            return controller
         }
     }
     
@@ -71,7 +75,12 @@ public final class FavouriteMoviesViewControllerComposer {
     private static func makeDestination() -> SearchMoviesViewController  {
         let url = "https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query="
         
-        let session = URLSession(configuration: .ephemeral)
+        
+        let config = URLSessionConfiguration.default
+        config.requestCachePolicy = .reloadIgnoringLocalCacheData
+        let session = URLSession(configuration: config)
+        config.urlCache = nil
+        
         let client = URLSessionHTTPClient(session: session)
         let remoteLoader = RemoteMovieLoader(client: client)
         let imageLoader = RemoteMovieImageDataLoader(client: client, baseUrl: "https://image.tmdb.org/t/p/w500/")

@@ -42,7 +42,7 @@ final public class RemoteMovieLoader: LoadMovieUseCase {
             return .success(apiMovies.toDomainMovies())
         }
         catch {
-            return .failure(error)
+            return .failure(Error.invalidData)
         }
     }
 }

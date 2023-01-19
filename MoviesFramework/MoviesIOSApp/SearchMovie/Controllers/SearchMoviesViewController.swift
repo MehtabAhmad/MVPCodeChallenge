@@ -45,8 +45,13 @@ public final class SearchMoviesViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    func errorAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     private func setupKeyboardHidding(){
-        //view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         searchResultsTableView.keyboardDismissMode = .onDrag
     }
     

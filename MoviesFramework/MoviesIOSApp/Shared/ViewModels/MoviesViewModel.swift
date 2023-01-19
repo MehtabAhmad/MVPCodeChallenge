@@ -17,15 +17,16 @@ final class MoviesViewModel {
     }
     
     var onLoadingStateChange: Observer<Bool>?
-    var onMoviesLoad: Observer<[DomainMovie]>?
+    var onMoviesLoad: Observer<Result<[DomainMovie], Error>>?
     
     func loadMovie() {
         onLoadingStateChange?(true)
         moviesLoader.load { [weak self] result in
             switch result {
             case let .success(movies):
-                self?.onMoviesLoad?(movies)
-            default: break
+                self?.onMoviesLoad?(.success(movies))
+            case let .failure(error):
+                self?.onMoviesLoad?(.failure(error))
             }
             self?.onLoadingStateChange?(false)
         }
