@@ -77,6 +77,10 @@ final class SearchMovieCellController {
         releaseCellForReuse()
     }
     
+    func tapCell(){
+        viewModel.tapCell()
+    }
+    
     private func releaseCellForReuse() {
          cell = nil
     }

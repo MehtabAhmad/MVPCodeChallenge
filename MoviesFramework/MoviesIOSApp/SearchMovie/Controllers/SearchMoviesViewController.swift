@@ -42,10 +42,11 @@ public final class SearchMoviesViewController: UIViewController {
     @objc private func search() {
         guard !(searchBar.text ?? "").isEmpty, refreshController?.isRefreshing == false else { return }
         refreshController?.refresh()
+        self.view.endEditing(true)
     }
     
     private func setupKeyboardHidding(){
-        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
+        //view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         searchResultsTableView.keyboardDismissMode = .onDrag
     }
     
@@ -101,6 +102,10 @@ extension SearchMoviesViewController: UITableViewDelegate, UITableViewDataSource
     
     public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach(cancelCellControllerLoad)
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cellController(forRowAt: indexPath)?.tapCell()
     }
     
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {

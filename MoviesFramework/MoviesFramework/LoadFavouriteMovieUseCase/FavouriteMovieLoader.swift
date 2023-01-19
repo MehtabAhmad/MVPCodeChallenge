@@ -33,7 +33,7 @@ public final class FavouriteMovieLoader:LoadMovieUseCase {
 private extension Array where Element == StoreMovieDTO {
     func toDomainMovies() -> [DomainMovie] {
         return map {
-            DomainMovie(id: $0.id, title: $0.title, description: $0.description, poster: $0.poster, rating: $0.rating)
+            DomainMovie(id: $0.id, title: $0.title, description: $0.description, poster: $0.poster, rating: $0.rating, isFavourite: true)
         }
     }
 }

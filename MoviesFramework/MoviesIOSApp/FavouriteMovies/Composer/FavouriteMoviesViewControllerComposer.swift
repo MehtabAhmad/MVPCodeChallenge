@@ -23,7 +23,7 @@ public final class FavouriteMoviesViewControllerComposer {
             identifier: String(describing: FavouriteMoviesViewController.self)) as! FavouriteMoviesViewController
         
         let moviesViewModel = MoviesViewModel(moviesLoader: MainQueueDispatchDecorator(decoratee: moviesLoader))
-
+        
         moviesViewModel.onMoviesLoad = adaptMoviesToCellControllers(forwardingTo: viewController, imageLoader: imageLoader)
         
         viewController.searchAction = { [weak viewController] in
@@ -43,13 +43,29 @@ public final class FavouriteMoviesViewControllerComposer {
         return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
                 
-                let cellViewModel = FavouriteCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), imageTransformer: UIImage.init)
+                let cellViewModel = FavouriteCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), imageTransformer: UIImage.init, cellTapAction: cellTapAction(in: viewController))
                 
                 let controller = FavouriteMovieCellController(viewModel: cellViewModel)
                 
                 return controller
             }
         }
+    }
+    
+    private static func cellTapAction(in vc:FavouriteMoviesViewController?) -> (DomainMovie) -> Void {
+        return { [weak vc] model in
+            vc?.present(makeDetailVC(with: model), animated: true)
+        }
+    }
+    
+    
+    private static func makeDetailVC(with model: DomainMovie) -> MovieDetailViewController {
+        
+        let session = URLSession(configuration: .ephemeral)
+        let client = URLSessionHTTPClient(session: session)
+        let imageLoader = RemoteMovieImageDataLoader(client: client, baseUrl: "https://image.tmdb.org/t/p/w500/")
+        
+        return DetailViewControllerComposer.compose(model: model, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader))
     }
     
     private static func makeDestination() -> SearchMoviesViewController  {

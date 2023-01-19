@@ -57,6 +57,11 @@ extension FavouriteMoviesViewController {
         indexPaths.forEach(cancelCellControllerLoad)
     }
     
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cellController(forRowAt: indexPath)?.tapCell()
+        
+    }
+    
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
         cellController(forRowAt: indexPath)?.cancelLoad()
     }
