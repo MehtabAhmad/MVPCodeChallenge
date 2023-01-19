@@ -24,8 +24,7 @@ class LoaderSpy:LoadMovieUseCase, ImageDataLoader, HideMovieFromSearchUseCase, A
         movieLoadingCompletions.append(completion)
     }
     
-    func completeLoading(with movies:[DomainMovie] = [], at index:Int = 0) {
-        movieLoadingCompletions[index](.success(movies))
+    func completeLoading(with movies:[DomainMovie] = [], at index:Int = 0) {        movieLoadingCompletions[index](.success(movies))
     }
     
     func completeLoadingWithError(at index:Int = 0) {
