@@ -346,10 +346,10 @@
 		1B231AF1297164EC002374E0 /* MovieDetail */ = {
 			isa = PBXGroup;
 			children = (
-				1B6CE582296F268B00FAB478 /* MovieDetailViewController.xib */,
-				1B6CE581296F268B00FAB478 /* MovieDetailViewController.swift */,
-				1B37895829799F7600C7F2BB /* MovieDetailViewModel.swift */,
-				1B37895A2979A17800C7F2BB /* DetailViewControllerComposer.swift */,
+				1BAAF28F2979B5A600255D55 /* Composer */,
+				1BAAF28E2979B59B00255D55 /* ViewModel */,
+				1BAAF28D2979B58900255D55 /* Controllers */,
+				1BAAF28C2979B57E00255D55 /* View */,
 			);
 			path = MovieDetail;
 			sourceTree = "<group>";
@@ -622,10 +622,10 @@
 		1B6CE56A296EFD0D00FAB478 /* MoviesIOSApp */ = {
 			isa = PBXGroup;
 			children = (
-				1B0BC21C29799C32009AEF2B /* Shared */,
-				1B231AF1297164EC002374E0 /* MovieDetail */,
 				1B231AF0297164D0002374E0 /* FavouriteMovies */,
 				1B231AEA2970C2B5002374E0 /* SearchMovie */,
+				1B231AF1297164EC002374E0 /* MovieDetail */,
+				1B0BC21C29799C32009AEF2B /* Shared */,
 				1B6CE56B296EFD0D00FAB478 /* AppDelegate.swift */,
 				1B6CE56D296EFD0D00FAB478 /* SceneDelegate.swift */,
 				1B6CE571296EFD0D00FAB478 /* Main.storyboard */,
@@ -688,6 +688,38 @@
 				1B7F6A3B2965F95E005500D7 /* LoadFavouriteMovieUseCaseTests.swift */,
 			);
 			path = LoadFavouriteMovieUseCase;
+			sourceTree = "<group>";
+		};
+		1BAAF28C2979B57E00255D55 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1B6CE582296F268B00FAB478 /* MovieDetailViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1BAAF28D2979B58900255D55 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1B6CE581296F268B00FAB478 /* MovieDetailViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1BAAF28E2979B59B00255D55 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1B37895829799F7600C7F2BB /* MovieDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1BAAF28F2979B5A600255D55 /* Composer */ = {
+			isa = PBXGroup;
+			children = (
+				1B37895A2979A17800C7F2BB /* DetailViewControllerComposer.swift */,
+			);
+			path = Composer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
