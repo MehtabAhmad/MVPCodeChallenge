@@ -36,7 +36,7 @@ public final class SearchMoviesViewControllerComposer {
         return { [weak viewController] movies in
             viewController?.tableModel = movies.map {
                 
-                let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), hideMovieHandler: MainQueueDispatchDecorator(decoratee: hideMovieHandler), favouriteMovieHandler: MainQueueDispatchDecorator(decoratee: favouriteMovieHandler), imageTransformer: UIImage.init)
+                let cellViewModel = MoviesCellViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), hideMovieHandler: MainQueueDispatchDecorator(decoratee: hideMovieHandler), favouriteMovieHandler: MainQueueDispatchDecorator(decoratee: favouriteMovieHandler), imageTransformer: UIImage.init, cellTapAction: cellTapAction(in: viewController))
                 
                 cellViewModel.onLoadingStateChange = viewController?.loadingObserver
                 cellViewModel.hideMovieCompletion = hideMovieCompletion(for: viewController)
@@ -46,6 +46,22 @@ public final class SearchMoviesViewControllerComposer {
                 return controller
             }
         }
+    }
+    
+    private static func cellTapAction(in vc:SearchMoviesViewController?) -> (DomainMovie) -> Void {
+        return { [weak vc] model in
+            vc?.show(makeDetailVC(with: model), sender: vc)
+        }
+    }
+    
+    
+    private static func makeDetailVC(with model: DomainMovie) -> MovieDetailViewController {
+        
+        let session = URLSession(configuration: .ephemeral)
+        let client = URLSessionHTTPClient(session: session)
+        let imageLoader = RemoteMovieImageDataLoader(client: client, baseUrl: "https://image.tmdb.org/t/p/w500/")
+        
+        return DetailViewControllerComposer.compose(model: model, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader))
     }
     
     private static func hideMovieCompletion(for viewController:SearchMoviesViewController?) -> (Result<IndexPath, Error>) -> Void {

@@ -1,21 +1,21 @@
 //
-//  FavouriteCellViewModel.swift
+//  MovieDetailViewModel.swift
 //  MoviesIOSApp
 //
-//  Created by Mehtab on 17/01/2023.
+//  Created by Mehtab on 19/01/2023.
 //
 
 import Foundation
 import MoviesFramework
 
-final class FavouriteCellViewModel<Image> {
+
+class MovieDetailViewModel<Image> {
     typealias Observer<T> = (T) -> Void
     
     private var model: DomainMovie
     private let imageLoader: ImageDataLoader
     private var task: ImageDataLoaderTask?
     private let imageTransformer: (Data) -> Image?
-    private let cellTapAction: Observer<DomainMovie>
     
     var onImageLoadingStateChange:Observer<Bool>?
     
@@ -37,12 +37,15 @@ final class FavouriteCellViewModel<Image> {
         return model.isFavourite
     }
     
-    init(model: DomainMovie, imageLoader: ImageDataLoader, task: ImageDataLoaderTask? = nil, imageTransformer: @escaping (Data) -> Image?, cellTapAction: @escaping Observer<DomainMovie>) {
+    var favouriteImageName:String {
+        model.isFavourite ? "favourite_selected" : "favourite_unselected"
+    }
+    
+    init(model: DomainMovie, imageLoader: ImageDataLoader, task: ImageDataLoaderTask? = nil, imageTransformer: @escaping (Data) -> Image?) {
         self.model = model
         self.imageLoader = imageLoader
         self.task = task
         self.imageTransformer = imageTransformer
-        self.cellTapAction = cellTapAction
     }
     
     func loadImageData() {
@@ -64,10 +67,6 @@ final class FavouriteCellViewModel<Image> {
     func cancelLoad() {
         task?.cancel()
         task = nil
-    }
-    
-    func tapCell() {
-        cellTapAction(model)
     }
 }
 

@@ -17,6 +17,7 @@ final class MoviesCellViewModel<Image> {
     private let hideMovieHandler:HideMovieFromSearchUseCase
     private let favouriteMovieHandler:AddFavouriteMovieUseCase
     private let imageTransformer: (Data) -> Image?
+    private let cellTapAction:Observer<DomainMovie>
     
     var onLoadingStateChange:Observer<Bool>?
     var onImageLoadingStateChange:Observer<Bool>?
@@ -57,13 +58,14 @@ final class MoviesCellViewModel<Image> {
     }
     
     
-    init(model: DomainMovie, imageLoader: ImageDataLoader, task: ImageDataLoaderTask? = nil, hideMovieHandler: HideMovieFromSearchUseCase, favouriteMovieHandler: AddFavouriteMovieUseCase, imageTransformer: @escaping (Data) -> Image?) {
+    init(model: DomainMovie, imageLoader: ImageDataLoader, task: ImageDataLoaderTask? = nil, hideMovieHandler: HideMovieFromSearchUseCase, favouriteMovieHandler: AddFavouriteMovieUseCase, imageTransformer: @escaping (Data) -> Image?, cellTapAction: @escaping Observer<DomainMovie>) {
         self.model = model
         self.imageLoader = imageLoader
         self.task = task
         self.hideMovieHandler = hideMovieHandler
         self.favouriteMovieHandler = favouriteMovieHandler
         self.imageTransformer = imageTransformer
+        self.cellTapAction = cellTapAction
     }
     
     func loadImageData() {
@@ -108,5 +110,9 @@ final class MoviesCellViewModel<Image> {
     func cancelLoad() {
         task?.cancel()
         task = nil
+    }
+    
+    func tapCell() {
+        cellTapAction(model)
     }
 }

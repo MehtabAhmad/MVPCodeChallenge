@@ -56,4 +56,8 @@ final class FavouriteMovieCellController {
     private func releaseCellForReuse() {
         cell = nil
     }
+    
+    func tapCell(){
+        viewModel.tapCell()
+    }
 }
