@@ -42,10 +42,13 @@ final class LoadFavouriteMovieUseCaseTests: XCTestCase {
     
     func test_load_deliversFavouriteMovieListOnSuccessfullRetrieval() {
         let (sut,store) = makeSUT()
-        let items = uniqueMovieItemArray()
         
-        expect(sut, toCompleteWith: .success(items.model), when: {
-            store.completeFavouriteRetrival(with: items.dto)
+        let item1 = uniqueMovieItems()
+        let item2 = uniqueMovieItems()
+        let item3 = uniqueMovieItems()
+        
+        expect(sut, toCompleteWith: .success([item1.favourite, item2.favourite, item3.favourite]), when: {
+            store.completeFavouriteRetrival(with: [item1.dto, item2.dto, item3.dto])
         })
     }
     
