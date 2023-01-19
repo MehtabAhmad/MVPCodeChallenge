@@ -258,6 +258,39 @@
 			path = UIHelpers;
 			sourceTree = "<group>";
 		};
+		1B0BC21829799B82009AEF2B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1B6CE57D296F077300FAB478 /* FavouriteMoviesViewController.swift */,
+				1B751EF4297758A500DBC932 /* FavouriteMovieCellController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1B0BC21929799B9E009AEF2B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1B6CE57F296F1FAA00FAB478 /* FavouriteMovieCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1B0BC21A29799BB2009AEF2B /* Composer */ = {
+			isa = PBXGroup;
+			children = (
+				1B751EF829775DDB00DBC932 /* FavouriteMoviesViewControllerComposer.swift */,
+			);
+			path = Composer;
+			sourceTree = "<group>";
+		};
+		1B0BC21B29799BD4009AEF2B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1B751EF62977590100DBC932 /* FavouriteCellViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		1B231AEA2970C2B5002374E0 /* SearchMovie */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,11 +305,10 @@
 		1B231AF0297164D0002374E0 /* FavouriteMovies */ = {
 			isa = PBXGroup;
 			children = (
-				1B6CE57D296F077300FAB478 /* FavouriteMoviesViewController.swift */,
-				1B6CE57F296F1FAA00FAB478 /* FavouriteMovieCell.swift */,
-				1B751EF4297758A500DBC932 /* FavouriteMovieCellController.swift */,
-				1B751EF62977590100DBC932 /* FavouriteCellViewModel.swift */,
-				1B751EF829775DDB00DBC932 /* FavouriteMoviesViewControllerComposer.swift */,
+				1B0BC21929799B9E009AEF2B /* Views */,
+				1B0BC21829799B82009AEF2B /* Controllers */,
+				1B0BC21B29799BD4009AEF2B /* ViewModels */,
+				1B0BC21A29799BB2009AEF2B /* Composer */,
 			);
 			path = FavouriteMovies;
 			sourceTree = "<group>";
