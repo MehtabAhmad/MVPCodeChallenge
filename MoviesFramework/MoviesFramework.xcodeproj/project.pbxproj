@@ -291,6 +291,32 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		1B0BC21C29799C32009AEF2B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				1B0BC21E29799C47009AEF2B /* ViewModels */,
+				1B0BC21D29799C3B009AEF2B /* Decorators */,
+				1B0BC21629799B1D009AEF2B /* UIHelpers */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		1B0BC21D29799C3B009AEF2B /* Decorators */ = {
+			isa = PBXGroup;
+			children = (
+				1B443FBA2974C3F800E0AED1 /* MainQueueDispatchDecorator.swift */,
+			);
+			path = Decorators;
+			sourceTree = "<group>";
+		};
+		1B0BC21E29799C47009AEF2B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1B360A4929738705003A3C36 /* MoviesViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		1B231AEA2970C2B5002374E0 /* SearchMovie */ = {
 			isa = PBXGroup;
 			children = (
@@ -397,7 +423,6 @@
 		1B360A4E29743F82003A3C36 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				1B360A4929738705003A3C36 /* MoviesViewModel.swift */,
 				1B360A4B29743935003A3C36 /* MoviesCellViewModel.swift */,
 			);
 			path = ViewModels;
@@ -407,7 +432,6 @@
 			isa = PBXGroup;
 			children = (
 				1B360A4729738056003A3C36 /* SearchMoviesViewControllerComposer.swift */,
-				1B443FBA2974C3F800E0AED1 /* MainQueueDispatchDecorator.swift */,
 			);
 			path = Composer;
 			sourceTree = "<group>";
@@ -592,7 +616,7 @@
 		1B6CE56A296EFD0D00FAB478 /* MoviesIOSApp */ = {
 			isa = PBXGroup;
 			children = (
-				1B0BC21629799B1D009AEF2B /* UIHelpers */,
+				1B0BC21C29799C32009AEF2B /* Shared */,
 				1B231AF1297164EC002374E0 /* MovieDetail */,
 				1B231AF0297164D0002374E0 /* FavouriteMovies */,
 				1B231AEA2970C2B5002374E0 /* SearchMovie */,
