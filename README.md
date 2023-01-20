@@ -24,3 +24,14 @@ To run the app please select 'MoviesIOSApp' scheme.
 Following public movies API being used in this project https://www.themoviedb.org/documentation/api
 ### Search API URL
 'https://api.themoviedb.org/3/search/movie?api_key=08d9aa3c631fbf207d23d4be591ccfc3&language=en-US&page=1&include_adult=false&query= search string here'
+
+## Screen shots
+
+<table>
+  <tr>
+    <td valign="top"><img src="https://user-images.githubusercontent.com/16016161/213665679-986aa108-b1bc-41d8-83de-595a2bb080fd.png"></td>
+    <td valign="top"><img src="https://user-images.githubusercontent.com/16016161/213665865-d5c2fafc-7944-4d34-8a60-fe52ae70f8df.png"></td>
+    <td valign="top"><img src="https://user-images.githubusercontent.com/16016161/213666948-2a5bc588-c7e0-4d23-95e4-24eb583c2835.png"></td>
+    <td valign="top"><img src="https://user-images.githubusercontent.com/16016161/213666396-3fca9979-d4ce-4a0f-8133-f6fe3f95d5c2.png"></td>
+  </tr>
+ </table>
