@@ -85,7 +85,7 @@ final class RemoteUseCaseIEndToEndTests: XCTestCase {
 
     private func rating(at index: Int) -> Float {
         return [
-            7.7
+            7.732
         ][index]
     }
     

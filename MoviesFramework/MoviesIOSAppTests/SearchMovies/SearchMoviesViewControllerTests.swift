@@ -55,6 +55,7 @@ final class SearchMoviesViewControllerTests: XCTestCase {
         loader.completeLoading()
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when when user initiated search request completed successfully")
         
+        sut.simulateUserInitiatedSearch()
         loader.completeLoadingWithError()
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expect no loading indicator when when user initiated search request completed with error")
     }

@@ -42,8 +42,6 @@ final class MovieRefreshController {
     }
     
     func endRefreshing() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak view] in
-            view?.endRefreshing()
-        }
+        view.endRefreshing()
     }
 }
